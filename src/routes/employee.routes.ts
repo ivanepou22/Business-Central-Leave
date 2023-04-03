@@ -7,4 +7,3 @@ employees.get('/employees', getEmployees);
 employees.get('/employees/:id', getEmployeeNo);
 
 export default employees;
-//getEmployeeNo
