@@ -1,4 +1,10 @@
-export type employee = {
+import axios from "axios";
+import { connectDB } from "../providers/connect.provider";
+
+const employeeUrl =
+  "http://lap-fin-9598:9048/BC200/ODataV4/Company('Klan%20Logistics%20Ltd')/Employees";
+
+export type Employee = {
   No: string;
   First_Name: string;
   Middle_Name: string;
@@ -78,3 +84,20 @@ export type employee = {
   Social_Security_No: string;
   National_ID_No_NIN: string;
 };
+
+export class EmployeeStore {
+  async index() {
+    // Make the API request
+    axios
+      .get(
+        `${employeeUrl}`,
+        connectDB
+      )
+      .then((response) => {
+        return response.data;
+      })
+      .catch((err) => {
+        throw new Error(`Cannot get Employees ${err}`);
+      });
+  }
+}

@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import routes from './routes';
 
 dotenv.config();
 const app: express.Application = express();
@@ -13,7 +14,7 @@ app.get('/', function (_req: Request, res: Response) {
   res.send('Hello Business Central');
 });
 
-//app.use('/api/v1', routes);
+app.use('/api/v1', routes);
 
 app.listen(PORT, function () {
   console.log(`starting app on: ${address}`);
