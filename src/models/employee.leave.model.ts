@@ -1,0 +1,20 @@
+export type employeeLeave = {
+  Entry_No?: number;
+  Employee_No?: string;
+  Leave_Type: string;
+  Requested_From_Date: string;
+  Requested_To_Date: string;
+  Description: string;
+  Substitute_Employee: string;
+  Leave_Status: string;
+  Days_to_be_Taken?: number;
+  Leave_Entitlement?: number;
+  Leave_Days_Available?: number;
+  Leave_Balance?: number;
+  Approved_From_Date?: string;
+  Approved_To_Date?: string;
+  Approved_Leave_Days2?: number;
+  From_Date?: string;
+  To_Date?: string;
+  Actual_Leave_Days?: number;
+};
