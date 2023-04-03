@@ -1,0 +1,21 @@
+{
+    "dev": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "bc_server",
+      "user": "udacity",
+      "password": {
+        "ENV": "POSTGRES_PASSWORD"
+      }
+    },
+    "test": {
+      "driver": "pg",
+      "host": "127.0.0.1",
+      "database": "bc_server_test",
+      "user": "udacity",
+      "password": {
+        "ENV": "POSTGRES_PASSWORD"
+      }
+    },
+    "sql-file": true
+  }
