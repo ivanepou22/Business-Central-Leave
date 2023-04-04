@@ -92,4 +92,21 @@ export class EmployeeLeaveStore {
       );
     }
   }
+
+  async createLeaveApplication(
+    newLeaveApplication: EmployeeLeave
+  ): Promise<EmployeeLeave> {
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        employeeLeaveUrl,
+        newLeaveApplication,
+        connectDB
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not create the employee Leave Application Error: ${error}`
+      );
+    }
+  }
 }

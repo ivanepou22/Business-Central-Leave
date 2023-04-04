@@ -73,3 +73,13 @@ export const updateLeaveApplication = async (req: Request, res: Response) => {
     res.status(500).json(error);
   }
 };
+
+export const createLeaveApp = async (req: Request, res: Response) => {
+  const leaveApplication: EmployeeLeave = req.body;
+  try {
+    const newLeaveApp = await store.createLeaveApplication(leaveApplication);
+    res.status(200).json(newLeaveApp);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
