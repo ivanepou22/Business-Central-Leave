@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import { EmployeeStore} from "../models/employee.model";
+import { Request, Response } from 'express';
+import { EmployeeStore } from '../models/employee.model';
 
 const store = new EmployeeStore();
 
