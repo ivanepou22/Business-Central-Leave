@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { connectDB } from '../providers/connect.provider';
+import { match } from 'assert';
 
 const employeeLeaveUrl =
   "http://lap-fin-9598:9048/BC200/ODataV4/Company('Klan%20Logistics%20Ltd')/EmployeeLeave";
 
 export type EmployeeLeave = {
+  '@odata.etag'?: string; // accessing the value of '@odata.etag'
   Entry_No?: number;
   Employee_No?: string;
   Leave_Type?: string;
@@ -67,14 +69,21 @@ export class EmployeeLeaveStore {
 
   async updateLeaveApplication(
     entryId: number,
-    leaveApplication: EmployeeLeave
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
   ): Promise<EmployeeLeave> {
     const empLeaveUrl = `${employeeLeaveUrl}(${entryId})`;
     try {
-      const response = await axios.put<EmployeeLeave>(
+      const response = await axios.patch<EmployeeLeave>(
         empLeaveUrl,
         leaveApplication,
-        connectDB
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
       );
       return response.data;
     } catch (error) {
