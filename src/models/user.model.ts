@@ -15,6 +15,7 @@ export type User = {
   email: string;
   role: string;
   password: string;
+  employeeNo?: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -26,6 +27,7 @@ export type UserUpdate = {
   username?: string;
   email?: string;
   role?: string;
+  employeeNo?: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -34,7 +36,7 @@ export class UserStore {
   async index(): Promise<User[]> {
     try {
       const sql =
-        'SELECT id,first_name, last_name, username,email,role,created_at,updated_at FROM users';
+        'SELECT id,first_name, last_name, username,email,role,employeeNo,created_at,updated_at FROM users';
       const result = await client.query(sql);
       return result.rows;
     } catch (err) {
@@ -45,7 +47,7 @@ export class UserStore {
   async show(id: string): Promise<User> {
     try {
       const sql =
-        'SELECT id,first_name, last_name, username,email,role,created_at,updated_at FROM users WHERE id=($1)';
+        'SELECT id,first_name, last_name, username,email,role,employeeNo,created_at,updated_at FROM users WHERE id=($1)';
       const result = await client.query(sql, [id]);
       return result.rows[0];
     } catch (err: unknown) {
@@ -56,7 +58,7 @@ export class UserStore {
   async showByUsername(username: string): Promise<User> {
     try {
       const sql =
-        'SELECT first_name, last_name, username,email,role,created_at,updated_at FROM users WHERE username=($1)';
+        'SELECT first_name, last_name, username,email,role,employeeNo,created_at,updated_at FROM users WHERE username=($1)';
       const result = await client.query(sql, [username]);
       return result.rows[0];
     } catch (err) {
@@ -122,6 +124,10 @@ export class UserStore {
       if (u.role) {
         updates.push(`role = $${values.length + 1}`);
         values.push(u.role);
+      }
+      if (u.employeeNo) {
+        updates.push(`employeeNo = $${values.length + 1}`);
+        values.push(u.employeeNo);
       }
 
       values.push(id);
