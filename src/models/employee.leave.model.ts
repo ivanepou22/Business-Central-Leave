@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { connectDB } from '../providers/connect.provider';
+import dotenv from 'dotenv';
 import { match } from 'assert';
 
-const employeeLeaveUrl =
-  "http://lap-fin-9598:9048/BC200/ODataV4/Company('Klan%20Logistics%20Ltd')/EmployeeLeave";
+dotenv.config();
+
+let employeeLeaveUrl: string;
+if (process.env.LEAVE_APPLICATION_URL !== undefined)
+  employeeLeaveUrl = process.env.LEAVE_APPLICATION_URL;
 
 export type EmployeeLeave = {
   '@odata.etag'?: string; // accessing the value of '@odata.etag'

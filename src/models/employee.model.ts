@@ -1,8 +1,14 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 import { connectDB } from '../providers/connect.provider';
 
-const employeeUrl =
-  "http://lap-fin-9598:9048/BC200/ODataV4/Company('Klan%20Logistics%20Ltd')/Employees";
+dotenv.config();
+
+let employeeUrl: string;
+
+if (process.env.EMPLOYEE_URL !== undefined) {
+  employeeUrl = process.env.EMPLOYEE_URL;
+}
 
 export type Employee = {
   No?: string;
