@@ -82,6 +82,9 @@ export const updateUser = async (
     if (req.body.role) {
       user.role = req.body.role;
     }
+    if (req.body.employeeNo) {
+      user.employeeNo = req.body.employeeNo;
+    }
 
     const updatedUser = await store.update(req.params.id, user);
     res.json({
@@ -90,6 +93,7 @@ export const updateUser = async (
       username: updatedUser.username,
       email: updatedUser.email,
       role: updatedUser.role,
+      employeeNo: updatedUser.employeeNo,
       updated_at: updatedUser.updated_at
     });
   } catch (err) {
@@ -110,6 +114,7 @@ export const createUser = async (
       username: req.body.username,
       email: req.body.email,
       role: req.body.role,
+      employeeNo: req.body.employeeNo,
       password: req.body.password
     };
 
@@ -120,7 +125,8 @@ export const createUser = async (
       last_name: newUser.last_name,
       username: newUser.username,
       email: newUser.email,
-      role: newUser.role
+      role: newUser.role,
+      employeeNo: newUser.employeeNo
     };
     if (!process.env.TOKEN_SECRET) {
       res.status(500).send('Missing TOKEN_SECRET env variable');
@@ -155,7 +161,8 @@ export const authenticate = async (
         last_name: user.last_name,
         username: user.username,
         email: user.email,
-        role: user.role
+        role: user.role,
+        employeeNo: user.employeeNo
       };
 
       // Generate a JWT token for the user
