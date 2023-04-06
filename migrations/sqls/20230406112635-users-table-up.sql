@@ -8,7 +8,7 @@ CREATE TABLE users(
     password VARCHAR(100) NOT NULL,
     email VARCHAR(50),
     role roles,
-    employeeNo VARCHAR(50),
+    employee_no VARCHAR(50),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
