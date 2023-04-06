@@ -1,21 +1,33 @@
 {
-    "dev": {
-      "driver": "pg",
-      "host": "127.0.0.1",
-      "database": "bc_server",
-      "user": "udacity",
-      "password": {
-        "ENV": "POSTGRES_PASSWORD"
-      }
+  "dev": {
+    "driver": "pg",
+    "host": {
+      "ENV": "DB_HOST"
     },
-    "test": {
-      "driver": "pg",
-      "host": "127.0.0.1",
-      "database": "bc_server_test",
-      "user": "udacity",
-      "password": {
-        "ENV": "POSTGRES_PASSWORD"
-      }
+    "database": {
+      "ENV": "POSTGRES_DB"
     },
-    "sql-file": true
-  }
+    "user": {
+      "ENV": "POSTGRES_USER"
+    },
+    "password": {
+      "ENV": "POSTGRES_PASSWORD"
+    }
+  },
+  "test": {
+    "driver": "pg",
+    "host": {
+      "ENV": "DB_HOST"
+    },
+    "database": {
+      "ENV": "POSTGRES_TEST_DB"
+    },
+    "user": {
+      "ENV": "POSTGRES_USER"
+    },
+    "password": {
+      "ENV": "POSTGRES_PASSWORD"
+    }
+  },
+  "sql-file": true
+}
