@@ -37,7 +37,7 @@ function Login() {
                                             </div>
                                             <div className="col-6">
                                                 <div className="forgot-password text-end">
-                                                    <Link to="/reset-password">Forgot password?</Link>
+                                                    <Link className="text-link" to="/reset-password">Forgot password?</Link>
                                                 </div>
                                             </div>
                                         </div>
