@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import portLogo from '../assets/images/logo-bg.png';
 import '../assets/login.css';
+import Footer from '../components/Footer';
 
 function Login() {
     return (
@@ -11,9 +12,9 @@ function Login() {
                     <div className="d-flex flex-column align-content-end">
                         <div className="app-auth-body mx-auto">
                             <div className="app-auth-branding mb-4" >
-                                <a className="app-logo" href="/#">
+                                <Link className="app-logo" to="#">
                                     <img className="logo-icon me-2" src={portLogo} alt="logo" />
-                                </a>
+                                </Link>
                             </div>
                             <h2 className="auth-heading text-center mb-5 login-title">Log in to Portal</h2>
                             <div className="auth-form-container text-start">
@@ -36,7 +37,7 @@ function Login() {
                                             </div>
                                             <div className="col-6">
                                                 <div className="forgot-password text-end">
-                                                    <a href="/#">Forgot password?</a>
+                                                    <Link to="/reset-password">Forgot password?</Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -46,16 +47,13 @@ function Login() {
                                     </div>
                                 </form>
 
-                                <div className="auth-option text-center pt-5">No Account? Sign up <a className="text-link" href="/#" >here</a>.</div>
+                                <div className="auth-option text-center pt-5">No Account? Sign up <Link className="text-link" to="/register" >here</Link>.</div>
                             </div>
 
                         </div>
 
-                        <footer className="app-auth-footer">
-                            <div className="container text-center py-3">
-                                <small className="copyright">Designed <i className="fas fa-heart"></i> by <a className="app-link" href="https://meevolsoft.com/" target="_blank">MeevolSoft Ltd</a></small>
-                            </div>
-                        </footer>
+                       {/* Footer */}
+                       <Footer />
                     </div>
                 </div>
                 <div className="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
