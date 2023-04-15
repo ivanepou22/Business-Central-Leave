@@ -65,9 +65,6 @@ function Login() {
                     <div className="auth-background-overlay p-3 p-lg-5">
                         <div className="d-flex flex-column align-content-end h-100">
                             <div className="h-100"></div>
-                            <div className="overlay-content p-3 p-lg-4 rounded">
-                                <h5 className="mb-3 overlay-title"></h5>
-                            </div>
                         </div>
                     </div>
                 </div>
