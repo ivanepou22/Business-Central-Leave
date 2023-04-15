@@ -14,11 +14,19 @@ function Register() {
 
 					<div className="auth-form-container text-start mx-auto">
 						<form className="auth-form auth-signup-form">
-							<div className="email mb-3">
-								<label className="sr-only" htmlFor="signup-email">Your Name</label>
-								<input id="signup-name" name="signup-name" type="text" className="form-control signup-name" placeholder="Full name" required="required" />
+							<div className="email mb-2">
+								<label className="sr-only" htmlFor="first_name">First Name</label>
+								<input id="first_name" name="first_name" type="text" className="form-control" placeholder="First name" required="required" />
 							</div>
-							<div className="email mb-3">
+                            <div className="email mb-3">
+								<label className="sr-only" htmlFor="last_name">Last Name</label>
+								<input id="last_name" name="last_name" type="text" className="form-control" placeholder="Last name" required="required" />
+							</div>
+                            <div className="email mb-3">
+								<label className="sr-only" htmlFor="username">Username</label>
+								<input id="username" name="username" type="text" className="form-control" placeholder="Username" required="required" />
+							</div>
+							<div className="email mb-2">
 								<label className="sr-only" htmlFor="signup-email">Your Email</label>
 								<input id="signup-email" name="signup-email" type="email" className="form-control signup-email" placeholder="Email" required="required" />
 							</div>
@@ -26,7 +34,7 @@ function Register() {
 								<label className="sr-only" htmlFor="signup-password">Password</label>
 								<input id="signup-password" name="signup-password" type="password" className="form-control signup-password" placeholder="Create a password" required="required" />
 							</div>
-							<div className="extra mb-3">
+							<div className="extra mb-2">
 								<div className="form-check">
 									<input className="form-check-input" type="checkbox" value="" id="RememberPassword" />
 									<label className="form-check-label" htmlFor="RememberPassword">
@@ -40,7 +48,7 @@ function Register() {
 							</div>
 						</form>
 
-						<div className="auth-option text-center pt-5">Already have an account? <Link className="text-link" to="/" >Log in</Link></div>
+						<div className="auth-option text-center pt-3">Already have an account? <Link className="text-link" to="/" >Log in</Link></div>
 					</div>
 
 
