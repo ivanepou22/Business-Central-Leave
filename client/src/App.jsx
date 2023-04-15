@@ -1,9 +1,10 @@
 import './App.css'
+import Login from './pages/Login'
 
 function App() {
   return (
     <div className="App">
-      <h1>MD365 Business Central</h1>
+      <Login/>
     </div>
   )
 }
