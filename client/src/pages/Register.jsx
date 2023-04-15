@@ -36,7 +36,7 @@ function Register() {
 							</div>
 
 							<div className="text-center">
-								<button type="submit" className="btn app-btn-primary w-100 theme-btn mx-auto">Sign Up</button>
+								<button type="submit" className="btn app-btn-primary w-100 theme-btn mx-auto">Register</button>
 							</div>
 						</form>
 

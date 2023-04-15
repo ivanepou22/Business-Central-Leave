@@ -4,7 +4,7 @@ import portLogo from '../assets/images/logo-bg.png';
 import Footer from '../components/Footer';
 import '../assets/style.css'
 
-function ForgotPassword() {
+function ResetPassword() {
   return (
     <div className="row g-0 app-auth-wrapper">
 	    <div className="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
@@ -27,7 +27,7 @@ function ForgotPassword() {
 							</div>
 						</form>
 
-						<div className="auth-option text-center pt-5"><Link className="app-link" to="/" >Log in</Link> <span className="px-2">|</span> <Link className="app-link" to="/register" >Sign up</Link></div>
+						<div className="auth-option text-center pt-5"><Link className="text-link" to="/">Log in</Link> <span className="px-2">|</span> <Link className="text-link" to="/register" >Sign up</Link></div>
 					</div>
 			    </div>
 
@@ -49,4 +49,4 @@ function ForgotPassword() {
   )
 }
 
-export default ForgotPassword
+export default ResetPassword

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import portLogo from '../assets/images/logo-bg.png';
-import '../assets/login.css';
+import '../assets/style.css';
 import Footer from '../components/Footer';
 
 function Login() {
@@ -47,7 +47,7 @@ function Login() {
                                     </div>
                                 </form>
 
-                                <div className="auth-option text-center pt-5">No Account? Sign up <Link className="text-link" to="/register" >here</Link>.</div>
+                                <div className="auth-option text-center pt-5">No Account? Sign up <Link className="text-link" to="/register">here</Link>.</div>
                             </div>
 
                         </div>
