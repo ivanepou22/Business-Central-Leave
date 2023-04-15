@@ -11,7 +11,7 @@ function ResetPassword() {
 		    <div className="d-flex flex-column align-content-end">
 			    <div className="app-auth-body mx-auto">
 				    <div className="app-auth-branding mb-4"><Link className="app-logo" to="#"><img className="logo-icon me-2" src={portLogo} alt="logo" /></Link></div>
-					<h2 className="auth-heading text-center mb-4">Password Reset</h2>
+					<h2 className="auth-heading auth-heading-1 text-center mb-4">Password Reset</h2>
 
 					<div className="auth-intro mb-4 text-center">Enter your email address below. We'll email you a link to a page where you can easily create a new password.</div>
 

@@ -10,7 +10,7 @@ function Register() {
 		    <div className="d-flex flex-column align-content-end">
 			    <div className="app-auth-body mx-auto">
 				    <div className="app-auth-branding mb-4"><Link className="app-logo" to="#"><img className="logo-icon me-2" src={portLogo} alt="logo" /></Link></div>
-					<h2 className="auth-heading text-center mb-4">Register to Portal</h2>
+					<h2 className="auth-heading auth-heading-1 text-center mb-4">Register to Portal</h2>
 
 					<div className="auth-form-container text-start mx-auto">
 						<form className="auth-form auth-signup-form">

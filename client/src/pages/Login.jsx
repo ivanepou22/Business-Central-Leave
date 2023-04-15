@@ -16,7 +16,7 @@ function Login() {
                                     <img className="logo-icon me-2" src={portLogo} alt="logo" />
                                 </Link>
                             </div>
-                            <h2 className="auth-heading text-center mb-5 login-title">Log in to Portal</h2>
+                            <h2 className="auth-heading auth-heading-1 text-center mb-5 login-title">Log in to Portal</h2>
                             <div className="auth-form-container text-start">
                                 <form className="auth-form login-form">
                                     <div className="email mb-3">
