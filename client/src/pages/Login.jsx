@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import portLogo from '../assets/images/logo-bg.png';
 import '../assets/login.css';
 
@@ -10,8 +10,11 @@ function Login() {
                 <div className="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
                     <div className="d-flex flex-column align-content-end">
                         <div className="app-auth-body mx-auto">
-                            <div className="app-auth-branding mb-4" ><Link className="app-logo" to="#">
-                                <img className="logo-icon me-2" src={portLogo} alt="logo" /></Link></div>
+                            <div className="app-auth-branding mb-4" >
+                                <a className="app-logo" href="/#">
+                                    <img className="logo-icon me-2" src={portLogo} alt="logo" />
+                                </a>
+                            </div>
                             <h2 className="auth-heading text-center mb-5 login-title">Log in to Portal</h2>
                             <div className="auth-form-container text-start">
                                 <form className="auth-form login-form">
@@ -33,7 +36,7 @@ function Login() {
                                             </div>
                                             <div className="col-6">
                                                 <div className="forgot-password text-end">
-                                                    <Link to="#">Forgot password?</Link>
+                                                    <a href="/#">Forgot password?</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -43,14 +46,14 @@ function Login() {
                                     </div>
                                 </form>
 
-                                <div className="auth-option text-center pt-5">No Account? Sign up <Link className="text-link" to="#" >here</Link>.</div>
+                                <div className="auth-option text-center pt-5">No Account? Sign up <a className="text-link" href="/#" >here</a>.</div>
                             </div>
 
                         </div>
 
                         <footer className="app-auth-footer">
                             <div className="container text-center py-3">
-                                <small className="copyright">Designed <i className="fas fa-heart"></i> by <Link className="app-link" to="https://meevolsoft.com/" target="_blank">MeevolSoft Ltd</Link></small>
+                                <small className="copyright">Designed <i className="fas fa-heart"></i> by <a className="app-link" href="https://meevolsoft.com/" target="_blank">MeevolSoft Ltd</a></small>
                             </div>
                         </footer>
                     </div>
