@@ -14,15 +14,15 @@ function Register() {
 
 					<div className="auth-form-container text-start mx-auto">
 						<form className="auth-form auth-signup-form">
-							<div className="email mb-2">
+							<div className="first_name mb-2">
 								<label className="sr-only" htmlFor="first_name">First Name</label>
 								<input id="first_name" name="first_name" type="text" className="form-control" placeholder="First name" required="required" />
 							</div>
-                            <div className="email mb-3">
+                            <div className="last_name mb-3">
 								<label className="sr-only" htmlFor="last_name">Last Name</label>
 								<input id="last_name" name="last_name" type="text" className="form-control" placeholder="Last name" required="required" />
 							</div>
-                            <div className="email mb-3">
+                            <div className="username mb-3">
 								<label className="sr-only" htmlFor="username">Username</label>
 								<input id="username" name="username" type="text" className="form-control" placeholder="Username" required="required" />
 							</div>
