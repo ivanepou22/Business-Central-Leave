@@ -6,6 +6,9 @@ import Home from './pages/Home';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
 import ResetPassword from './pages/ResetPassword';
+import LeaveApplications from './pages/LeaveApplications';
+import Employees from './pages/Employees';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/register" element={<Register/>} />
+            <Route path='/leave-applications' element={<LeaveApplications/>} />
+            <Route path='/employees' element={<Employees />} />
+            <Route path='/users' element={<Users />} />
             <Route path="/logout" element={<Logout/>} />
             <Route path="/home" element={<Home/>} />
             <Route path="/reset-password" element={<ResetPassword/>} />
