@@ -13,7 +13,7 @@ function SideBar() {
                     <div className="app-branding">
                         <Link className="app-logo" to="/home">
                             <img
-                                className="logo-icon me-2"
+                                className="logo-icon logo-icon-1 me-2"
                                 src={portLogo}
                                 alt="logo"
                             />
