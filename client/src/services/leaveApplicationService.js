@@ -19,7 +19,7 @@ export async function createLeaveApplication(leaveApplication) {
 }
 
 export async function updateLeaveApplication(leaveApplication) {
-        return http.put(leaveAppUrl(leaveApplication.Entry_No), body);
+        return http.patch(leaveAppUrl(leaveApplication.Entry_No), body);
 }
 
 export async function deleteLeaveApplication(leaveApplicationId) {
