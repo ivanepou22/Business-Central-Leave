@@ -6,6 +6,7 @@ import {
   updateLeaveApplication,
   createLeaveApp
 } from '../handlers/employee.leave.controller';
+import { verifyJWTToken } from '../middleware/jwt.middleware';
 
 const leaveApplications = express.Router();
 
