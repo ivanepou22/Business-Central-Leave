@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { getEmployees } from '../services/employeeService';
+import Header from '../components/Header';
 
 function Employees() {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    const {data: employees} =  getEmployees();
-    setEmployees(employees);
+    async function fetchEmployees() {
+      const { data} = await getEmployees();
+      setEmployees(data.value);
+    }
+    fetchEmployees();
   }, [])
-  console.log(employees);
   return (
-    <div>Employees</div>
+    <div>
+      <Header />
+    </div>
   )
 }
 

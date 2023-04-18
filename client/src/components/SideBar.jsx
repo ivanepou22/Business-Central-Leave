@@ -25,7 +25,7 @@ function SideBar() {
                         <ul className="app-menu list-unstyled accordion" id="menu-accordion">
                             <li className="nav-item mt-2">
                                 {/* <!--//Bootstrap Icons: https://icons.getbootstrap.com/ --> */}
-                                <Link className="nav-link active" to="#">
+                                <Link className="nav-link active" to="/home">
                                     <span className="nav-icon">
                                         <svg
                                             width="1em"
@@ -53,7 +53,7 @@ function SideBar() {
                                 {/* <!--//Bootstrap Icons: https://icons.getbootstrap.com/ --> */}
                                 <Link className="nav-link" to="/employees">
                                     <span className="nav-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="1.6em" height="1.6em"><circle cx="35" cy="11" r="4.5" fill="none" stroke="#000" strokeWidth="3" /><circle cx="21.5" cy="11.5" r="4" fill="none" stroke="#000" strokeWidth="3" /><circle cx="10.5" cy="12.5" r="3" fill="none" stroke="#000" strokeWidth="3" /><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" strokeWidth="3" d="M5.5,27l0,6.5c0,1.1,0.9,2,2,2h1.9" /><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" strokeWidth="3" d="M11.5,21.6c-0.4-0.1-0.9-0.1-1.4-0.1c-2.6,0.2-4.6,2.5-4.6,5.2" /><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" strokeWidth="3" d="M24.1,22c-1.1-0.4-2.2-0.6-3.5-0.5c-3.6,0.4-6.1,3.6-6.1,7.2l0,7.8c0,1.1,0.9,2,2,2h5.4" /><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" strokeWidth="3" d="M42.5,29.3v10.2c0,1.1-0.9,2-2,2h-11c-1.1,0-2-0.9-2-2v-3" /><path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" strokeWidth="3" d="M27.5,30.8V29c0-4.2,3.5-7.6,7.7-7.5c1.9,0.1,3.7,0.9,5,2.2" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="1.6em" height="1.6em"><circle cx="35" cy="11" r="4.5" fill="none" stroke="#000" strokeWidth="3" /><circle cx="21.5" cy="11.5" r="4" fill="none" stroke="#000" strokeWidth="3" /><circle cx="10.5" cy="12.5" r="3" fill="none" stroke="#000" strokeWidth="3" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5.5,27l0,6.5c0,1.1,0.9,2,2,2h1.9" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M11.5,21.6c-0.4-0.1-0.9-0.1-1.4-0.1c-2.6,0.2-4.6,2.5-4.6,5.2" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M24.1,22c-1.1-0.4-2.2-0.6-3.5-0.5c-3.6,0.4-6.1,3.6-6.1,7.2l0,7.8c0,1.1,0.9,2,2,2h5.4" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M42.5,29.3v10.2c0,1.1-0.9,2-2,2h-11c-1.1,0-2-0.9-2-2v-3" /><path fill="none" stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M27.5,30.8V29c0-4.2,3.5-7.6,7.7-7.5c1.9,0.1,3.7,0.9,5,2.2" /></svg>
                                     </span>
                                     <span className="nav-link-text">Employees</span> </Link>
                                 {/* <!--//nav-link--> */}
