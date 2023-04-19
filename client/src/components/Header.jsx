@@ -4,6 +4,8 @@ import portLogo from '../assets/images/logo-bg.png';
 
 function Header() {
     const [dropdown, setDropdown] = useState(false);
+    const [profileDrop, setProfileDrop] = useState(false);
+
     return (
         <div>
             <header className="navbar navbar-expand-md navbar-dark d-print-none">
@@ -112,14 +114,14 @@ function Header() {
                             </div>
                         </div>
                         <div className="nav-item dropdown">
-                            <Link to="#" className="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                            <Link to="#" onClick={() => setProfileDrop(!profileDrop)} className={`nav-link d-flex lh-1 text-reset p-0${profileDrop ? ' show':''}`} data-bs-toggle="dropdown" aria-label="Open user menu">
                                 <span className="avatar avatar-sm"></span>
                                 <div className="d-none d-xl-block ps-2">
                                     <div>Paweł Kuna</div>
                                     <div className="mt-1 small text-muted">UI Designer</div>
                                 </div>
                             </Link>
-                            <div className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <div onClick={() => setProfileDrop(false)} className={`dropdown-menu dropdown-menu-end dropdown-menu-arrow${profileDrop ? ' show':''}`} data-bs-popper="none">
                                 <Link to="#" className="dropdown-item">Set status</Link>
                                 <Link to="#" className="dropdown-item">Profile & account</Link>
                                 <Link to="#" className="dropdown-item">Feedback</Link>
