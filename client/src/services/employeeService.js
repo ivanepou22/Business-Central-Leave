@@ -1,5 +1,4 @@
 import http from './httpServices';
-
 const apiEndpoint = '/employees';
 
 function employeeUrl(id) {

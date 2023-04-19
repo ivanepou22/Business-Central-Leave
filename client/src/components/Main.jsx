@@ -1,6 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getEmployees } from '../services/employeeService';
+import { getLeaveApplications } from '../services/leaveApplicationService';
 
 function Main() {
+    const [users, setUsers] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [leaveApplications, setLeaveApplications] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const {data} = await getEmployees();
+            setEmployees(data.value);
+            const {data: applications} = await getLeaveApplications();
+            setLeaveApplications(applications.value);
+        }
+
+        fetchData();
+    }, []);
+
+    console.log(employees);
+    console.log(leaveApplications);
+
     return (
         <div>
             <div className="app-wrapper">
@@ -8,11 +28,11 @@ function Main() {
                     <div className="container-xl">
                         <h1 className="app-page-title">.</h1>
                         <div className="row g-4 mb-4">
-                            <div className="col-6 col-lg-3">
+                            <div className="col-6 col-lg-4">
                                 <div className="app-card app-card-stat shadow-sm h-100">
                                     <div className="app-card-body p-3 p-lg-4">
-                                        <h4 className="stats-type mb-1">Total Sales</h4>
-                                        <div className="stats-figure">$12,628</div>
+                                        <h4 className="stats-type mb-1">Employees</h4>
+                                        <div className="stats-figure">{employees?.length?.toFixed(2)}</div>
                                         <div className="stats-meta text-success">
                                             <svg
                                                 width="1em"
@@ -31,17 +51,17 @@ function Main() {
                                         </div>
                                     </div>
                                     {/*//app-card-body*/}
-                                    <a className="app-card-link-mask" href="#"></a>
+                                    <a className="app-card-link-mask" href="/employees"></a>
                                 </div>
                                 {/*//app-card*/}
                             </div>
                             {/*//col*/}
 
-                            <div className="col-6 col-lg-3">
+                            <div className="col-6 col-lg-4">
                                 <div className="app-card app-card-stat shadow-sm h-100">
                                     <div className="app-card-body p-3 p-lg-4">
-                                        <h4 className="stats-type mb-1">Expenses</h4>
-                                        <div className="stats-figure">$2,250</div>
+                                        <h4 className="stats-type mb-1">Leave Applications</h4>
+                                        <div className="stats-figure">{leaveApplications?.length?.toFixed(2)}</div>
                                         <div className="stats-meta text-success">
                                             <svg
                                                 width="1em"
@@ -60,33 +80,20 @@ function Main() {
                                         </div>
                                     </div>
                                     {/*//app-card-body*/}
-                                    <a className="app-card-link-mask" href="#"></a>
+                                    <a className="app-card-link-mask" href="/leave-applications"></a>
                                 </div>
                                 {/*//app-card*/}
                             </div>
                             {/*//col*/}
-                            <div className="col-6 col-lg-3">
+                            <div className="col-6 col-lg-4">
                                 <div className="app-card app-card-stat shadow-sm h-100">
                                     <div className="app-card-body p-3 p-lg-4">
-                                        <h4 className="stats-type mb-1">Projects</h4>
-                                        <div className="stats-figure">23</div>
-                                        <div className="stats-meta">Open</div>
+                                        <h4 className="stats-type mb-1">Users</h4>
+                                        <div className="stats-figure">{users?.length?.toFixed(2)}</div>
+                                        <div class="stats-meta">Open</div>
                                     </div>
                                     {/*//app-card-body*/}
-                                    <a className="app-card-link-mask" href="#"></a>
-                                </div>
-                                {/*//app-card*/}
-                            </div>
-                            {/*//col*/}
-                            <div className="col-6 col-lg-3">
-                                <div className="app-card app-card-stat shadow-sm h-100">
-                                    <div className="app-card-body p-3 p-lg-4">
-                                        <h4 className="stats-type mb-1">Invoices</h4>
-                                        <div className="stats-figure">6</div>
-                                        <div className="stats-meta">New</div>
-                                    </div>
-                                    {/*//app-card-body*/}
-                                    <a className="app-card-link-mask" href="#"></a>
+                                    <a className="app-card-link-mask" href="/users"></a>
                                 </div>
                                 {/*//app-card*/}
                             </div>

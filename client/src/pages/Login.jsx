@@ -2,73 +2,72 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import portLogo from '../assets/images/logo-bg.png';
 import '../assets/style.css';
-import Footer from '../components/Footer';
 
 function Login() {
     return (
-        <div>
-            <div className="row g-0 app-auth-wrapper">
-                <div className="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
-                    <div className="d-flex flex-column align-content-end">
-                        <div className="app-auth-body mx-auto">
-                            <div className="app-auth-branding mb-4" >
-                                <Link className="app-logo" to="#">
-                                    <img className="logo-icon me-2" src={portLogo} alt="logo" />
-                                </Link>
-                            </div>
-                            <h2 className="auth-heading auth-heading-1 text-center mb-5 login-title">Log in to Portal</h2>
-                            <div className="auth-form-container text-start">
-                                <form className="auth-form login-form">
-                                    <div className="email mb-3">
-                                        <label className="sr-only" htmlFor="signin-email">Email</label>
-                                        <input id="signin-email" name="signin-email" type="email" className="form-control signin-email" placeholder="Email address" required="required" />
-                                    </div>
-                                    <div className="password mb-3">
-                                        <label className="sr-only" htmlFor="signin-password">Password</label>
-                                        <input id="signin-password" name="signin-password" type="password" className="form-control signin-password" placeholder="Password" required="required" />
-                                        <div className="extra mt-3 row justify-content-between">
-                                            <div className="col-6">
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" value="" id="RememberPassword" />
-                                                    <label className="form-check-label" htmlFor="RememberPassword">
-                                                        Remember me
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div className="col-6">
-                                                <div className="forgot-password text-end">
-                                                    <Link className="text-link" to="/reset-password">Forgot password?</Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="text-center">
-                                        <button type="submit" className="btn app-btn-primary w-100 theme-btn mx-auto">Log In</button>
-                                    </div>
-                                </form>
+            <div className="page page-center">
+                <div className="container-tight py-1">
+                    <div className="text-center mb-1">
+                        <Link to="." className="navbar-brand navbar-brand-autodark">
+                            <img src={portLogo} height="36" alt="" />
 
-                                <div className="auth-option text-center pt-5">No Account? Sign up <Link className="text-link" to="/register">here</Link>.</div>
+                        </Link>
+                    </div>
+                    <form className="card card-md" action="." method="get" autoComplete="off">
+                        <div className="card-body">
+                            <h2 className="card-title text-center mb-4">Login to your account</h2>
+                            <div className="mb-3">
+                                <label className="form-label">Email address</label>
+                                <input type="email" className="form-control" placeholder="Enter email" />
                             </div>
-
+                            <div className="mb-2">
+                                <label className="form-label">
+                                    Password
+                                    <span className="form-label-description">
+                                        <Link to="/forgot-password">I forgot password</Link>
+                                    </span>
+                                </label>
+                                <div className="input-group input-group-flat">
+                                    <input type="password" className="form-control" placeholder="Password" autoComplete="off" />
+                                    <span className="input-group-text">
+                                        <Link to="#" className="link-secondary" title="Show password" data-bs-toggle="tooltip">
+                                            {/* <!-- Download SVG icon from http://tabler-icons.io/i/eye --> */}
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
+                                        </Link>
+                                    </span>
+                                </div>
+                            </div>
+                            <div className="mb-2">
+                                <label className="form-check">
+                                    <input type="checkbox" className="form-check-input" />
+                                    <span className="form-check-label">Remember me on this device</span>
+                                </label>
+                            </div>
+                            <div className="form-footer">
+                                <button type="submit" className="btn btn-primary w-100">Sign in</button>
+                            </div>
                         </div>
-
-                       {/* Footer */}
-                       <Footer />
+                        <div className="hr-text">or</div>
+                        <div className="card-body">
+                            <div className="row">
+                                <div className="col"><Link to="#" className="btn btn-white w-100">
+                                    {/* <!-- Download SVG icon from http://tabler-icons.io/i/brand-github --> */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon text-github" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" /></svg>
+                                    Login with Github
+                                </Link></div>
+                                <div className="col"><Link to="#" className="btn btn-white w-100">
+                                    {/* <!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter --> */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon text-twitter" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" /></svg>
+                                    Login with Twitter
+                                </Link></div>
+                            </div>
+                        </div>
+                    </form>
+                    <div className="text-center text-muted mt-3">
+                        Don't have account yet? <Link to="/register" tabIndex="-1">Sign up</Link>
                     </div>
                 </div>
-                <div className="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
-                    <div className="auth-background-holder">
-                    </div>
-                    <div className="auth-background-mask"></div>
-                    <div className="auth-background-overlay p-3 p-lg-5">
-                        <div className="d-flex flex-column align-content-end h-100">
-                            <div className="h-100"></div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
     )
 }
 
