@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { getEmployees } from '../services/employeeService';
 import { Link } from 'react-router-dom';
 import { getLeaveApplications } from '../services/leaveApplicationService';
+import Footer from './Footer';
 
 function Main() {
     const [users, setUsers] = useState([]);
@@ -386,38 +387,6 @@ function Main() {
                                                 </tr>
                                                 <tr>
                                                     <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001402</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">UX Wireframes</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-gb"></span>
-                                                        Adobe
-                                                    </td>
-                                                    <td>
-                                                        87956421
-                                                    </td>
-                                                    <td>
-                                                        12 Apr 2017
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-warning me-1"></span> Pending
-                                                    </td>
-                                                    <td>$1200</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
                                                     <td><span className="text-muted">001403</span></td>
                                                     <td><Link to="invoice.html" className="text-reset" tabIndex="-1">New Dashboard</Link></td>
                                                     <td>
@@ -544,72 +513,6 @@ function Main() {
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001407</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Logo & Print</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-us"></span>
-                                                        Apple
-                                                    </td>
-                                                    <td>
-                                                        87956621
-                                                    </td>
-                                                    <td>
-                                                        22 Mar 2018
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-success me-1"></span> Paid Today
-                                                    </td>
-                                                    <td>$2500</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" />
-                                                    </td>
-                                                    <td><span className="text-muted">001408</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Icons</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-pl"></span>
-                                                        Tookapic
-                                                    </td>
-                                                    <td>
-                                                        87956621
-                                                    </td>
-                                                    <td>
-                                                        13 May 2018
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-success me-1"></span> Paid Today
-                                                    </td>
-                                                    <td>$940</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -641,40 +544,7 @@ function Main() {
                         </div>
                     </div>
                 </div>
-                <footer className="footer footer-transparent d-print-none">
-                    <div className="container-xl">
-                        <div className="row text-center align-items-center flex-row-reverse">
-                            <div className="col-lg-auto ms-lg-auto">
-                                <ul className="list-inline list-inline-dots mb-0">
-                                    <li className="list-inline-item"><Link to="./docs/index.html" className="link-secondary">Documentation</Link></li>
-                                    <li className="list-inline-item"><Link to="./license.html" className="link-secondary">License</Link></li>
-                                    <li className="list-inline-item"><Link to="https://github.com/tabler/tabler" target="_blank" className="link-secondary" rel="noopener">Source code</Link></li>
-                                    <li className="list-inline-item">
-                                        <Link to="https://github.com/sponsors/codecalm" target="_blank" className="link-secondary" rel="noopener">
-                                            {/* {/* Download SVG icon from http://tabler-icons.io/i/heart */}
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon text-pink icon-filled icon-inline" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.5 13.572l-7.5 7.428l-7.5 -7.428m0 0a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
-                                            Sponsor
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-12 col-lg-auto mt-3 mt-lg-0">
-                                <ul className="list-inline list-inline-dots mb-0">
-                                    <li className="list-inline-item">
-                                        Copyright &copy; 2022
-                                        <Link to="." className="link-secondary">Tabler</Link>.
-                                        All rights reserved.
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to="./changelog.html" className="link-secondary" rel="noopener">
-                                            v1.0.0-beta8
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
+                <Footer />
             </div>
         </div>
     )

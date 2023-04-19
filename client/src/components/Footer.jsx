@@ -4,13 +4,21 @@ import '../assets/style.css'
 
 function Footer() {
     return (
-        <div>
-            <footer className="app-auth-footer footer-auth">
-                <div className="container text-center py-3">
-                    <small className="copyright">Developed <i className="fas fa-heart"></i> by <Link className="app-link" to="https://meevolsoft.com/" target="_blank">MeevolSoft Ltd </Link></small>
+        <footer className="footer footer-transparent d-print-none">
+            <div className="container-xl">
+                <div className="row text-center align-items-center">
+                    <div className="col-12 col-lg-auto mt-3 mt-lg-0">
+                        <ul className="list-inline list-inline-dots mb-0">
+                            <li className="list-inline-item">
+                                Copyright &copy; 2022
+                                <Link to="." className="link-secondary"> MeevolSoft</Link>.
+                                All rights reserved.
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </footer>
-        </div>
+            </div>
+        </footer>
     )
 }
 

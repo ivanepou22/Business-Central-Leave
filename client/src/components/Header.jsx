@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import portLogo from '../assets/images/logo-bg.png';
 
 function Header() {
+    const [dropdown, setDropdown] = useState(false);
     return (
         <div>
-            <header className="navbar navbar-expand-md navbar-dark navbar-overlap d-print-none">
+            <header className="navbar navbar-expand-md navbar-dark d-print-none">
                 <div className="container-xl">
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
                         <span className="navbar-toggler-icon"></span>
@@ -177,7 +178,7 @@ function Header() {
                                     </Link>
                                 </li>
                                 <li className="nav-item dropdown">
-                                    <Link className="nav-link dropdown-toggle" to="#navbar-extra" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+                                    <Link className={dropdown ? 'nav-link dropdown-toggle show': 'nav-link dropdown-toggle'} to="#navbar-extra" onClick={() => setDropdown(!dropdown)} data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true" >
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
 
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/star --> */}
@@ -195,40 +196,21 @@ function Header() {
                                             Leave Applications
                                         </span>
                                     </Link>
-                                    <div className="dropdown-menu">
-                                        <Link className="dropdown-item" to="./activity.html" >
+                                    <div className={dropdown ? 'dropdown-menu show': 'dropdown-menu'} data-bs-popper="none" onClick={() => setDropdown(false)}>
+                                        <Link className="dropdown-item" to="#" >
                                             Activity
                                         </Link>
-                                        <Link className="dropdown-item" to="./gallery.html" >
+                                        <Link className="dropdown-item" to="#" >
                                             Gallery
                                         </Link>
-                                        <Link className="dropdown-item" to="./invoice.html" >
+                                        <Link className="dropdown-item" to="#" >
                                             Invoice
                                         </Link>
-                                        <Link className="dropdown-item" to="./search-results.html" >
+                                        <Link className="dropdown-item" to="#" >
                                             Search results
                                         </Link>
-                                        <Link className="dropdown-item" to="./pricing.html" >
+                                        <Link className="dropdown-item" to="#" >
                                             Pricing cards
-                                        </Link>
-                                        <Link className="dropdown-item" to="./users.html" >
-                                            Users
-                                        </Link>
-                                        <Link className="dropdown-item" to="./license.html" >
-                                            License
-                                        </Link>
-                                        <Link className="dropdown-item" to="./music.html" >
-                                            Music
-                                        </Link>
-                                        <Link className="dropdown-item" to="./uptime.html" >
-                                            Uptime monitor
-                                            <span className="badge badge-sm bg-green text-uppercase ms-2">New</span>
-                                        </Link>
-                                        <Link className="dropdown-item" to="./widgets.html" >
-                                            Widgets
-                                        </Link>
-                                        <Link className="dropdown-item" to="./wizard.html" >
-                                            Wizard
                                         </Link>
                                     </div>
                                 </li>
