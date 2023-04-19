@@ -8,7 +8,7 @@ function ResetPassword() {
 		<div className="page page-center">
 			<div className="container-tight py-2">
 				<div className="text-center mb-2">
-					<Link to="." className="navbar-brand navbar-brand-autodark">
+					<Link to="#" className="navbar-brand navbar-brand-autodark">
 						<img src={portLogo} height="36" alt="" />
 					</Link>
 				</div>
