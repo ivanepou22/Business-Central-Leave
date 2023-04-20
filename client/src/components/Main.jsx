@@ -20,10 +20,9 @@ function Main() {
         fetchData();
     }, []);
 
+    //leave applications without history
+    const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
     console.log(employees);
-    console.log(leaveApplications);
-    console.log(users);
-
     return (
         <div>
             <div className="page-wrapper">
@@ -37,7 +36,7 @@ function Main() {
                                     Overview
                                 </div>
                                 <h2 className="page-title">
-                                    Leave Management
+                                    Employee Leave Management
                                 </h2>
                             </div>
                             {/* Page title actions */}
@@ -45,13 +44,15 @@ function Main() {
                                 <div className="btn-list">
                                     <span className="d-none d-sm-inline">
                                         <Link to="#" className="btn btn-dark">
-                                            New view
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                            New User
                                         </Link>
                                     </span>
                                     <Link to="#" className="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                                         {/* Download SVG icon from http://tabler-icons.io/i/plus */}
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                        Create new report
+                                        New Leave Application
                                     </Link>
                                     <Link to="#" className="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal" data-bs-target="#modal-report" aria-label="Create new report">
                                         {/* Download SVG icon from http://tabler-icons.io/i/plus */}
@@ -69,31 +70,15 @@ function Main() {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
-                                            <div className="subheader">Sales</div>
-                                            <div className="ms-auto lh-1">
-                                                <div className="dropdown">
-                                                    <Link className="dropdown-toggle text-muted" to="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</Link>
-                                                    <div className="dropdown-menu dropdown-menu-end">
-                                                        <Link className="dropdown-item active" to="#">Last 7 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 30 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 3 months</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div className="subheader">Users</div>
                                         </div>
-                                        <div className="h1 mb-3">75%</div>
+                                        <div className="h1 mb-3">{users?.length.toFixed(2)}</div>
                                         <div className="d-flex mb-2">
-                                            <div>Conversion rate</div>
-                                            <div className="ms-auto">
-                                                <span className="text-green d-inline-flex align-items-center lh-1">
-                                                    7% {/* Download SVG icon from http://tabler-icons.io/i/trending-up */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon ms-1" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
-                                                </span>
-                                            </div>
+                                            <div>Users</div>
                                         </div>
                                         <div className="progress progress-sm">
-                                            <div className="progress-bar bg-blue" style={{ width: '75%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <span className="visually-hidden">75% Complete</span>
+                                            <div className="progress-bar bg-green" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                <span className="visually-hidden">{users?.length.toFixed(2)} Users</span>
                                             </div>
                                         </div>
                                     </div>
@@ -103,57 +88,17 @@ function Main() {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
-                                            <div className="subheader">Revenue</div>
-                                            <div className="ms-auto lh-1">
-                                                <div className="dropdown">
-                                                    <Link className="dropdown-toggle text-muted" to="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</Link>
-                                                    <div className="dropdown-menu dropdown-menu-end">
-                                                        <Link className="dropdown-item active" to="#">Last 7 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 30 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 3 months</Link>
-                                                    </div>
-                                                </div>
+                                            <div className="subheader">Employees</div>
+                                        </div>
+                                        <div className="h1 mb-3">{employees?.length.toFixed(2)}</div>
+                                        <div className="d-flex mb-2">
+                                            <div>Employees</div>
+                                        </div>
+                                        <div className="progress progress-sm">
+                                            <div className="progress-bar bg-blue" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                <span className="visually-hidden">{employees?.length.toFixed(2)} Employees</span>
                                             </div>
                                         </div>
-                                        <div className="d-flex align-items-baseline">
-                                            <div className="h1 mb-0 me-2">$4,300</div>
-                                            <div className="me-auto">
-                                                <span className="text-green d-inline-flex align-items-center lh-1">
-                                                    8% {/* Download SVG icon from http://tabler-icons.io/i/trending-up */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon ms-1" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="chart-revenue-bg" className="chart-sm"></div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-3">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="subheader">New clients</div>
-                                            <div className="ms-auto lh-1">
-                                                <div className="dropdown">
-                                                    <Link className="dropdown-toggle text-muted" to="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</Link>
-                                                    <div className="dropdown-menu dropdown-menu-end">
-                                                        <Link className="dropdown-item active" to="#">Last 7 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 30 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 3 months</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex align-items-baseline">
-                                            <div className="h1 mb-3 me-2">6,782</div>
-                                            <div className="me-auto">
-                                                <span className="text-yellow d-inline-flex align-items-center lh-1">
-                                                    0% {/* Download SVG icon from http://tabler-icons.io/i/minus */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon ms-1" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div id="chart-new-clients" className="chart-sm"></div>
                                     </div>
                                 </div>
                             </div>
@@ -161,28 +106,46 @@ function Main() {
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
-                                            <div className="subheader">Active users</div>
-                                            <div className="ms-auto lh-1">
-                                                <div className="dropdown">
-                                                    <Link className="dropdown-toggle text-muted" to="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Last 7 days</Link>
-                                                    <div className="dropdown-menu dropdown-menu-end">
-                                                        <Link className="dropdown-item active" to="#">Last 7 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 30 days</Link>
-                                                        <Link className="dropdown-item" to="#">Last 3 months</Link>
-                                                    </div>
-                                                </div>
+                                            <div className="subheader">All Leave Applications</div>
+                                        </div>
+                                        <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
+                                        <div className="d-flex mb-2">
+                                            <div>Leave Applications</div>
+                                        </div>
+                                        <div className="progress progress-sm">
+                                            <div className="progress-bar bg-orange" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                <span className="visually-hidden">{leaveAppWHistory?.length.toFixed(2)} Leave Applications</span>
                                             </div>
                                         </div>
-                                        <div className="d-flex align-items-baseline">
-                                            <div className="h1 mb-3 me-2">2,986</div>
-                                            <div className="me-auto">
-                                                <span className="text-green d-inline-flex align-items-center lh-1">
-                                                    4% {/* Download SVG icon from http://tabler-icons.io/i/trending-up */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon ms-1" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="3 17 9 11 13 15 21 7" /><polyline points="14 7 21 7 21 14" /></svg>
-                                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-sm-6 col-lg-3">
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="d-flex align-items-center">
+                                            <div className="subheader">My Leave Applications</div>
+                                        </div>
+                                        <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
+                                        <div className="d-flex mb-2">
+                                            <div>My Leave Applications</div>
+                                        </div>
+                                        <div className="progress progress-sm">
+                                            <div className="progress-bar bg-cyan" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                <span className="visually-hidden">My Leave Applications</span>
                                             </div>
                                         </div>
-                                        <div id="chart-active-users" className="chart-sm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-lg-12">
+                                <div className="row row-cards">
+                                    <div className="col-12">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <p className="mb-3">My Leave Applications:  <strong>{leaveAppWHistory?.length.toFixed(2)} Applications </strong></p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -279,31 +242,37 @@ function Main() {
                                     <div className="col-12">
                                         <div className="card">
                                             <div className="card-body">
-                                                <p className="mb-3">Using Storage <strong>6854.45 MB </strong>of 8 GB</p>
+                                                <p className="mb-3">Leave Applications:  <strong>{leaveAppWHistory?.length.toFixed(2)} Applications </strong></p>
                                                 <div className="progress progress-separated mb-3">
-                                                    <div className="progress-bar bg-primary" role="progressbar" style={{ width: '44%' }}></div>
-                                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: '19%' }}></div>
+                                                    <div className="progress-bar bg-primary" role="progressbar" style={{ width: '34%' }}></div>
+                                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: '20%' }}></div>
+                                                    <div className="progress-bar bg-warning" role="progressbar" style={{ width: '18%' }}></div>
                                                     <div className="progress-bar bg-success" role="progressbar" style={{ width: '9%' }}></div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-auto d-flex align-items-center pe-2">
                                                         <span className="legend me-2 bg-primary"></span>
-                                                        <span>Regular</span>
+                                                        <span>Created</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">915MB</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
                                                         <span className="legend me-2 bg-info"></span>
-                                                        <span>System</span>
+                                                        <span>Pending Approval</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">415MB</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
+                                                        <span className="legend me-2 bg-warning"></span>
+                                                        <span>Cancelled/Rejected</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">201MB</span>
+                                                    </div>
+                                                    <div className="col-auto d-flex align-items-center px-2">
                                                         <span className="legend me-2 bg-success"></span>
-                                                        <span>Shared</span>
+                                                        <span>Approved</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">201MB</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center ps-2">
                                                         <span className="legend me-2"></span>
-                                                        <span>Free</span>
+                                                        <span>Taken</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">612MB</span>
                                                     </div>
                                                 </div>
@@ -315,7 +284,7 @@ function Main() {
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <h3 className="card-title">Invoices</h3>
+                                        <h3 className="card-title">Employee List</h3>
                                     </div>
                                     <div className="card-body border-bottom py-3">
                                         <div className="d-flex">
@@ -339,180 +308,60 @@ function Main() {
                                             <thead>
                                                 <tr>
                                                     <th className="w-1"><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices" /></th>
-                                                    <th className="w-1">No.
-                                                        {/* {/* Download SVG icon from http://tabler-icons.io/i/chevron-up */}
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-sm text-dark icon-thick" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="6 15 12 9 18 15" /></svg>
-                                                    </th>
-                                                    <th>Invoice Subject</th>
-                                                    <th>Client</th>
-                                                    <th>VAT No.</th>
-                                                    <th>Created</th>
+                                                    <th className="w-1">No.</th>
+                                                    <th>Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Title</th>
                                                     <th>Status</th>
-                                                    <th>Price</th>
-                                                    <th></th>
+                                                    <th>Annual_Leave</th>
+                                                    <th>Maternity_Leave</th>
+                                                    <th>Paternity_Leave</th>
+                                                    <th>Sick_Leave</th>
+                                                    <th>Study_Leave</th>
+                                                    <th>Compassionate_Leave</th>
+                                                    <th>Leave_Without_Pay</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001401</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Design Works</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-us"></span>
-                                                        Carlson Limited
-                                                    </td>
-                                                    <td>
-                                                        87956621
-                                                    </td>
-                                                    <td>
-                                                        15 Dec 2017
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-success me-1"></span> Paid
-                                                    </td>
-                                                    <td>$887</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001403</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">New Dashboard</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-de"></span>
-                                                        Bluewolf
-                                                    </td>
-                                                    <td>
-                                                        87952621
-                                                    </td>
-                                                    <td>
-                                                        23 Oct 2017
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-warning me-1"></span> Pending
-                                                    </td>
-                                                    <td>$534</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001404</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Landing Page</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-br"></span>
-                                                        Salesforce
-                                                    </td>
-                                                    <td>
-                                                        87953421
-                                                    </td>
-                                                    <td>
-                                                        2 Sep 2017
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-secondary me-1"></span> Due in 2 Weeks
-                                                    </td>
-                                                    <td>$1500</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001405</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Marketing Templates</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-pl"></span>
-                                                        Printic
-                                                    </td>
-                                                    <td>
-                                                        87956621
-                                                    </td>
-                                                    <td>
-                                                        29 Jan 2018
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-danger me-1"></span> Paid Today
-                                                    </td>
-                                                    <td>$648</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" /></td>
-                                                    <td><span className="text-muted">001406</span></td>
-                                                    <td><Link to="invoice.html" className="text-reset" tabIndex="-1">Sales Presentation</Link></td>
-                                                    <td>
-                                                        <span className="flag flag-country-br"></span>
-                                                        Tabdaq
-                                                    </td>
-                                                    <td>
-                                                        87956621
-                                                    </td>
-                                                    <td>
-                                                        4 Feb 2018
-                                                    </td>
-                                                    <td>
-                                                        <span className="badge bg-secondary me-1"></span> Due in 3 Weeks
-                                                    </td>
-                                                    <td>$300</td>
-                                                    <td className="text-end">
-                                                        <span className="dropdown">
-                                                            <button className="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
-                                                            <div className="dropdown-menu dropdown-menu-end">
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Action
-                                                                </Link>
-                                                                <Link className="dropdown-item" to="#">
-                                                                    Another action
-                                                                </Link>
-                                                            </div>
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                {
+                                                    employees?.map((employee) => (
+                                                        <tr key={employee.No}>
+                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(employee)}/></td>
+                                                            <td><span className="text-muted">{employee.No}</span></td>
+                                                            <td><Link to="#" className="text-reset" tabIndex="-1">{employee.Full_Name}</Link></td>
+                                                            <td>
+                                                                {employee.Gender}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Job_Title}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Status}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Annual_Leave_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Maternity_Leave_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Paternity_Leave_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Sick_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Study_Leave_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Compasionate_Leave_Days_Available}
+                                                            </td>
+                                                            <td>
+                                                                {employee.Leave_Without_Pay_Days_Available}
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
