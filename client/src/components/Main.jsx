@@ -3,6 +3,7 @@ import { getEmployees } from '../services/employeeService';
 import { Link } from 'react-router-dom';
 import { getLeaveApplications } from '../services/leaveApplicationService';
 import Footer from './Footer';
+import { getUsers } from '../services/userService';
 
 function Main() {
     const [users, setUsers] = useState([]);
@@ -15,11 +16,13 @@ function Main() {
             setEmployees(data.value);
             const { data: applications } = await getLeaveApplications();
             setLeaveApplications(applications.value);
+            const {data: ourUsers} = await getUsers();
+            setUsers(ourUsers.value);
         }
 
         fetchData();
     }, []);
-
+    console.log(users)
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
     console.log(employees);
