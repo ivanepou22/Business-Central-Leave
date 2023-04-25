@@ -16,16 +16,16 @@ function Main() {
             setEmployees(data.value);
             const { data: applications } = await getLeaveApplications();
             setLeaveApplications(applications.value);
-            const {data: ourUsers} = await getUsers();
-            setUsers(ourUsers.value);
+            const { data: ourUsers } = await getUsers();
+            setUsers(ourUsers);
         }
 
         fetchData();
     }, []);
-    console.log(users)
+
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
-    console.log(employees);
+    console.log(leaveAppWHistory)
     return (
         <div>
             <div className="page-wrapper">
@@ -48,7 +48,7 @@ function Main() {
                                     <span className="d-none d-sm-inline">
                                         <Link to="#" className="btn btn-dark">
 
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                             New User
                                         </Link>
                                     </span>
@@ -160,15 +160,20 @@ function Main() {
                                                 <div className="row align-items-center">
                                                     <div className="col-auto">
                                                         <span className="bg-blue text-white avatar">{/* Download SVG icon from http://tabler-icons.io/i/currency-dollar */}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" /><path d="M12 3v3m0 12v3" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-folder-plus" width={24} height={24} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M12 19h-7a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v3.5"></path>
+                                                                <path d="M16 19h6"></path>
+                                                                <path d="M19 16v6"></path>
+                                                            </svg>
                                                         </span>
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            132 Sales
+                                                            132 Created
                                                         </div>
                                                         <div className="text-muted">
-                                                            12 waiting payments
+                                                            12 Not Submitted
                                                         </div>
                                                     </div>
                                                 </div>
@@ -181,15 +186,21 @@ function Main() {
                                                 <div className="row align-items-center">
                                                     <div className="col-auto">
                                                         <span className="bg-green text-white avatar">{/* Download SVG icon from http://tabler-icons.io/i/shopping-cart */}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><circle cx="6" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><path d="M17 17h-11v-14h-2" /><path d="M6 5l14 1l-1 7h-13" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-file-certificate" width={24} height={24} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                                                <path d="M5 8v-3a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5"></path>
+                                                                <path d="M6 14m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                                                <path d="M4.5 17l-1.5 5l3 -1.5l3 1.5l-1.5 -5"></path>
+                                                            </svg>
                                                         </span>
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            78 Orders
+                                                            78 Approved
                                                         </div>
                                                         <div className="text-muted">
-                                                            32 shipped
+                                                            32 Approved Applications
                                                         </div>
                                                     </div>
                                                 </div>
@@ -202,15 +213,22 @@ function Main() {
                                                 <div className="row align-items-center">
                                                     <div className="col-auto">
                                                         <span className="bg-twitter text-white avatar">{/* Download SVG icon from http://tabler-icons.io/i/brand-twitter */}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-grid-pattern" width={24} height={24} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                                                <path d="M10 8v8"></path>
+                                                                <path d="M14 8v8"></path>
+                                                                <path d="M8 10h8"></path>
+                                                                <path d="M8 14h8"></path>
+                                                            </svg>
                                                         </span>
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            623 Shares
+                                                            623 Pending Approval
                                                         </div>
                                                         <div className="text-muted">
-                                                            16 today
+                                                            16 Pending Applications.
                                                         </div>
                                                     </div>
                                                 </div>
@@ -223,15 +241,22 @@ function Main() {
                                                 <div className="row align-items-center">
                                                     <div className="col-auto">
                                                         <span className="bg-facebook text-white avatar">{/* Download SVG icon from http://tabler-icons.io/i/brand-facebook */}
-                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-float-left" width={24} height={24} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M4 5m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                                                <path d="M14 7l6 0"></path>
+                                                                <path d="M14 11l6 0"></path>
+                                                                <path d="M4 15l16 0"></path>
+                                                                <path d="M4 19l16 0"></path>
+                                                            </svg>
                                                         </span>
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            132 Likes
+                                                            132 Taken
                                                         </div>
                                                         <div className="text-muted">
-                                                            21 today
+                                                            21 Taken
                                                         </div>
                                                     </div>
                                                 </div>
@@ -249,7 +274,7 @@ function Main() {
                                                 <div className="progress progress-separated mb-3">
                                                     <div className="progress-bar bg-primary" role="progressbar" style={{ width: '34%' }}></div>
                                                     <div className="progress-bar bg-info" role="progressbar" style={{ width: '20%' }}></div>
-                                                    <div className="progress-bar bg-warning" role="progressbar" style={{ width: '18%' }}></div>
+                                                    <div className="progress-bar bg-red" role="progressbar" style={{ width: '18%' }}></div>
                                                     <div className="progress-bar bg-success" role="progressbar" style={{ width: '9%' }}></div>
                                                 </div>
                                                 <div className="row">
@@ -264,7 +289,7 @@ function Main() {
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">415MB</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
-                                                        <span className="legend me-2 bg-warning"></span>
+                                                        <span className="legend me-2 bg-red"></span>
                                                         <span>Cancelled/Rejected</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">201MB</span>
                                                     </div>
@@ -284,6 +309,145 @@ function Main() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="col-12">
+                                <div className="card">
+                                    <div className="card-header">
+                                        <h3 className="card-title">Leave Application List</h3>
+                                    </div>
+                                    <div className="card-body border-bottom py-3">
+                                        <div className="d-flex">
+                                            <div className="text-muted">
+                                                Show
+                                                <div className="mx-2 d-inline-block">
+                                                    <input type="text" className="form-control form-control-sm" defaultValue="8" size="3" aria-label="Invoices count" />
+                                                </div>
+                                                entries
+                                            </div>
+                                            <div className="ms-auto text-muted">
+                                                Search:
+                                                <div className="ms-2 d-inline-block">
+                                                    <input type="text" className="form-control form-control-sm" aria-label="Search invoice" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="table-responsive">
+                                        <table className="table card-table table-vcenter text-nowrap datatable">
+                                            <thead>
+                                                <tr>
+                                                    <th className="w-1"><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices" /></th>
+                                                    <th className="w-1">No.</th>
+                                                    <th>Entry_No</th>
+                                                    <th>Employee_No</th>
+                                                    <th>Substitute_Employee</th>
+                                                    <th>Leave_Type</th>
+                                                    <th>Description</th>
+                                                    <th>Leave_Status</th>
+                                                    <th>Requested_From_Date</th>
+                                                    <th>Requested_To_Date</th>
+                                                    <th>Days_to_be_Taken</th>
+                                                    <th>Leave_Days_Available</th>
+                                                    <th>Leave_Balance</th>
+                                                    <th>Leave_Entitlement</th>
+                                                    <th>From_Date</th>
+                                                    <th>To_Date</th>
+                                                    <th>Approved_From_Date</th>
+                                                    <th>Approved_To_Date</th>
+                                                    <th>Approved_Leave_Days</th>
+                                                    <th>Actual_Leave_Days</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    leaveApplications?.map((leave, index) => (
+                                                        <tr key={leave.Entry_No}>
+                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(leave)} /></td>
+                                                            <td><span className="text-muted">{index}</span></td>
+                                                            <td><Link to="#" className="text-reset" tabIndex="-1">{leave.Entry_No}</Link></td>
+                                                            <td>
+                                                                {leave.Employee_No}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Substitute_Employee}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Leave_Type}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Description}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Leave_Status}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Requested_From_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Requested_To_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Days_to_be_Taken.toFixed(2)}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Leave_Days_Available.toFixed(2)}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Leave_Balance.toFixed(2)}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Leave_Entitlement.toFixed(2)}
+                                                            </td>
+                                                            <td>
+                                                                {leave.From_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.To_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Approved_From_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Approved_To_Date}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Approved_Leave_Days2.toFixed(2)}
+                                                            </td>
+                                                            <td>
+                                                                {leave.Actual_Leave_Days.toFixed(2)}
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div className="card-footer d-flex align-items-center">
+                                        <p className="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+                                        <ul className="pagination m-0 ms-auto">
+                                            <li className="page-item disabled">
+                                                <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">
+                                                    {/* {/* Download SVG icon from http://tabler-icons.io/i/chevron-left */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="15 6 9 12 15 18" /></svg>
+                                                    prev
+                                                </Link>
+                                            </li>
+                                            <li className="page-item"><Link className="page-link" to="#">1</Link></li>
+                                            <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
+                                            <li className="page-item"><Link className="page-link" to="#">3</Link></li>
+                                            <li className="page-item"><Link className="page-link" to="#">4</Link></li>
+                                            <li className="page-item"><Link className="page-link" to="#">5</Link></li>
+                                            <li className="page-item">
+                                                <Link className="page-link" to="#">
+                                                    {/* next {/* Download SVG icon from http://tabler-icons.io/i/chevron-right */}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="9 6 15 12 9 18" /></svg>
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="col-12">
                                 <div className="card">
                                     <div className="card-header">
@@ -329,7 +493,7 @@ function Main() {
                                                 {
                                                     employees?.map((employee) => (
                                                         <tr key={employee.No}>
-                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(employee)}/></td>
+                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(employee)} /></td>
                                                             <td><span className="text-muted">{employee.No}</span></td>
                                                             <td><Link to="#" className="text-reset" tabIndex="-1">{employee.Full_Name}</Link></td>
                                                             <td>
@@ -393,6 +557,7 @@ function Main() {
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
