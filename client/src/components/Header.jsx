@@ -186,11 +186,9 @@ function Header() {
                                         </span>
                                     </Link>
                                 </li>
-                                <li className="nav-item dropdown">
-                                    <Link className={dropdown ? 'nav-link dropdown-toggle show' : 'nav-link dropdown-toggle'} to="#navbar-extra" onClick={() => setDropdown(!dropdown)} data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="true" >
+                                <li className="nav-item">
+                                    <Link className={'nav-link'} to="/leave-applications">
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
-
-                                            {/* <!-- Download SVG icon from http://tabler-icons.io/i/star --> */}
                                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                 <path d="M13 5h8"></path>
@@ -205,23 +203,6 @@ function Header() {
                                             Leave Applications
                                         </span>
                                     </Link>
-                                    <div className={dropdown ? 'dropdown-menu show' : 'dropdown-menu'} data-bs-popper="none" onClick={() => setDropdown(false)}>
-                                        <Link className="dropdown-item" to="#" >
-                                            Activity
-                                        </Link>
-                                        <Link className="dropdown-item" to="#" >
-                                            Gallery
-                                        </Link>
-                                        <Link className="dropdown-item" to="#" >
-                                            Invoice
-                                        </Link>
-                                        <Link className="dropdown-item" to="#" >
-                                            Search results
-                                        </Link>
-                                        <Link className="dropdown-item" to="#" >
-                                            Pricing cards
-                                        </Link>
-                                    </div>
                                 </li>
                             </ul>
                         </div>

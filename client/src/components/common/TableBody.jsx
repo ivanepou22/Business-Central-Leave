@@ -1,5 +1,5 @@
 import React from 'react';
-import _, { iteratee } from 'lodash';
+import _ from 'lodash';
 
 const TableBody = ({ data, columns }) => {
   let trId;
