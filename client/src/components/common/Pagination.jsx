@@ -25,7 +25,7 @@ function Pagination(props) {
     return (
         <>
             <div className="card-footer d-flex align-items-center">
-                <p className="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+                <p className="m-0 text-muted">Page <span>{currentPage}</span> of <span>{itemsCount}</span> entries</p>
                 <ul className="pagination m-0 ms-auto">
                     <li className="page-item">
                         <a className="page-link" onClick={handlePrevious}>

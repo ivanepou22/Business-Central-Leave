@@ -8,7 +8,7 @@ import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
 
-function Employees({user}) {
+function Employees({ user }) {
   const [employees, setEmployees] = useState([]);
   const [sortColumn, setSortColumn] = useState({ path: 'Full_Name', order: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
@@ -58,24 +58,12 @@ function Employees({user}) {
     return { totalCount: filtered.length, data: paginatedEmployees };
   };
   const { totalCount, data: paginatedEmployees } = getPageData();
-  console.log(paginatedEmployees);
 
   return (
     <div>
       <div className="page">
-      <Header />
+        <Header />
         <div className="page-wrapper">
-          <div className="container-xl">
-            <div className="page-header d-print-none">
-              <div className="row align-items-center">
-                <div className="col">
-                  <h2 className="page-title">
-                    Employees
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className="page-body">
             <div className="container-xl">
               <div className="row row-cards">
@@ -89,7 +77,17 @@ function Employees({user}) {
                         <div className="text-muted">
                           Show
                           <div className="mx-2 d-inline-block">
-                            <input type="text" className="form-control form-control-sm" defaultValue="8" size="3" aria-label="Invoices count" />
+                            <select className="form-select" aria-label=".form-select-lg example" name="rowNumber" onChange={(e) => handleRowNumber(e.target.value)}>
+                              <option value="10">10</option>
+                              <option value="15">15</option>
+                              <option value="20">20</option>
+                              <option value="25">25</option>
+                              <option value="30">30</option>
+                              <option value="35">35</option>
+                              <option value="40">40</option>
+                              <option value="45">45</option>
+                              <option value="50">50</option>
+                            </select>
                           </div>
                           entries
                         </div>
@@ -104,18 +102,18 @@ function Employees({user}) {
                     </div>
                     <div className="table-responsive">
                       <EmployeeTable
-                         employees={paginatedEmployees}
-                         onDelete={handleDelete}
-                         onSort={handleSort}
-                         sortColumn={sortColumn}
-                         user={user}
+                        employees={paginatedEmployees}
+                        onDelete={handleDelete}
+                        onSort={handleSort}
+                        sortColumn={sortColumn}
+                        user={user}
                       />
                     </div>
                     <Pagination
-                       itemsCount={totalCount}
-                       pageSize={pageSize}
-                       onPageChange={handlePageChange}
-                       currentPage={currentPage}
+                      itemsCount={totalCount}
+                      pageSize={pageSize}
+                      onPageChange={handlePageChange}
+                      currentPage={currentPage}
                     />
                   </div>
                 </div>

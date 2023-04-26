@@ -2,7 +2,6 @@ import React from 'react'
 import Table from './common/Table';
 
 function EmployeeTable({ employees, onSort, sortColumn, onDelete }) {
-        console.log(employees)
     const columns = [
         { path: 'No', label: 'Number', className: 'text-muted' },
         { path: 'Full_Name', label: 'Name' },
@@ -15,7 +14,8 @@ function EmployeeTable({ employees, onSort, sortColumn, onDelete }) {
         { path: 'Sick_Days_Available', label: 'Sick Days' },
         { path: 'Study_Leave_Days_Available', label: 'Study Leave Days' },
         { path: 'Compasionate_Leave_Days_Available', label: 'Compassionate Leave Days' },
-        { path: 'Leave_Without_Pay_Days_Available', label: 'Leave Without Pay Days' }
+        { path: 'Leave_Without_Pay_Days_Available', label: 'Leave Without Pay Days' },
+        { pk: 'No' }
     ];
 
     return (

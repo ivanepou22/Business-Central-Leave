@@ -23,9 +23,9 @@ const TableHeader = ({ columns, sortColumn, onSort }) => {
   return (
     <thead className='clickable'>
       <tr>
-        {columns.map(column => (
+        {columns.map((column, index) => (
           <th
-            key={column.path || column.key}
+            key={column.path || column.key || index}
             onClick={() => raiseSort(column.path)}
           >
             {column.label} {renderIcon(column)}
