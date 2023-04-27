@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+import auth from '../services/authService';
 
 function Logout() {
-  return (
-    <div>Logout</div>
-  )
+  React.useEffect(() => {
+    auth.logout();
+    window.location = '/';
+  }, []);
+
+  return null;
 }
 
 export default Logout

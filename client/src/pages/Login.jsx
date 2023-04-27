@@ -1,24 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from "react-router-dom";
 import portLogo from '../assets/images/logo-bg.png';
 import '../assets/style.css';
+import auth from '../services/authService';
+import { toast } from 'react-toastify';
+import { Navigate } from 'react-router-dom';
 
 function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
+    }
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        // perform login here with username and password
+        try {
+            await auth.login(username, password);
+
+        } catch (ex) {
+            toast.error(ex);
+        }
+    }
+    if (auth.getCurrentUser()) return <Navigate to="/home" />;
     return (
             <div className="page page-center">
                 <div className="container-tight py-1">
                     <div className="text-center mb-1">
                         <Link to="." className="navbar-brand navbar-brand-autodark">
                             <img src={portLogo} height="36" alt="" />
-
                         </Link>
                     </div>
-                    <form className="card card-md" action="." method="get" autoComplete="off">
+                    <form className="card card-md" onSubmit={handleSubmit} autoComplete="off">
                         <div className="card-body">
                             <h2 className="card-title text-center mb-4">Login to your account</h2>
                             <div className="mb-3">
                                 <label className="form-label">Username</label>
-                                <input type="text" className="form-control" placeholder="Enter username" />
+                                <input type="text" className="form-control" name='username' value={username} onChange={handleUsernameChange} placeholder="Enter username" />
                             </div>
                             <div className="mb-2">
                                 <label className="form-label">
@@ -28,7 +52,7 @@ function Login() {
                                     </span>
                                 </label>
                                 <div className="input-group input-group-flat">
-                                    <input type="password" className="form-control" placeholder="Password" autoComplete="off" />
+                                    <input type="password" className="form-control" name='password' value={password} onChange={handlePasswordChange} placeholder="Password" autoComplete="off" />
                                     <span className="input-group-text">
                                         <Link to="#" className="link-secondary" title="Show password" data-bs-toggle="tooltip">
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/eye --> */}
