@@ -58,9 +58,23 @@ function LeaveApplications({ user }) {
 
   const getPageData = () => {
 
-    const filtered = leaveApplications.filter((e) =>
-      e.Description.toLowerCase().startsWith(searchQuery.toLowerCase())
-    );
+    let leaveApplicationsFiltered = [];
+
+    if (group === 'all') {
+      if (leaveStatus === 'all') {
+        leaveApplicationsFiltered = leaveApplications;
+      } else
+        leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
+    } else if (group === 'my') {
+      if (leaveStatus === 'all') {
+        leaveApplicationsFiltered = leaveApplications;
+      } else
+        leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
+    }
+
+    const filtered = leaveApplicationsFiltered.filter((e) =>
+      e.Description.toLowerCase().startsWith(searchQuery.toLowerCase()));
+
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const paginatedApplications = paginate(sorted, currentPage, pageSize);
     return { totalCount: filtered.length, data: paginatedApplications };
@@ -75,9 +89,13 @@ function LeaveApplications({ user }) {
           <div className="page-header d-print-none">
             <div className="row align-items-center">
               <div className="col">
-                <h2 className="page-title">
-                  Leave Applications
-                </h2>
+                <div className="card">
+                  <div className="card-body">
+                    <h4 className="page-title">
+                      Leave Applications
+                    </h4>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -88,7 +106,7 @@ function LeaveApplications({ user }) {
               <div className="d-none d-lg-block col-lg-3">
                 <ul className="nav nav-pills nav-vertical">
                   <li className="nav-item">
-                    <Link to="#all-leave-applications" className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'all' ? 'true' : 'false'}>
+                    <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'all' ? 'true' : 'false'}>
                       All Leave Applications
                       <span className="nav-link-toggle"></span>
                     </Link>
@@ -103,7 +121,6 @@ function LeaveApplications({ user }) {
                           Created Applications
                         </Link>
                       </li>
-                      {/* Application,"Pending Approval",Approved,Rejected,Taken,Cancelled */}
                       <li className="nav-item">
                         <Link to="#all-submitted-leave-applications" onClick={() => handleLeaveStatus('all', 'Pending Approval')} className={leaveStatus === 'Pending Approval' ? 'nav-link active' : 'nav-link'}>
                           Pending Applications
@@ -132,44 +149,44 @@ function LeaveApplications({ user }) {
                     </ul>
                   </li>
                   <li className="nav-item">
-                    <Link to="#menu-content" className="nav-link" data-bs-toggle="collapse" aria-expanded="true">
+                    <Link to="#menu-content" onClick={() => handleLeaveStatus('my', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'my' ? 'true' : 'false'}>
                       My Leave Applications
                       <span className="nav-link-toggle"></span>
                     </Link>
-                    <ul className="nav nav-pills collapse show" id="menu-content">
+                    <ul className={group === 'my' ? 'nav nav-pills collapse show' : 'nav nav-pills collapse'} id="menu-content">
                       <li className="nav-item">
-                        <Link to="../docs/getting-started.html" className="nav-link active">
+                        <Link to="#my-created-leave-applications" onClick={() => handleLeaveStatus('my', 'all')} className="nav-link">
+                          All My Applications
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link to="#my-created-leave-applications" onClick={() => handleLeaveStatus('my', 'Application')} className="nav-link">
                           Created Applications
                         </Link>
                       </li>
                       {/* Application,"Pending Approval",Approved,Rejected,Taken,Cancelled */}
                       <li className="nav-item">
-                        <Link to="../docs/download.html" className="nav-link">
-                          Submitted Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="../docs/browser-support.html" className="nav-link">
+                        <Link to="#my-pending-leave-applications" onClick={() => handleLeaveStatus('my', 'Pending Approval')} className="nav-link">
                           Pending Applications
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <Link to="../docs/browser-support.html" className="nav-link">
+                        <Link to="#my-approved-leave-applications" onClick={() => handleLeaveStatus('my', 'Approved')} className="nav-link">
                           Approved Applications
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <Link to="../docs/browser-support.html" className="nav-link">
+                        <Link to="#my-rejected-leave-applications" onClick={() => handleLeaveStatus('my', 'Rejected')} className="nav-link">
                           Rejected Applications
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <Link to="../docs/browser-support.html" className="nav-link">
+                        <Link to="#my-taken-leave-applications" onClick={() => handleLeaveStatus('my', 'Taken')} className="nav-link">
                           Taken Applications
                         </Link>
                       </li>
                       <li className="nav-item">
-                        <Link to="../docs/browser-support.html" className="nav-link">
+                        <Link to="#my-cancelled-leave-applications" onClick={() => handleLeaveStatus('my', 'Cancelled')} className="nav-link">
                           Cancelled Applications
                         </Link>
                       </li>
@@ -180,7 +197,7 @@ function LeaveApplications({ user }) {
               <div className="col-lg-9">
                 <div className="card card-lg">
                   <div className="card-header">
-                    <h3 className="card-title">{`${group.charAt(0).toUpperCase() + group.slice(1)} ${leaveStatus === 'all' ? '': leaveStatus} Leave Applications`}</h3>
+                    <h3 className="card-title">{`${group.charAt(0).toUpperCase() + group.slice(1)} ${leaveStatus === 'all' ? '' : leaveStatus} Leave Applications`}</h3>
                   </div>
                   <div className="card-body border-bottom py-3">
                     <div className="d-flex">
