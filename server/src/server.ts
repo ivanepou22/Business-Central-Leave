@@ -2,13 +2,13 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import routes from './routes';
+const cors = require('cors');
 
 dotenv.config();
 const app: express.Application = express();
-const PORT = process.env.PORT;
-const address: string = `127.0.0.1:${PORT}`;
 
-app.use(bodyParser.json());
+// Use the cors middleware
+app.use(cors());
 
 app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -16,6 +16,11 @@ app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
+const PORT = process.env.PORT;
+const address: string = `127.0.0.1:${PORT}`;
+
+app.use(bodyParser.json());
 
 app.get('/', function (_req: Request, res: Response) {
   res.send('Hello Business Central');
