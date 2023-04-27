@@ -17,8 +17,8 @@ function Login() {
                         <div className="card-body">
                             <h2 className="card-title text-center mb-4">Login to your account</h2>
                             <div className="mb-3">
-                                <label className="form-label">Email address</label>
-                                <input type="email" className="form-control" placeholder="Enter email" />
+                                <label className="form-label">Username</label>
+                                <input type="text" className="form-control" placeholder="Enter username" />
                             </div>
                             <div className="mb-2">
                                 <label className="form-label">

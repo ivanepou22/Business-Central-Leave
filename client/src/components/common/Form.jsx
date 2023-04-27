@@ -27,7 +27,7 @@ const Form = ({ schema, doSubmit }) => {
     return error ? error.details[0].message : null;
   }
 
-  //handlesubmit
+  //handleSubmit
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validate();
