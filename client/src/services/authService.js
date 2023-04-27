@@ -3,7 +3,7 @@ import http from './httpServices';
 // import config from '../config.json';
 
 // const apiEndpoint = config.apiUrl + '/auth';
-const apiEndpoint = '/auth';
+const apiEndpoint = '/users/login';
 const tokenKey = 'token';
 
 http.setJwt(getJwt());

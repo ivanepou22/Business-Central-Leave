@@ -23,7 +23,6 @@ function Login() {
         // perform login here with username and password
         try {
             await auth.login(username, password);
-
         } catch (ex) {
             toast.error(ex);
         }
