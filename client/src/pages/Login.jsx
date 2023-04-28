@@ -23,11 +23,14 @@ function Login() {
         // perform login here with username and password
         try {
             await auth.login(username, password);
+            auth.getCurrentUser();
         } catch (ex) {
             toast.error(ex);
         }
     }
-    if (auth.getCurrentUser()) return <Navigate to="/home" />;
+    const user = auth.getCurrentUser(); // Check if user is logged in
+    if (user) return <Navigate to="/home" />; // If user is logged in, redirect to home page
+
     return (
             <div className="page page-center">
                 <div className="container-tight py-1">

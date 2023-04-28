@@ -25,7 +25,6 @@ function Main() {
 
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
-    console.log(leaveAppWHistory)
     return (
         <div>
             <div className="page-wrapper">

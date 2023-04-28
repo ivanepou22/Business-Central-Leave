@@ -8,8 +8,9 @@ import Pagination from './../components/common/Pagination';
 import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
+import auth from '../services/authService';
 
-function LeaveApplications({ user }) {
+function LeaveApplications() {
   const [leaveApplications, setLeaveApplications] = useState([]);
   const [leaveStatus, setLeaveStatus] = useState('all');
   const [group, setGroup] = useState('all');
@@ -17,13 +18,16 @@ function LeaveApplications({ user }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    setUser(currentUser);
+
     async function fetchApplications() {
       const { data } = await getLeaveApplications();
       setLeaveApplications(data.value);
     }
-
     fetchApplications();
   }, []);
 
@@ -67,9 +71,9 @@ function LeaveApplications({ user }) {
         leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
     } else if (group === 'my') {
       if (leaveStatus === 'all') {
-        leaveApplicationsFiltered = leaveApplications;
+        leaveApplicationsFiltered = leaveApplications.filter((a) => a.Employee_No === user.employee_no);
       } else
-        leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
+        leaveApplicationsFiltered = leaveApplications.filter((a) => (a.Employee_No === user.employee_no) && (a.Leave_Status === leaveStatus));
     }
 
     const filtered = leaveApplicationsFiltered.filter((e) =>

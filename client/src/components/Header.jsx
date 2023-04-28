@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import portLogo from '../assets/images/logo-bg.png';
+import auth from '../services/authService';
 
 function Header() {
-    const [dropdown, setDropdown] = useState(false);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const currentUser = auth.getCurrentUser();
+        setUser(currentUser);
+    }, []);
+
     const [profileDrop, setProfileDrop] = useState(false);
     const [notificationDrop, setNotificationDrop] = useState(false);
 
@@ -127,14 +134,14 @@ function Header() {
                             <div onClick={() => setProfileDrop(false)} className={`dropdown-menu dropdown-menu-end dropdown-menu-arrow${profileDrop ? ' show' : ''}`} data-bs-popper="none">
                                 <Link to="#" className="dropdown-item">
                                     <div className="d-none d-xl-block ps-2">
-                                        <div>Paweł Kuna</div>
-                                        <div className="mt-1 small text-muted">Software Engineer</div>
+                                        <div>{`${user?.first_name?.charAt(0).toUpperCase() + user?.first_name.slice(1)} ${user?.last_name.charAt(0).toUpperCase() + user?.last_name.slice(1)}`}</div>
+                                        <div className="mt-1 small text-muted">{user?.email}</div>
                                     </div>
                                 </Link>
                                 <div className="dropdown-divider"></div>
                                 <Link to="#" className="dropdown-item">Profile & account</Link>
                                 <Link to="#" className="dropdown-item">Settings</Link>
-                                <Link to="#" className="dropdown-item">Logout</Link>
+                                <Link to="/logout" className="dropdown-item">Logout</Link>
                             </div>
                         </div>
                     </div>
