@@ -26,7 +26,9 @@ export function getCurrentUser() {
         const user = jwtDecode(token);
         return user;
     }
-    catch (ex) { }
+    catch (ex) {
+        console.log(ex)
+    }
 }
 
 export function loginWithJwt(jwt) {
