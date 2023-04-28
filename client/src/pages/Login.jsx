@@ -9,6 +9,7 @@ import { Navigate } from 'react-router-dom';
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [user, setUser] = useState(null);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -23,12 +24,12 @@ function Login() {
         // perform login here with username and password
         try {
             await auth.login(username, password);
-            auth.getCurrentUser();
+            setUser(auth.getCurrentUser());
         } catch (ex) {
             toast.error(ex);
         }
     }
-    const user = auth.getCurrentUser(); // Check if user is logged in
+
     if (user) return <Navigate to="/home" />; // If user is logged in, redirect to home page
 
     return (
