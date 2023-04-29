@@ -39,7 +39,7 @@ function LeaveApplications() {
   const handleDelete = async (application) => {
     const originalApplications = [...leaveApplications];
     const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
-    setEmployees(updatedApplications);
+    setLeaveApplications(updatedApplications);
   };
 
   const handlePageChange = (pageNumber) => {

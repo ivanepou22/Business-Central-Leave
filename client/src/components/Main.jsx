@@ -2,15 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { getEmployees } from '../services/employeeService';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import _ from 'lodash';
+import { paginate } from '../utils/paginate';
 import auth from '../services/authService';
 import { getLeaveApplications } from '../services/leaveApplicationService';
 import Footer from './Footer';
 import { getUsers } from '../services/userService';
+import SearchBar from './common/SearchBar';
+import LeaveTable from './LeaveTable';
+import Pagination from './common/Pagination';
 
 function Main() {
     const [users, setUsers] = useState([]);
     const [employees, setEmployees] = useState([]);
     const [leaveApplications, setLeaveApplications] = useState([]);
+    const [sortColumn, setSortColumn] = useState({ path: 'Entry_No', order: 'asc' });
+    const [searchQuery, setSearchQuery] = useState('');
+    const [pageSize, setPageSize] = useState(5);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         async function fetchData() {
@@ -26,29 +35,62 @@ function Main() {
     }, []);
 
     const user = auth.getCurrentUser();
-    if(!user) return <Navigate to={'/'} />
+    if (!user) return <Navigate to={'/'} />
 
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => (app.Leave_Status != 'History'));
 
     //filter to the user
-    const myLeaveApplication = leaveAppWHistory.filter((app) => (app.Employee_No === user.employee_no))
-    //Application,"Pending Approval",Approved,Rejected,Taken,Cancelled
-    const myCreatedApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Application')?.length;
-    const myPendingApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Pending Approval')?.length;
-    const myApprovedApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Approved')?.length;
-    const myRejectedCancelledApplications = myLeaveApplication.filter((app) => (app.Leave_Status === 'Rejected') || (app.Leave_Status === 'Cancelled')).length;
-    const myTaken = myLeaveApplication.filter((app) => (app.Leave_Status === 'Taken')).length;
+    const myLeaveApplications = leaveAppWHistory.filter((app) => (app.Employee_No === user.employee_no))
+
+    const myCreatedApplications = myLeaveApplications.filter((app) => app.Leave_Status === 'Application')?.length;
+    const myPendingApplications = myLeaveApplications.filter((app) => app.Leave_Status === 'Pending Approval')?.length;
+    const myApprovedApplications = myLeaveApplications.filter((app) => app.Leave_Status === 'Approved')?.length;
+    const myRejectedCancelledApplications = myLeaveApplications.filter((app) => (app.Leave_Status === 'Rejected') || (app.Leave_Status === 'Cancelled')).length;
+    const myTaken = myLeaveApplications.filter((app) => (app.Leave_Status === 'Taken')).length;
 
     const total = (myCreatedApplications + myPendingApplications + myApprovedApplications + myRejectedCancelledApplications + myTaken)
 
-    const myCreatedApplicationsPercent = (myCreatedApplications/total)*100;
-    const myPendingApplicationsPercent = (myPendingApplications/total)*100;
-    const myApprovedApplicationsPercent = (myApprovedApplications/total)*100;
-    const myRejectedCancelledApplicationsPercent = (myRejectedCancelledApplications/total)*100;
-    const myTakenPercent = (myTaken/total)*100;
+    const myCreatedApplicationsPercent = (myCreatedApplications / total) * 100;
+    const myPendingApplicationsPercent = (myPendingApplications / total) * 100;
+    const myApprovedApplicationsPercent = (myApprovedApplications / total) * 100;
+    const myRejectedCancelledApplicationsPercent = (myRejectedCancelledApplications / total) * 100;
 
-    console.log(total)
+    const handleDelete = async (application) => {
+        const originalApplications = [...myLeaveApplications];
+        const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
+        setLeaveApplications(updatedApplications);
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handleSort = (sortColumn) => {
+        setSortColumn(sortColumn);
+    };
+
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        setCurrentPage(1);
+    };
+
+    const handleRowNumber = (value) => {
+        const pageSize = parseInt(value);
+        setPageSize(pageSize);
+    };
+
+    const getPageData = () => {
+
+        const filtered = myLeaveApplications.filter((e) =>
+            e.Description.toLowerCase().startsWith(searchQuery.toLowerCase()));
+
+        const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+        const paginatedApplications = paginate(sorted, currentPage, pageSize);
+        return { totalCount: filtered.length, data: paginatedApplications };
+    };
+
+    const { totalCount, data: paginatedApplications } = getPageData();
 
     return (
         <div>
@@ -93,7 +135,7 @@ function Main() {
                 <div className="page-body">
                     <div className="container-xl">
                         <div className="row row-deck row-cards">
-                            <div className="col-sm-6 col-lg-3">
+                            <div className="col-sm-6 col-lg-4">
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
@@ -111,7 +153,7 @@ function Main() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-6 col-lg-3">
+                            <div className="col-sm-6 col-lg-4">
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
@@ -129,7 +171,7 @@ function Main() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-6 col-lg-3">
+                            <div className="col-sm-6 col-lg-4">
                                 <div className="card">
                                     <div className="card-body">
                                         <div className="d-flex align-items-center">
@@ -147,30 +189,12 @@ function Main() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-sm-6 col-lg-3">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="subheader">My Leave Applications</div>
-                                        </div>
-                                        <div className="h1 mb-3">{myLeaveApplication?.length.toFixed(2)}</div>
-                                        <div className="d-flex mb-2">
-                                            <div>My Leave Applications</div>
-                                        </div>
-                                        <div className="progress progress-sm">
-                                            <div className="progress-bar bg-cyan" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <span className="visually-hidden">My Leave Applications</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div className="col-lg-12">
                                 <div className="row row-cards">
                                     <div className="col-12">
                                         <div className="card">
                                             <div className="card-body">
-                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplication?.length.toFixed(2)} Applications </strong></p>
+                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplications?.length.toFixed(2)} Applications </strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +218,7 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                        Not Submitted
+                                                            Not Submitted
                                                         </div>
                                                         <div className="text-muted">
                                                             {myCreatedApplications?.toFixed(2)} Applications
@@ -322,7 +346,7 @@ function Main() {
                                     <div className="col-12">
                                         <div className="card">
                                             <div className="card-body">
-                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplication?.length.toFixed(2)} Applications </strong></p>
+                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplications?.length.toFixed(2)} Applications </strong></p>
                                                 <div className="progress progress-separated mb-3">
                                                     <div className="progress-bar bg-primary" role="progressbar" style={{ width: `${myCreatedApplicationsPercent}%` }}></div>
                                                     <div className="progress-bar bg-info" role="progressbar" style={{ width: `${myPendingApplicationsPercent}%` }}></div>
@@ -372,244 +396,47 @@ function Main() {
                                             <div className="text-muted">
                                                 Show
                                                 <div className="mx-2 d-inline-block">
-                                                    <input type="text" className="form-control form-control-sm" defaultValue="8" size="3" aria-label="Invoices count" />
+                                                    <select className="form-select" aria-label=".form-select-lg example" name="rowNumber" onChange={(e) => handleRowNumber(e.target.value)}>
+                                                        <option value="5">5</option>
+                                                        <option value="10">10</option>
+                                                        <option value="15">15</option>
+                                                        <option value="20">20</option>
+                                                        <option value="25">25</option>
+                                                        <option value="30">30</option>
+                                                        <option value="35">35</option>
+                                                        <option value="40">40</option>
+                                                        <option value="45">45</option>
+                                                        <option value="50">50</option>
+                                                    </select>
                                                 </div>
                                                 entries
                                             </div>
-                                            <div className="ms-auto text-muted">
-                                                Search:
-                                                <div className="ms-2 d-inline-block">
-                                                    <input type="text" className="form-control form-control-sm" aria-label="Search invoice" />
-                                                </div>
-                                            </div>
+                                            <SearchBar
+                                                value={searchQuery}
+                                                type='text'
+                                                label={'Search'}
+                                                name={'searchQuery'}
+                                                onChange={(e) => handleSearch(e.target.value)}
+                                            />
                                         </div>
                                     </div>
                                     <div className="table-responsive">
-                                        <table className="table card-table table-vcenter text-nowrap datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th className="w-1"><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices" /></th>
-                                                    <th className="w-1">No.</th>
-                                                    <th>Entry_No</th>
-                                                    <th>Employee_No</th>
-                                                    <th>Substitute_Employee</th>
-                                                    <th>Leave_Type</th>
-                                                    <th>Description</th>
-                                                    <th>Leave_Status</th>
-                                                    <th>Requested_From_Date</th>
-                                                    <th>Requested_To_Date</th>
-                                                    <th>Days_to_be_Taken</th>
-                                                    <th>Leave_Days_Available</th>
-                                                    <th>Leave_Balance</th>
-                                                    <th>Leave_Entitlement</th>
-                                                    <th>From_Date</th>
-                                                    <th>To_Date</th>
-                                                    <th>Approved_From_Date</th>
-                                                    <th>Approved_To_Date</th>
-                                                    <th>Approved_Leave_Days</th>
-                                                    <th>Actual_Leave_Days</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    leaveApplications?.map((leave, index) => (
-                                                        <tr key={leave.Entry_No}>
-                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(leave)} /></td>
-                                                            <td><span className="text-muted">{index}</span></td>
-                                                            <td><Link to="#" className="text-reset" tabIndex="-1">{leave.Entry_No}</Link></td>
-                                                            <td>
-                                                                {leave.Employee_No}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Substitute_Employee}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Leave_Type}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Description}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Leave_Status}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Requested_From_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Requested_To_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Days_to_be_Taken.toFixed(2)}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Leave_Days_Available.toFixed(2)}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Leave_Balance.toFixed(2)}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Leave_Entitlement.toFixed(2)}
-                                                            </td>
-                                                            <td>
-                                                                {leave.From_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.To_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Approved_From_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Approved_To_Date}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Approved_Leave_Days2.toFixed(2)}
-                                                            </td>
-                                                            <td>
-                                                                {leave.Actual_Leave_Days.toFixed(2)}
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </table>
+                                        <LeaveTable
+                                            leaveApplications={paginatedApplications}
+                                            onDelete={handleDelete}
+                                            onSort={handleSort}
+                                            sortColumn={sortColumn}
+                                            user={user}
+                                        />
                                     </div>
-                                    <div className="card-footer d-flex align-items-center">
-                                        <p className="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
-                                        <ul className="pagination m-0 ms-auto">
-                                            <li className="page-item disabled">
-                                                <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">
-                                                    {/* {/* Download SVG icon from http://tabler-icons.io/i/chevron-left */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="15 6 9 12 15 18" /></svg>
-                                                    prev
-                                                </Link>
-                                            </li>
-                                            <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                            <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">4</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">5</Link></li>
-                                            <li className="page-item">
-                                                <Link className="page-link" to="#">
-                                                    {/* next {/* Download SVG icon from http://tabler-icons.io/i/chevron-right */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="9 6 15 12 9 18" /></svg>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <Pagination
+                                        itemsCount={totalCount}
+                                        pageSize={pageSize}
+                                        onPageChange={handlePageChange}
+                                        currentPage={currentPage}
+                                    />
                                 </div>
                             </div>
-
-                            <div className="col-12">
-                                <div className="card">
-                                    <div className="card-header">
-                                        <h3 className="card-title">Employee List</h3>
-                                    </div>
-                                    <div className="card-body border-bottom py-3">
-                                        <div className="d-flex">
-                                            <div className="text-muted">
-                                                Show
-                                                <div className="mx-2 d-inline-block">
-                                                    <input type="text" className="form-control form-control-sm" defaultValue="8" size="3" aria-label="Invoices count" />
-                                                </div>
-                                                entries
-                                            </div>
-                                            <div className="ms-auto text-muted">
-                                                Search:
-                                                <div className="ms-2 d-inline-block">
-                                                    <input type="text" className="form-control form-control-sm" aria-label="Search invoice" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="table-responsive">
-                                        <table className="table card-table table-vcenter text-nowrap datatable">
-                                            <thead>
-                                                <tr>
-                                                    <th className="w-1"><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select all invoices" /></th>
-                                                    <th className="w-1">No.</th>
-                                                    <th>Name</th>
-                                                    <th>Gender</th>
-                                                    <th>Title</th>
-                                                    <th>Status</th>
-                                                    <th>Annual_Leave</th>
-                                                    <th>Maternity_Leave</th>
-                                                    <th>Paternity_Leave</th>
-                                                    <th>Sick_Leave</th>
-                                                    <th>Study_Leave</th>
-                                                    <th>Compassionate_Leave</th>
-                                                    <th>Leave_Without_Pay</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    employees?.map((employee) => (
-                                                        <tr key={employee.No}>
-                                                            <td><input className="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice" onClick={() => console.log(employee)} /></td>
-                                                            <td><span className="text-muted">{employee.No}</span></td>
-                                                            <td><Link to="#" className="text-reset" tabIndex="-1">{employee.Full_Name}</Link></td>
-                                                            <td>
-                                                                {employee.Gender}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Job_Title}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Status}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Annual_Leave_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Maternity_Leave_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Paternity_Leave_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Sick_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Study_Leave_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Compasionate_Leave_Days_Available}
-                                                            </td>
-                                                            <td>
-                                                                {employee.Leave_Without_Pay_Days_Available}
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="card-footer d-flex align-items-center">
-                                        <p className="m-0 text-muted">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
-                                        <ul className="pagination m-0 ms-auto">
-                                            <li className="page-item disabled">
-                                                <Link className="page-link" to="#" tabIndex="-1" aria-disabled="true">
-                                                    {/* {/* Download SVG icon from http://tabler-icons.io/i/chevron-left */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="15 6 9 12 15 18" /></svg>
-                                                    prev
-                                                </Link>
-                                            </li>
-                                            <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                            <li className="page-item active"><Link className="page-link" to="#">2</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">4</Link></li>
-                                            <li className="page-item"><Link className="page-link" to="#">5</Link></li>
-                                            <li className="page-item">
-                                                <Link className="page-link" to="#">
-                                                    {/* next {/* Download SVG icon from http://tabler-icons.io/i/chevron-right */}
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><polyline points="9 6 15 12 9 18" /></svg>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
