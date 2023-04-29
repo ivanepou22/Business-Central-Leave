@@ -13,18 +13,13 @@ import Employees from './pages/Employees';
 import Users from './pages/Users';
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const currentUser = auth.getCurrentUser();
-    setUser(currentUser);
-  }, []);
+const user = auth.getCurrentUser();
 
   return (
     <div className="app app-login p-0">
       <React.Fragment>
-        <BrowserRouter>
         <ToastContainer />
+        <BrowserRouter>
           <Routes>
             <Route path="/register" element={<Register/>} />
             <Route path='/leave-applications' element={<LeaveApplications/>} user={user} />

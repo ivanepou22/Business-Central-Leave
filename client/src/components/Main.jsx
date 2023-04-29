@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { getEmployees } from '../services/employeeService';
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import auth from '../services/authService';
 import { getLeaveApplications } from '../services/leaveApplicationService';
 import Footer from './Footer';
 import { getUsers } from '../services/userService';
@@ -23,8 +25,13 @@ function Main() {
         fetchData();
     }, []);
 
+    const user = auth.getCurrentUser();
+    if(!user) return <Navigate to={'/'} />
+
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
+
+    //
     return (
         <div>
             <div className="page-wrapper">
