@@ -29,9 +29,27 @@ function Main() {
     if(!user) return <Navigate to={'/'} />
 
     //leave applications without history
-    const leaveAppWHistory = leaveApplications.filter((app) => app.Leave_Status != 'History');
+    const leaveAppWHistory = leaveApplications.filter((app) => (app.Leave_Status != 'History'));
 
-    //
+    //filter to the user
+    const myLeaveApplication = leaveAppWHistory.filter((app) => (app.Employee_No === user.employee_no))
+    //Application,"Pending Approval",Approved,Rejected,Taken,Cancelled
+    const myCreatedApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Application')?.length;
+    const myPendingApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Pending Approval')?.length;
+    const myApprovedApplications = myLeaveApplication.filter((app) => app.Leave_Status === 'Approved')?.length;
+    const myRejectedCancelledApplications = myLeaveApplication.filter((app) => (app.Leave_Status === 'Rejected') || (app.Leave_Status === 'Cancelled')).length;
+    const myTaken = myLeaveApplication.filter((app) => (app.Leave_Status === 'Taken')).length;
+
+    const total = (myCreatedApplications + myPendingApplications + myApprovedApplications + myRejectedCancelledApplications + myTaken)
+
+    const myCreatedApplicationsPercent = (myCreatedApplications/total)*100;
+    const myPendingApplicationsPercent = (myPendingApplications/total)*100;
+    const myApprovedApplicationsPercent = (myApprovedApplications/total)*100;
+    const myRejectedCancelledApplicationsPercent = (myRejectedCancelledApplications/total)*100;
+    const myTakenPercent = (myTaken/total)*100;
+
+    console.log(total)
+
     return (
         <div>
             <div className="page-wrapper">
@@ -135,7 +153,7 @@ function Main() {
                                         <div className="d-flex align-items-center">
                                             <div className="subheader">My Leave Applications</div>
                                         </div>
-                                        <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
+                                        <div className="h1 mb-3">{myLeaveApplication?.length.toFixed(2)}</div>
                                         <div className="d-flex mb-2">
                                             <div>My Leave Applications</div>
                                         </div>
@@ -152,7 +170,7 @@ function Main() {
                                     <div className="col-12">
                                         <div className="card">
                                             <div className="card-body">
-                                                <p className="mb-3">My Leave Applications:  <strong>{leaveAppWHistory?.length.toFixed(2)} Applications </strong></p>
+                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplication?.length.toFixed(2)} Applications </strong></p>
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +178,7 @@ function Main() {
                             </div>
                             <div className="col-12">
                                 <div className="row row-cards">
-                                    <div className="col-sm-6 col-lg-3">
+                                    <div className="col-sm-6 col-lg-2">
                                         <div className="card card-sm">
                                             <div className="card-body">
                                                 <div className="row align-items-center">
@@ -176,17 +194,17 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            132 Created
+                                                        Not Submitted
                                                         </div>
                                                         <div className="text-muted">
-                                                            12 Not Submitted
+                                                            {myCreatedApplications?.toFixed(2)} Applications
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-sm-6 col-lg-3">
+                                    <div className="col-sm-6 col-lg-2">
                                         <div className="card card-sm">
                                             <div className="card-body">
                                                 <div className="row align-items-center">
@@ -203,10 +221,10 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            78 Approved
+                                                            Approved
                                                         </div>
                                                         <div className="text-muted">
-                                                            32 Approved Applications
+                                                            {myApprovedApplications?.toFixed(2)} Applications
                                                         </div>
                                                     </div>
                                                 </div>
@@ -231,17 +249,17 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            623 Pending Approval
+                                                            Pending Approval
                                                         </div>
                                                         <div className="text-muted">
-                                                            16 Pending Applications.
+                                                            {myPendingApplications?.toFixed(2)} Applications.
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-sm-6 col-lg-3">
+                                    <div className="col-sm-6 col-lg-2">
                                         <div className="card card-sm">
                                             <div className="card-body">
                                                 <div className="row align-items-center">
@@ -259,10 +277,38 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            132 Taken
+                                                            Taken
                                                         </div>
                                                         <div className="text-muted">
-                                                            21 Taken
+                                                            {myTaken?.toFixed(2)} Applications
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6 col-lg-3">
+                                        <div className="card card-sm">
+                                            <div className="card-body">
+                                                <div className="row align-items-center">
+                                                    <div className="col-auto">
+                                                        <span className="bg-twitter text-white avatar">{/* Download SVG icon from http://tabler-icons.io/i/brand-twitter */}
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-grid-pattern" width={24} height={24} viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                                                <path d="M10 8v8"></path>
+                                                                <path d="M14 8v8"></path>
+                                                                <path d="M8 10h8"></path>
+                                                                <path d="M8 14h8"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </div>
+                                                    <div className="col">
+                                                        <div className="font-weight-medium">
+                                                            Cancelled/Rejected
+                                                        </div>
+                                                        <div className="text-muted">
+                                                            {myRejectedCancelledApplications?.toFixed(2)} Applications.
                                                         </div>
                                                     </div>
                                                 </div>
@@ -276,38 +322,38 @@ function Main() {
                                     <div className="col-12">
                                         <div className="card">
                                             <div className="card-body">
-                                                <p className="mb-3">Leave Applications:  <strong>{leaveAppWHistory?.length.toFixed(2)} Applications </strong></p>
+                                                <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplication?.length.toFixed(2)} Applications </strong></p>
                                                 <div className="progress progress-separated mb-3">
-                                                    <div className="progress-bar bg-primary" role="progressbar" style={{ width: '34%' }}></div>
-                                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: '20%' }}></div>
-                                                    <div className="progress-bar bg-red" role="progressbar" style={{ width: '18%' }}></div>
-                                                    <div className="progress-bar bg-success" role="progressbar" style={{ width: '9%' }}></div>
+                                                    <div className="progress-bar bg-primary" role="progressbar" style={{ width: `${myCreatedApplicationsPercent}%` }}></div>
+                                                    <div className="progress-bar bg-info" role="progressbar" style={{ width: `${myPendingApplicationsPercent}%` }}></div>
+                                                    <div className="progress-bar bg-red" role="progressbar" style={{ width: `${myRejectedCancelledApplicationsPercent}%` }}></div>
+                                                    <div className="progress-bar bg-success" role="progressbar" style={{ width: `${myApprovedApplicationsPercent}%` }}></div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-auto d-flex align-items-center pe-2">
                                                         <span className="legend me-2 bg-primary"></span>
                                                         <span>Created</span>
-                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">915MB</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myCreatedApplications.toFixed(2)} Apps`}</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
                                                         <span className="legend me-2 bg-info"></span>
                                                         <span>Pending Approval</span>
-                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">415MB</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myPendingApplications.toFixed(2)} Apps`}</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
                                                         <span className="legend me-2 bg-red"></span>
                                                         <span>Cancelled/Rejected</span>
-                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">201MB</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myRejectedCancelledApplications.toFixed(2)} Apps`}</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center px-2">
                                                         <span className="legend me-2 bg-success"></span>
                                                         <span>Approved</span>
-                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">201MB</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myApprovedApplications.toFixed(2)} Apps`}</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center ps-2">
                                                         <span className="legend me-2"></span>
                                                         <span>Taken</span>
-                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">612MB</span>
+                                                        <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myTaken.toFixed(2)} Apps`}</span>
                                                     </div>
                                                 </div>
                                             </div>
