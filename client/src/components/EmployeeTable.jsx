@@ -20,8 +20,8 @@ function EmployeeTable({ employees, onSort, sortColumn, onDelete }) {
 
     return (
         employees.length !== 0 ?
-        <Table columns={columns} data={employees} sortColumn={sortColumn} onSort={onSort} /> :
-        <div className='table-empty text-muted'>Table is empty, try again.</div>
+            <Table columns={columns} data={employees} sortColumn={sortColumn} onSort={onSort} /> :
+            <div className='table-empty text-muted'>Table is empty, try again.</div>
     )
 }
 
