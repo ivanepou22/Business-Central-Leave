@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import authService from '../services/authService';
 import Table from './common/Table';
 
@@ -16,17 +17,26 @@ function UserTable({ users, onSort, sortColumn, onDelete }) {
 
     const user = authService.getCurrentUser();
     if (user && user.role === 'admin') {
+
         columns.push({
-            key: 'delete',
+            key: 'Edit',
             content: user => (
-                <button
-                    onClick={() => onDelete(user)}
-                    className='btn btn-danger btn-sm'
-                >
-                    Delete
-                </button>
-            )
-        });
+                <Link to="#" class="btn">Edit</Link>
+                )
+            });
+
+            columns.push({
+                key: 'delete',
+                content: user => (
+                    <Link
+                        to={'#'}
+                        onClick={() => onDelete(user)}
+                        className='btn btn-danger btn-sm'
+                    >
+                        Delete
+                    </Link>
+                )
+            });
     }
 
     return (
