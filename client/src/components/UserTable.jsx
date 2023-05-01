@@ -30,7 +30,9 @@ function UserTable({ users, onSort, sortColumn, onDelete }) {
     }
 
     return (
-        <Table columns={columns} data={users} sortColumn={sortColumn} onSort={onSort} />
+        users.length !== 0 ?
+            <Table columns={columns} data={users} sortColumn={sortColumn} onSort={onSort} /> :
+            <div className='table-empty text-muted'>Table is empty, try again.</div>
     )
 }
 

@@ -19,7 +19,9 @@ function EmployeeTable({ employees, onSort, sortColumn, onDelete }) {
     ];
 
     return (
-        <Table columns={columns} data={employees} sortColumn={sortColumn} onSort={onSort} />
+        employees.length !== 0 ?
+        <Table columns={columns} data={employees} sortColumn={sortColumn} onSort={onSort} /> :
+        <div className='table-empty text-muted'>Table is empty, try again.</div>
     )
 }
 
