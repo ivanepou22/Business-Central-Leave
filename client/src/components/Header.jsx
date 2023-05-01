@@ -5,14 +5,15 @@ import auth from '../services/authService';
 
 function Header() {
     const [user, setUser] = useState(null);
+    const [profileDrop, setProfileDrop] = useState(false);
+    const [notificationDrop, setNotificationDrop] = useState(false);
+    const [navMenuActive, setNavMenuActive] = useState('home');
 
     useEffect(() => {
         const currentUser = auth.getCurrentUser();
         setUser(currentUser);
     }, []);
 
-    const [profileDrop, setProfileDrop] = useState(false);
-    const [notificationDrop, setNotificationDrop] = useState(false);
 
     return (
         <div>
