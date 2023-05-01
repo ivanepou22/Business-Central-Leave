@@ -21,7 +21,7 @@ function UserTable({ users, onSort, sortColumn, onDelete }) {
         columns.push({
             key: 'Edit',
             content: user => (
-                <Link to="#" class="btn">Edit</Link>
+                <Link to="#" className="btn">Edit</Link>
                 )
             });
 
