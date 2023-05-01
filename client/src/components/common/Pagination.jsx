@@ -3,7 +3,7 @@ import _ from 'lodash';
 import propTypes from 'prop-types';
 
 function Pagination(props) {
-    const { itemsCount, pageSize, currentPage, onPageChange } = props;
+    let { itemsCount, pageSize, currentPage, onPageChange } = props;
     const pageCount = Math.ceil(itemsCount / pageSize);
     if (pageCount === 1) return null;
 
@@ -21,11 +21,23 @@ function Pagination(props) {
         if (currentPage === pageCount) return;
         onPageChange(currentPage + 1);
     }
+    let toRange = pageSize * currentPage;
 
+    if (currentPage === pageCount)
+    {
+        if (itemsCount%pageSize !== 0) {
+            toRange = Math.floor(itemsCount/pageSize)*pageSize + (itemsCount%pageSize);
+            pageSize = itemsCount%pageSize;
+        }
+    }
+
+    let fromRange = toRange-pageSize + 1;
+    console.log(toRange);
+    console.log(fromRange);
     return (
         <>
             <div className="card-footer d-flex align-items-center">
-                <p className="m-0 text-muted">Page <span>{currentPage}</span> of <span>{itemsCount}</span> entries</p>
+                <p className="m-0 text-muted"><span>{`${fromRange}-${toRange}`}</span> of <span>{itemsCount}</span> entries</p>
                 <ul className="pagination m-0 ms-auto">
                     <li className="page-item">
                         <a className="page-link" onClick={handlePrevious}>
