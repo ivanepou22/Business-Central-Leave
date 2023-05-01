@@ -1,3 +1,12 @@
 .clickable {
   cursor: pointer;
 }
+
+.table-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  padding: 1em;
+  font-style: italic !important;
+}

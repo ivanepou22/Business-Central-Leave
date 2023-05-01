@@ -24,7 +24,10 @@ function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete }) {
     { pk: 'Entry_No' }
   ];
   return (
-    <Table columns={columns} data={leaveApplications} sortColumn={sortColumn} onSort={onSort} />
+      leaveApplications.length !== 0 ? (
+      <Table columns={columns} data={leaveApplications} sortColumn={sortColumn} onSort={onSort} />) : (
+        <div className='table-empty text-muted'>Table is empty, try again.</div>
+      )
   )
 }
 

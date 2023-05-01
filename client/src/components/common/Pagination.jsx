@@ -23,17 +23,19 @@ function Pagination(props) {
     }
     let toRange = pageSize * currentPage;
 
-    if (currentPage === pageCount)
-    {
-        if (itemsCount%pageSize !== 0) {
-            toRange = Math.floor(itemsCount/pageSize)*pageSize + (itemsCount%pageSize);
-            pageSize = itemsCount%pageSize;
+    if (currentPage === pageCount) {
+        if (itemsCount % pageSize !== 0) {
+            toRange = Math.floor(itemsCount / pageSize) * pageSize + (itemsCount % pageSize);
+            pageSize = itemsCount % pageSize;
         }
     }
+    let fromRange = toRange - pageSize + 1;
 
-    let fromRange = toRange-pageSize + 1;
-    console.log(toRange);
-    console.log(fromRange);
+    if(itemsCount === 0) {
+        fromRange = 0;
+        toRange = 0;
+    }
+
     return (
         <>
             <div className="card-footer d-flex align-items-center">

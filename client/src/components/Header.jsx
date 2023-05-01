@@ -97,7 +97,7 @@ function Header() {
                     <div className="collapse navbar-collapse" id="navbar-menu">
                         <div className="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                             <ul className="navbar-nav">
-                                <li className="nav-item">
+                                <li className="nav-item active">
                                     <Link className="nav-link" to="/home" >
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/home --> */}

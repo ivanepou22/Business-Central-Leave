@@ -23,7 +23,7 @@ const TableBody = ({ data, columns }) => {
 
   return (
     <tbody>
-      {data.map(item => (
+      {data.map((item, index) => (
         <tr key={item[`${trId}`]}>
           {columns.map(column => (
             <td key={createKey(item, column)} className={column.className} >
