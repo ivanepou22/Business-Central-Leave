@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
-import { getUsers } from '../services/userService';
+import { getUsers, deleteUser } from '../services/userService';
 import Footer from '../components/Footer';
 import Pagination from './../components/common/Pagination';
 import UserTable from '../components/UserTable';
 import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
+import { toast } from 'react-toastify';
 
 function Users({ user }) {
   const [users, setUsers] = useState([])
@@ -25,8 +26,14 @@ function Users({ user }) {
 
   const handleDelete = async (user) => {
     const originalUsers = [...users];
-    const updatedUsers = originalUsers.filter((u) => u.id !== user.id);
-    setUsers(updatedUsers);
+    try {
+      await deleteUser(user.id);
+      const updatedUsers = originalUsers.filter((u) => u.id !== user.id);
+      setUsers(updatedUsers);
+    } catch (error) {
+      toast.error(error);
+      setUsers(originalUsers);
+    }
   };
 
   const handlePageChange = (pageNumber) => {
