@@ -1,28 +1,33 @@
 import React, { useEffect, useState } from 'react'
+import _ from 'lodash';
 import { getEmployees } from '../services/employeeService';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Pagination from './../components/common/Pagination';
 import EmployeeTable from '../components/EmployeeTable';
 import SearchBar from '../components/common/SearchBar';
-import _ from 'lodash';
 import { paginate } from './../utils/paginate';
+import auth from '../services/authService';
 
-function Employees({ user }) {
+
+function Employees() {
   const [employees, setEmployees] = useState([]);
   const [sortColumn, setSortColumn] = useState({ path: 'Full_Name', order: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const currentUser = auth.getCurrentUser();
+    setUser(currentUser);
+
     async function fetchEmployees() {
       const { data } = await getEmployees();
       setEmployees(data.value);
     }
     fetchEmployees();
   }, []);
-
 
   const handleDelete = async (employee) => {
     const originalEmployees = [...employees];
@@ -48,9 +53,12 @@ function Employees({ user }) {
     setPageSize(pageSize);
   };
 
+  let filteredEmployee;
+  user?.role !== 'admin' ? filteredEmployee = employees.filter((e) => e.No === user.employee_no) : filteredEmployee = employees;
+
   const getPageData = () => {
 
-    const filtered = employees.filter((e) =>
+    const filtered = filteredEmployee.filter((e) =>
       e.Full_Name.toLowerCase().startsWith(searchQuery.toLowerCase())
     );
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
