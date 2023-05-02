@@ -10,3 +10,7 @@
   padding: 1em;
   font-style: italic !important;
 }
+
+.invisible {
+  visibility: hidden;
+}

@@ -20,6 +20,8 @@ function LeaveApplications() {
   const [currentPage, setCurrentPage] = useState(1);
   const [user, setUser] = useState(null);
 
+  let isAdmin = false;
+
   useEffect(() => {
     const currentUser = auth.getCurrentUser();
     setUser(currentUser);
@@ -59,6 +61,12 @@ function LeaveApplications() {
     const pageSize = parseInt(value);
     setPageSize(pageSize);
   };
+
+  if(user && user.role === 'admin') {
+    isAdmin = true;
+  } else {
+    setGroup('my');
+  }
 
   const getPageData = () => {
 
@@ -109,7 +117,7 @@ function LeaveApplications() {
             <div className="row gx-lg-5">
               <div className="d-none d-lg-block col-lg-3">
                 <ul className="nav nav-pills nav-vertical">
-                  <li className="nav-item">
+                  <li className={isAdmin ? 'nav-item': 'nav-item invisible'}>
                     <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'all' ? 'true' : 'false'}>
                       All Leave Applications
                       <span className="nav-link-toggle"></span>
