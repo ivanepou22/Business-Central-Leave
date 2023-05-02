@@ -13,6 +13,9 @@ function Header() {
         setUser(currentUser);
     }, []);
 
+    const url = window.location.href;
+    const parts = url.split("/");
+    const hrefUrl = parts[parts.length - 1];
 
     return (
         <div>
@@ -97,7 +100,7 @@ function Header() {
                     <div className="collapse navbar-collapse" id="navbar-menu">
                         <div className="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                             <ul className="navbar-nav">
-                                <li className="nav-item active">
+                                <li className={`nav-item ${hrefUrl === 'home' ? 'active': ''}`}>
                                     <Link className="nav-link" to="/home" >
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/home --> */}
@@ -108,7 +111,7 @@ function Header() {
                                         </span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className={`nav-item ${hrefUrl === 'users' ? 'active': ''}`}>
                                     <Link className="nav-link" to="/users" >
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/checkbox --> */}
@@ -125,7 +128,7 @@ function Header() {
                                         </span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className={`nav-item ${hrefUrl === 'employees' ? 'active': ''}`}>
                                     <Link className="nav-link" to="/employees" >
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/checkbox --> */}
@@ -142,7 +145,7 @@ function Header() {
                                         </span>
                                     </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className={`nav-item ${hrefUrl === 'leave-applications' ? 'active': ''}`}>
                                     <Link className={'nav-link'} to="/leave-applications">
                                         <span className="nav-link-icon d-md-none d-lg-inline-block">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-list-details" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
