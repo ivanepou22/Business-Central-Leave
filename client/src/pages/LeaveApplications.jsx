@@ -97,18 +97,28 @@ function LeaveApplications() {
     <div className="page">
       <Header />
       <div className="page-wrapper">
-        <div className="container-xl">
-          <div className="page-header d-print-none">
+        <div className="container-xl mb-2">
+          <div className="page-header d-print-none text-white">
             <div className="row align-items-center">
               <div className="col">
-                <div className="card">
-                  <div className="card-body">
-                    <h4 className="page-title">
-                      Leave Applications
-                    </h4>
-                  </div>
+                <div className="page-pretitle">
+                  Leave Applications
                 </div>
               </div>
+              {
+                user?.role === 'admin' ?
+                  <div className="col-auto ms-auto d-print-none">
+                    <div className="btn-list">
+                      <span className="d-none d-sm-inline">
+                        <Link to="#" className="btn btn-dark">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                          New Leave Application
+                        </Link>
+                      </span>
+                    </div>
+                  </div>
+                  : ''
+              }
             </div>
           </div>
         </div>
@@ -160,6 +170,11 @@ function LeaveApplications() {
                               Cancelled Applications
                             </Link>
                           </li>
+                          <li className="nav-item">
+                            <Link to="#all-history-leave-applications" onClick={() => handleLeaveStatus('all', 'History')} className="nav-link">
+                              History Applications
+                            </Link>
+                          </li>
                         </ul>
                       </li>
                     ) : ''
@@ -205,6 +220,11 @@ function LeaveApplications() {
                       <li className="nav-item">
                         <Link to="#my-cancelled-leave-applications" onClick={() => handleLeaveStatus('my', 'Cancelled')} className="nav-link">
                           Cancelled Applications
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link to="#my-history-leave-applications" onClick={() => handleLeaveStatus('my', 'History')} className="nav-link">
+                          History Applications
                         </Link>
                       </li>
                     </ul>

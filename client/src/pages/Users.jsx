@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header'
 import { getUsers, deleteUser } from '../services/userService';
 import Footer from '../components/Footer';
@@ -8,7 +10,6 @@ import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
 import auth from '../services/authService';
-import { toast } from 'react-toastify';
 
 function Users({ user }) {
   const [users, setUsers] = useState([])
@@ -78,6 +79,34 @@ function Users({ user }) {
         <Header />
         <div className="page-wrapper">
           <div className="page-body">
+            {
+              currentUser?.role === 'admin' ?
+                <div className="container-xl mb-4">
+                  {/* Page title */}
+                  <div className="page-header d-print-none text-white">
+                    <div className="row align-items-center">
+                      <div className="col">
+                        {/* Page pre-title */}
+                        <div className="page-pretitle">
+                          Overview
+                        </div>
+                      </div>
+                      {/* Page title actions */}
+                      <div className="col-auto ms-auto d-print-none">
+                        <div className="btn-list">
+
+                          <span className="d-none d-sm-inline">
+                            <Link to="#" className="btn btn-dark">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                              New User
+                            </Link>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> : ''
+            }
             <div className="container-xl">
               <div className="row row-cards">
                 <div className="col-12">

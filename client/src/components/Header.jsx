@@ -25,7 +25,7 @@ function Header() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <h1 className="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                        <Link to=".">
+                        <Link to="/home">
                             <img src={portLogo} width="110" height="32" alt="Tabler" className="navbar-brand-image" />
                         </Link>
                     </h1>
