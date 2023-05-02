@@ -20,8 +20,6 @@ function LeaveApplications() {
   const [currentPage, setCurrentPage] = useState(1);
   const [user, setUser] = useState(null);
 
-  let isAdmin = false;
-
   useEffect(() => {
     const currentUser = auth.getCurrentUser();
     setUser(currentUser);
@@ -62,22 +60,23 @@ function LeaveApplications() {
     setPageSize(pageSize);
   };
 
-  if(user && user.role === 'admin') {
-    isAdmin = true;
-  } else {
-    setGroup('my');
-  }
-
   const getPageData = () => {
 
     let leaveApplicationsFiltered = [];
 
-    if (group === 'all') {
-      if (leaveStatus === 'all') {
-        leaveApplicationsFiltered = leaveApplications;
-      } else
-        leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
-    } else if (group === 'my') {
+    if (user?.role === 'admin') {
+      if (group === 'all') {
+        if (leaveStatus === 'all') {
+          leaveApplicationsFiltered = leaveApplications;
+        } else
+          leaveApplicationsFiltered = leaveApplications.filter((a) => a.Leave_Status === leaveStatus);
+      } else if (group === 'my') {
+        if (leaveStatus === 'all') {
+          leaveApplicationsFiltered = leaveApplications.filter((a) => a.Employee_No === user.employee_no);
+        } else
+          leaveApplicationsFiltered = leaveApplications.filter((a) => (a.Employee_No === user.employee_no) && (a.Leave_Status === leaveStatus));
+      }
+    } else {
       if (leaveStatus === 'all') {
         leaveApplicationsFiltered = leaveApplications.filter((a) => a.Employee_No === user.employee_no);
       } else
@@ -91,6 +90,7 @@ function LeaveApplications() {
     const paginatedApplications = paginate(sorted, currentPage, pageSize);
     return { totalCount: filtered.length, data: paginatedApplications };
   };
+
   const { totalCount, data: paginatedApplications } = getPageData();
 
   return (
@@ -117,55 +117,60 @@ function LeaveApplications() {
             <div className="row gx-lg-5">
               <div className="d-none d-lg-block col-lg-3">
                 <ul className="nav nav-pills nav-vertical">
-                  <li className={isAdmin ? 'nav-item': 'nav-item invisible'}>
-                    <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'all' ? 'true' : 'false'}>
-                      All Leave Applications
-                      <span className="nav-link-toggle"></span>
-                    </Link>
-                    <ul className={group === 'all' ? 'nav nav-pills collapse show' : 'nav nav-pills collapse'} id="menu-base">
+                  {
+                    user?.role === 'admin' ? (
                       <li className="nav-item">
-                        <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className={leaveStatus === 'all' ? 'nav-link active' : 'nav-link'}>
-                          All Applications
+                        <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'all' ? 'true' : 'false'}>
+                          All Leave Applications
+                          <span className="nav-link-toggle"></span>
                         </Link>
+                        <ul className={group === 'all' ? 'nav nav-pills collapse show' : 'nav nav-pills collapse'} id="menu-base">
+                          <li className="nav-item">
+                            <Link to="#all-leave-applications" onClick={() => handleLeaveStatus('all', 'all')} className={leaveStatus === 'all' ? 'nav-link active' : 'nav-link'}>
+                              All Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-created-leave-applications" onClick={() => handleLeaveStatus('all', 'Application')} className={leaveStatus === 'Application' ? 'nav-link active' : 'nav-link'}>
+                              Created Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-submitted-leave-applications" onClick={() => handleLeaveStatus('all', 'Pending Approval')} className={leaveStatus === 'Pending Approval' ? 'nav-link active' : 'nav-link'}>
+                              Pending Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-approved-leave-applications" onClick={() => handleLeaveStatus('all', 'Approved')} className={leaveStatus === 'Approved' ? 'nav-link active' : 'nav-link'}>
+                              Approved Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-rejected-leave-applications" onClick={() => handleLeaveStatus('all', 'Rejected')} className={leaveStatus === 'Rejected' ? 'nav-link active' : 'nav-link'}>
+                              Rejected Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-taken-leave-applications" onClick={() => handleLeaveStatus('all', 'Taken')} className={leaveStatus === 'Taken' ? 'nav-link active' : 'nav-link'}>
+                              Taken Applications
+                            </Link>
+                          </li>
+                          <li className="nav-item">
+                            <Link to="#all-cancelled-leave-applications" onClick={() => handleLeaveStatus('all', 'Cancelled')} className={leaveStatus === 'Cancelled' ? 'nav-link active' : 'nav-link'}>
+                              Cancelled Applications
+                            </Link>
+                          </li>
+                        </ul>
                       </li>
-                      <li className="nav-item">
-                        <Link to="#all-created-leave-applications" onClick={() => handleLeaveStatus('all', 'Application')} className={leaveStatus === 'Application' ? 'nav-link active' : 'nav-link'}>
-                          Created Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="#all-submitted-leave-applications" onClick={() => handleLeaveStatus('all', 'Pending Approval')} className={leaveStatus === 'Pending Approval' ? 'nav-link active' : 'nav-link'}>
-                          Pending Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="#all-approved-leave-applications" onClick={() => handleLeaveStatus('all', 'Approved')} className={leaveStatus === 'Approved' ? 'nav-link active' : 'nav-link'}>
-                          Approved Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="#all-rejected-leave-applications" onClick={() => handleLeaveStatus('all', 'Rejected')} className={leaveStatus === 'Rejected' ? 'nav-link active' : 'nav-link'}>
-                          Rejected Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="#all-taken-leave-applications" onClick={() => handleLeaveStatus('all', 'Taken')} className={leaveStatus === 'Taken' ? 'nav-link active' : 'nav-link'}>
-                          Taken Applications
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link to="#all-cancelled-leave-applications" onClick={() => handleLeaveStatus('all', 'Cancelled')} className={leaveStatus === 'Cancelled' ? 'nav-link active' : 'nav-link'}>
-                          Cancelled Applications
-                        </Link>
-                      </li>
-                    </ul>
-                  </li>
+                    ) : ''
+                  }
+
                   <li className="nav-item">
-                    <Link to="#menu-content" onClick={() => handleLeaveStatus('my', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'my' ? 'true' : 'false'}>
+                    <Link to="#menu-content" onClick={() => handleLeaveStatus('my', 'all')} className="nav-link" data-bs-toggle="collapse" aria-expanded={group === 'my' || user?.role !== 'admin' ? 'true' : 'false'}>
                       My Leave Applications
                       <span className="nav-link-toggle"></span>
                     </Link>
-                    <ul className={group === 'my' ? 'nav nav-pills collapse show' : 'nav nav-pills collapse'} id="menu-content">
+                    <ul className={group === 'my' || user?.role !== 'admin' ? 'nav nav-pills collapse show' : 'nav nav-pills collapse'} id="menu-content">
                       <li className="nav-item">
                         <Link to="#my-created-leave-applications" onClick={() => handleLeaveStatus('my', 'all')} className="nav-link">
                           All My Applications
@@ -209,7 +214,7 @@ function LeaveApplications() {
               <div className="col-lg-9">
                 <div className="card card-lg">
                   <div className="card-header">
-                    <h3 className="card-title">{`${group.charAt(0).toUpperCase() + group.slice(1)} ${leaveStatus === 'all' ? '' : leaveStatus} Leave Applications`}</h3>
+                    <h3 className="card-title">{`${group.charAt(0).toUpperCase() + group.slice(1)} ${(leaveStatus === 'all') ? '' : leaveStatus} Leave Applications`}</h3>
                   </div>
                   <div className="card-body border-bottom py-3">
                     <div className="d-flex">

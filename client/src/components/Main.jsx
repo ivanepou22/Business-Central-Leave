@@ -135,60 +135,67 @@ function Main() {
                 <div className="page-body">
                     <div className="container-xl">
                         <div className="row row-deck row-cards">
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="subheader">Users</div>
-                                        </div>
-                                        <div className="h1 mb-3">{users?.length.toFixed(2)}</div>
-                                        <div className="d-flex mb-2">
-                                            <div>Users</div>
-                                        </div>
-                                        <div className="progress progress-sm">
-                                            <div className="progress-bar bg-green" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <span className="visually-hidden">{users?.length.toFixed(2)} Users</span>
+                            {
+                                user.role === 'admin' ? (
+                                    <>
+                                        <div className="col-sm-6 col-lg-4">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Users</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{users?.length.toFixed(2)}</div>
+                                                    <div className="d-flex mb-2">
+                                                        <div>Users</div>
+                                                    </div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-green" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{users?.length.toFixed(2)} Users</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="subheader">Employees</div>
-                                        </div>
-                                        <div className="h1 mb-3">{employees?.length.toFixed(2)}</div>
-                                        <div className="d-flex mb-2">
-                                            <div>Employees</div>
-                                        </div>
-                                        <div className="progress progress-sm">
-                                            <div className="progress-bar bg-blue" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <span className="visually-hidden">{employees?.length.toFixed(2)} Employees</span>
+                                        <div className="col-sm-6 col-lg-4">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Employees</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{employees?.length.toFixed(2)}</div>
+                                                    <div className="d-flex mb-2">
+                                                        <div>Employees</div>
+                                                    </div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-blue" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{employees?.length.toFixed(2)} Employees</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-6 col-lg-4">
-                                <div className="card">
-                                    <div className="card-body">
-                                        <div className="d-flex align-items-center">
-                                            <div className="subheader">All Leave Applications</div>
-                                        </div>
-                                        <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
-                                        <div className="d-flex mb-2">
-                                            <div>Leave Applications</div>
-                                        </div>
-                                        <div className="progress progress-sm">
-                                            <div className="progress-bar bg-orange" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                <span className="visually-hidden">{leaveAppWHistory?.length.toFixed(2)} Leave Applications</span>
+                                        <div className="col-sm-6 col-lg-4">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">All Leave Applications</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
+                                                    <div className="d-flex mb-2">
+                                                        <div>Leave Applications</div>
+                                                    </div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-orange" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{leaveAppWHistory?.length.toFixed(2)} Leave Applications</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    </>
+                                ) : ''
+                            }
+
                             <div className="col-lg-12">
                                 <div className="row row-cards">
                                     <div className="col-12">
