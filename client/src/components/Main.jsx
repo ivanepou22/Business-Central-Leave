@@ -104,9 +104,6 @@ function Main() {
                                 <div className="page-pretitle">
                                     Overview
                                 </div>
-                                <h2 className="page-title">
-                                    Employee Leave Management
-                                </h2>
                             </div>
                             {/* Page title actions */}
                             <div className="col-auto ms-auto d-print-none">

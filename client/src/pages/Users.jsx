@@ -7,16 +7,21 @@ import UserTable from '../components/UserTable';
 import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
+import auth from '../services/authService';
 import { toast } from 'react-toastify';
 
 function Users({ user }) {
   const [users, setUsers] = useState([])
+  const [currentUser, setCurrentUser] = useState(null);
   const [sortColumn, setSortColumn] = useState({ path: 'first_name', order: 'asc' });
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   //write a function to retrieve users?
   useEffect(() => {
+    const currUser = auth.getCurrentUser();
+    setCurrentUser(currUser);
+
     async function fetchUsers() {
       const { data } = await getUsers();
       setUsers(data);
@@ -53,10 +58,12 @@ function Users({ user }) {
     const pageSize = parseInt(value);
     setPageSize(pageSize);
   };
+  let filterUsers;
+  currentUser?.role !== 'admin' ? filterUsers = users.filter((u) => u?.id === currentUser?.id) : filterUsers = users;
 
   const getPageData = () => {
 
-    const filtered = users.filter((u) =>
+    const filtered = filterUsers.filter((u) =>
       u.first_name.toLowerCase().startsWith(searchQuery.toLowerCase())
     );
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
