@@ -17,7 +17,7 @@ function Users({ user }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-  //write a function to retrieve users?
+
   useEffect(() => {
     const currUser = auth.getCurrentUser();
     setCurrentUser(currUser);

@@ -15,28 +15,27 @@ function UserTable({ users, onSort, sortColumn, onDelete }) {
         { pk: 'id' }
     ];
 
+    columns.push({
+        key: 'Edit',
+        content: user => (
+            <Link to="#" className="btn">Edit</Link>
+        )
+    });
+
     const user = authService.getCurrentUser();
     if (user && user.role === 'admin') {
-
         columns.push({
-            key: 'Edit',
+            key: 'delete',
             content: user => (
-                <Link to="#" className="btn">Edit</Link>
-                )
-            });
-
-            columns.push({
-                key: 'delete',
-                content: user => (
-                    <Link
-                        to={'#'}
-                        onClick={() => onDelete(user)}
-                        className='btn btn-danger btn-sm'
-                    >
-                        Delete
-                    </Link>
-                )
-            });
+                <Link
+                    to={'#'}
+                    onClick={() => onDelete(user)}
+                    className='btn btn-danger btn-sm'
+                >
+                    Delete
+                </Link>
+            )
+        });
     }
 
     return (
