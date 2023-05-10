@@ -45,7 +45,7 @@ function Login() {
                             <h2 className="card-title text-center mb-4">Login to your account</h2>
                             <div className="mb-3">
                                 <label className="form-label">Username</label>
-                                <input type="text" className="form-control" name='username' value={username} onChange={handleUsernameChange} placeholder="Enter username" />
+                                <input type="text" className="form-control" name='username' value={username} onChange={handleUsernameChange} placeholder="Enter username" autoComplete="off"/>
                             </div>
                             <div className="mb-2">
                                 <label className="form-label">
