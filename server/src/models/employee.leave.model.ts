@@ -29,6 +29,7 @@ export type EmployeeLeave = {
   From_Date?: string;
   To_Date?: string;
   Actual_Leave_Days?: number;
+  Username?: string;
 };
 
 export class EmployeeLeaveStore {
