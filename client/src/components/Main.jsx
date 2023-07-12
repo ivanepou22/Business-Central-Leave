@@ -38,8 +38,8 @@ function Main() {
     if (!user) return <Navigate to={'/'} />
 
     //leave applications without history
-    const leaveAppWHistory = leaveApplications.filter((app) => (app.Leave_Status != 'History'));
-
+    const leaveAppWHistory = leaveApplications.filter((app) => (app.Leave_Status != 'Closed'));
+    console.log(leaveAppWHistory);
     //filter to the user
     const myLeaveApplications = leaveAppWHistory.filter((app) => (app.Employee_No === user.employee_no))
 
@@ -47,7 +47,7 @@ function Main() {
     const myPendingApplications = myLeaveApplications.filter((app) => app.Leave_Status === 'Pending Approval')?.length;
     const myApprovedApplications = myLeaveApplications.filter((app) => app.Leave_Status === 'Approved')?.length;
     const myRejectedCancelledApplications = myLeaveApplications.filter((app) => (app.Leave_Status === 'Rejected') || (app.Leave_Status === 'Cancelled')).length;
-    const myTaken = myLeaveApplications.filter((app) => (app.Leave_Status === 'Taken')).length;
+    const myTaken = myLeaveApplications.filter((app) => (app.Leave_Status === 'History')).length;
 
     const total = (myCreatedApplications + myPendingApplications + myApprovedApplications + myRejectedCancelledApplications + myTaken)
 
@@ -209,7 +209,7 @@ function Main() {
                             </div>
                             <div className="col-12">
                                 <div className="row row-cards">
-                                    <div className="col-sm-6 col-lg-2">
+                                    <div className="col-sm-6 col-lg-3">
                                         <div className="card card-sm">
                                             <div className="card-body">
                                                 <div className="row align-items-center">
@@ -228,7 +228,7 @@ function Main() {
                                                             Not Submitted
                                                         </div>
                                                         <div className="text-muted">
-                                                            {myCreatedApplications?.toFixed(2)} Applications
+                                                            {myCreatedApplications?.toFixed(2)} Apps
                                                         </div>
                                                     </div>
                                                 </div>
@@ -255,14 +255,14 @@ function Main() {
                                                             Approved
                                                         </div>
                                                         <div className="text-muted">
-                                                            {myApprovedApplications?.toFixed(2)} Applications
+                                                            {myApprovedApplications?.toFixed(2)} Apps
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-sm-6 col-lg-3">
+                                    <div className="col-sm-6 col-lg-2">
                                         <div className="card card-sm">
                                             <div className="card-body">
                                                 <div className="row align-items-center">
@@ -280,10 +280,10 @@ function Main() {
                                                     </div>
                                                     <div className="col">
                                                         <div className="font-weight-medium">
-                                                            Pending Approval
+                                                            Pending
                                                         </div>
                                                         <div className="text-muted">
-                                                            {myPendingApplications?.toFixed(2)} Applications.
+                                                            {myPendingApplications?.toFixed(2)} Apps.
                                                         </div>
                                                     </div>
                                                 </div>
@@ -311,7 +311,7 @@ function Main() {
                                                             Taken
                                                         </div>
                                                         <div className="text-muted">
-                                                            {myTaken?.toFixed(2)} Applications
+                                                            {myTaken?.toFixed(2)} Apps
                                                         </div>
                                                     </div>
                                                 </div>
@@ -339,7 +339,7 @@ function Main() {
                                                             Cancelled/Rejected
                                                         </div>
                                                         <div className="text-muted">
-                                                            {myRejectedCancelledApplications?.toFixed(2)} Applications.
+                                                            {myRejectedCancelledApplications?.toFixed(2)} Apps.
                                                         </div>
                                                     </div>
                                                 </div>
