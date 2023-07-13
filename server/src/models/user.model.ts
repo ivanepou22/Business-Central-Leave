@@ -73,14 +73,15 @@ export class UserStore {
         parseInt(saltRounds)
       );
       const sql =
-        'INSERT INTO users (first_name, last_name, username, password,email,role) VALUES ($1, $2, $3, $4,$5,$6) RETURNING *';
+        'INSERT INTO users (first_name, last_name, username, password,email,role,employee_no) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING *';
       const result = await client.query(sql, [
         u.first_name,
         u.last_name,
         u.username,
         hashedPassword,
         u.email,
-        u.role
+        u.role,
+        u.employee_no
       ]);
       const newUser = result.rows[0];
       return newUser;
