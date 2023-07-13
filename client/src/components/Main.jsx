@@ -11,6 +11,7 @@ import { getUsers } from '../services/userService';
 import SearchBar from './common/SearchBar';
 import LeaveTable from './LeaveTable';
 import Pagination from './common/Pagination';
+import UserModal from './UserModal';
 
 function Main() {
     const [users, setUsers] = useState([]);
@@ -20,6 +21,7 @@ function Main() {
     const [searchQuery, setSearchQuery] = useState('');
     const [pageSize, setPageSize] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
+    const [showModal, setShowModal] = React.useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -33,6 +35,11 @@ function Main() {
 
         fetchData();
     }, []);
+
+    //Handle Modal
+    const handleModal = () => {
+        setShowModal(!showModal);
+      };
 
     const user = auth.getCurrentUser();
     if (!user) return <Navigate to={'/'} />
@@ -111,8 +118,7 @@ function Main() {
                                     {
                                         user?.role === 'admin' ?
                                             <span className="d-none d-sm-inline">
-                                                <Link to="#" className="btn btn-dark">
-
+                                                <Link className="btn btn-dark" onClick={handleModal}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                                                     New User
                                                 </Link>
@@ -447,6 +453,7 @@ function Main() {
                         </div>
                     </div>
                 </div>
+                <UserModal show={showModal} setShowModal={setShowModal}/>
                 <Footer />
             </div>
         </div>
