@@ -72,6 +72,7 @@ function UserModal(props) {
             setErrors({});
             // Redirect to user list page
             navigate('/users');
+            setShowModal(false);
         }
     };
 

@@ -9,6 +9,7 @@ import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
 import auth from '../services/authService';
+import EmployeeLeaveModal from '../components/EmployeeLeaveModal';
 
 function LeaveApplications() {
   const [leaveApplications, setLeaveApplications] = useState([]);
@@ -19,6 +20,7 @@ function LeaveApplications() {
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = React.useState(false);
 
   useEffect(() => {
     const currentUser = auth.getCurrentUser();
@@ -35,6 +37,11 @@ function LeaveApplications() {
     setLeaveStatus(leaveStat);
     setGroup(group);
   }
+
+  //Handle Modal
+  const handleModal = () => {
+    setShowModal(!showModal);
+  };
 
   const handleDelete = async (application) => {
     const originalApplications = [...leaveApplications];
@@ -110,7 +117,7 @@ function LeaveApplications() {
                   <div className="col-auto ms-auto d-print-none">
                     <div className="btn-list">
                       <span className="d-none d-sm-inline">
-                        <Link to="#" className="btn btn-dark">
+                        <Link className="btn btn-dark" onClick={handleModal}>
                           <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                           New Leave Application
                         </Link>
@@ -286,6 +293,7 @@ function LeaveApplications() {
         </div>
         <Footer />
       </div>
+      <EmployeeLeaveModal show={showModal} setShowModal={setShowModal}/>
     </div>
   )
 }
