@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getEmployees } from '../services/employeeService';
+import { createUser } from '../services/userService';
 import auth from '../services/authService';
 
 function UserModal(props) {
@@ -43,9 +44,19 @@ function UserModal(props) {
 
         const validationErrors = validateForm(formData);
         setErrors(validationErrors);
+        console.log(formData)
 
         if (Object.keys(validationErrors).length === 0) {
             // Perform any form submission logic here
+            createUser({
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                username: formData.username,
+                email: formData.email,
+                role: formData.role,
+                password: formData.password,
+                employee_no: formData.employeeNo
+            })
             // Reset the form
             setFormData({
                 firstName: '',
@@ -127,8 +138,8 @@ function UserModal(props) {
                                             name="firstName"
                                             value={formData.firstName}
                                             onChange={handleInputChange}
-                                            />
-                                            {errors.firstName && <div className="error">{errors.firstName}</div>}
+                                        />
+                                        {errors.firstName && <div className="error">{errors.firstName}</div>}
                                     </div>
                                 </div>
                                 <div className="col-lg-6">
@@ -141,8 +152,8 @@ function UserModal(props) {
                                             name='lastName'
                                             value={formData.lastName}
                                             onChange={handleInputChange}
-                                            />
-                                            {errors.lastName && <div className="error">{errors.lastName}</div>}
+                                        />
+                                        {errors.lastName && <div className="error">{errors.lastName}</div>}
                                     </div>
                                 </div>
                             </div>
