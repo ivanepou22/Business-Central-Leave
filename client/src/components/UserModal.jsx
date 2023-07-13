@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import { createUser } from '../services/userService';
 import auth from '../services/authService';
@@ -8,6 +9,7 @@ function UserModal(props) {
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         const currentUser = auth.getCurrentUser();
@@ -44,7 +46,6 @@ function UserModal(props) {
 
         const validationErrors = validateForm(formData);
         setErrors(validationErrors);
-        console.log(formData)
 
         if (Object.keys(validationErrors).length === 0) {
             // Perform any form submission logic here
@@ -69,6 +70,8 @@ function UserModal(props) {
                 employeeNo: '',
             });
             setErrors({});
+            // Redirect to user list page
+            navigate('/users');
         }
     };
 

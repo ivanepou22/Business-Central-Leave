@@ -10,6 +10,7 @@ import SearchBar from '../components/common/SearchBar';
 import _ from 'lodash';
 import { paginate } from './../utils/paginate';
 import auth from '../services/authService';
+import UserModal from '../components/UserModal';
 
 function Users({ user }) {
   const [users, setUsers] = useState([])
@@ -18,6 +19,7 @@ function Users({ user }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showModal, setShowModal] = React.useState(false);
 
   useEffect(() => {
     const currUser = auth.getCurrentUser();
@@ -40,6 +42,11 @@ function Users({ user }) {
       toast.error(error);
       setUsers(originalUsers);
     }
+  };
+
+  //Handle Modal
+  const handleModal = () => {
+    setShowModal(!showModal);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -96,7 +103,7 @@ function Users({ user }) {
                         <div className="btn-list">
 
                           <span className="d-none d-sm-inline">
-                            <Link to="#" className="btn btn-dark">
+                            <Link className="btn btn-dark" onClick={handleModal}>
                               <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
                               New User
                             </Link>
@@ -165,6 +172,7 @@ function Users({ user }) {
           <Footer />
         </div>
       </div>
+      <UserModal show={showModal} setShowModal={setShowModal}/>
     </div>
   )
 }
