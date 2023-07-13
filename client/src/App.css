@@ -22,3 +22,7 @@
 .events-open-modal {
   background-color: rgba(0, 0, 0, 0.582);
 }
+.error {
+  color: red!important;
+  padding: 2px;
+}

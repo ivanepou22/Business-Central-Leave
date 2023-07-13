@@ -19,7 +19,7 @@ function Main() {
     const [leaveApplications, setLeaveApplications] = useState([]);
     const [sortColumn, setSortColumn] = useState({ path: 'Entry_No', order: 'asc' });
     const [searchQuery, setSearchQuery] = useState('');
-    const [pageSize, setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = React.useState(false);
 
@@ -46,7 +46,6 @@ function Main() {
 
     //leave applications without history
     const leaveAppWHistory = leaveApplications.filter((app) => (app.Leave_Status != 'Closed'));
-    console.log(leaveAppWHistory);
     //filter to the user
     const myLeaveApplications = leaveAppWHistory.filter((app) => (app.Employee_No === user.employee_no))
 
@@ -410,7 +409,6 @@ function Main() {
                                                 Show
                                                 <div className="mx-2 d-inline-block">
                                                     <select className="form-select" aria-label=".form-select-lg example" name="rowNumber" onChange={(e) => handleRowNumber(e.target.value)}>
-                                                        <option value="5">5</option>
                                                         <option value="10">10</option>
                                                         <option value="15">15</option>
                                                         <option value="20">20</option>

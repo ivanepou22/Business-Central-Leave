@@ -10,7 +10,11 @@ function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
+    const handlePassword = () => {
+        setShowPassword(!showPassword);
+    }
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     }
@@ -55,9 +59,9 @@ function Login() {
                                     </span>
                                 </label>
                                 <div className="input-group input-group-flat">
-                                    <input type="password" className="form-control" name='password' value={password} onChange={handlePasswordChange} placeholder="Password" autoComplete="off" />
+                                    <input type={showPassword? 'text':'password'} className="form-control" name='password' value={password} onChange={handlePasswordChange} placeholder="Password" autoComplete="off" />
                                     <span className="input-group-text">
-                                        <Link to="#" className="link-secondary" title="Show password" data-bs-toggle="tooltip">
+                                        <Link to="#" className="link-secondary" title="Show password" data-bs-toggle="tooltip" onClick={handlePassword}>
                                             {/* <!-- Download SVG icon from http://tabler-icons.io/i/eye --> */}
                                             <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><circle cx="12" cy="12" r="2" /><path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" /></svg>
                                         </Link>
