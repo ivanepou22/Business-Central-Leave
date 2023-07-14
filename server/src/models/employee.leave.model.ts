@@ -107,7 +107,6 @@ export class EmployeeLeaveStore {
         newLeaveApplication,
         connectDB
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       throw new Error(

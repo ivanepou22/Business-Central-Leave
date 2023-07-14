@@ -80,7 +80,6 @@ export const createLeaveApp = async (req: Request, res: Response) => {
     const newLeaveApp = await store.createLeaveApplication(leaveApplication);
     res.status(200).json(newLeaveApp);
   } catch (error) {
-    console.log(error);
-    // res.status(500).json(error);
+    res.status(500).json(error);
   }
 };

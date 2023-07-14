@@ -12,11 +12,11 @@ import { verifyJWTToken } from '../middleware/jwt.middleware';
 
 const users = express.Router();
 
-users.get('/users', getUsers);
-users.get('/users/:id', getUserById);
-users.get('/users/username/:username', getUserByUsername);
-users.delete('/users/:id', deleteUser);
-users.patch('/users/:id', updateUser);
+users.get('/users', verifyJWTToken, getUsers);
+users.get('/users/:id', verifyJWTToken, getUserById);
+users.get('/users/username/:username', verifyJWTToken, getUserByUsername);
+users.delete('/users/:id', verifyJWTToken, deleteUser);
+users.patch('/users/:id', verifyJWTToken, updateUser);
 users.post('/users', createUser);
 users.post('/users/login', authenticate);
 

@@ -10,10 +10,26 @@ import { verifyJWTToken } from '../middleware/jwt.middleware';
 
 const leaveApplications = express.Router();
 
-leaveApplications.get('/leave-applications', getLeaveApplications);
-leaveApplications.post('/leave-applications', createLeaveApp);
-leaveApplications.get('/leave-applications/:id', getLeaveApplicationByEntryId);
-leaveApplications.delete('/leave-applications/:id', deleteLeaveApplication);
-leaveApplications.patch('/leave-applications/:id', updateLeaveApplication);
+leaveApplications.get(
+  '/leave-applications',
+  verifyJWTToken,
+  getLeaveApplications
+);
+leaveApplications.post('/leave-applications', verifyJWTToken, createLeaveApp);
+leaveApplications.get(
+  '/leave-applications/:id',
+  verifyJWTToken,
+  getLeaveApplicationByEntryId
+);
+leaveApplications.delete(
+  '/leave-applications/:id',
+  verifyJWTToken,
+  deleteLeaveApplication
+);
+leaveApplications.patch(
+  '/leave-applications/:id',
+  verifyJWTToken,
+  updateLeaveApplication
+);
 
 export default leaveApplications;
