@@ -3,6 +3,7 @@ import Table from './common/Table';
 
 function EmployeeTable({ employees, onSort, sortColumn, onDelete }) {
     const columns = [
+        {path: 'index', label:'#', className: 'text-muted'},
         { path: 'No', label: 'Number', className: 'text-muted' },
         { path: 'Full_Name', label: 'Name' },
         { path: 'Gender', label: 'Gender' },

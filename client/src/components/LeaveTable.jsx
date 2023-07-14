@@ -3,11 +3,15 @@ import Table from './common/Table';
 
 function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete }) {
   const columns = [
-    { path: 'Entry_No', label: 'No.', className: 'text-muted' },
+    { path: 'index', label: '#', className: 'text-muted' },
+    { path: 'Entry_No', label: 'Entry No.', className: 'text-muted' },
     { path: 'Employee_No', label: 'Employee No', className: 'text-muted' },
+    { path: 'Employee_Name', label: 'Employee Name' },
     { path: 'Substitute_Employee', label: 'Substitute Employee' },
+    { path: 'Substitute_Name', label: 'Substitute Name' },
+    { path: 'Username', label: 'Username', className: 'text-muted' },
     { path: 'Leave_Type', label: 'Leave Type' },
-    { path: 'Description', label: 'Description', className: 'text-muted' },
+    { path: 'Description', label: 'Description' },
     { path: 'Leave_Status', label: 'Leave Status' },
     { path: 'Requested_From_Date', label: 'Requested From Date' },
     { path: 'Requested_To_Date', label: 'Requested To Date' },
@@ -23,6 +27,8 @@ function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete }) {
     { path: 'Actual_Leave_Days', label: 'Actual Leave Days' },
     { pk: 'Entry_No' }
   ];
+
+  console.log(leaveApplications)
   return (
     leaveApplications.length !== 0 ?
       <Table columns={columns} data={leaveApplications} sortColumn={sortColumn} onSort={onSort} /> :

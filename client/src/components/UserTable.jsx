@@ -5,7 +5,8 @@ import Table from './common/Table';
 
 function UserTable({ users, onSort, sortColumn, onDelete }) {
     const columns = [
-        { path: 'id', label: 'No.' },
+        {path: 'index', label:'#', className: 'text-muted'},
+        { path: 'id', label: 'Entry No.' },
         { path: 'first_name', label: 'FName' },
         { path: 'last_name', label: 'LName' },
         { path: 'username', label: 'Username' },

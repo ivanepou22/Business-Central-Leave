@@ -27,7 +27,7 @@ const TableBody = ({ data, columns }) => {
         <tr key={item[`${trId}`]}>
           {columns.map(column => (
             <td key={createKey(item, column)} className={column.className} >
-              {renderCell(item, column)}
+              {renderCell(Object.assign({}, item, { index: index + 1 }), column)}
             </td>
           ))}
         </tr>
