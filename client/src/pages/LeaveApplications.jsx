@@ -113,7 +113,7 @@ function LeaveApplications() {
                 </div>
               </div>
               {
-                user?.role === 'admin' ?
+                user ?
                   <div className="col-auto ms-auto d-print-none">
                     <div className="btn-list">
                       <span className="d-none d-sm-inline">
