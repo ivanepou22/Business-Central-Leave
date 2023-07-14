@@ -237,7 +237,7 @@ function UserModal(props) {
                                         <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange}>
                                             <option value=""></option>
                                             {
-                                                employees?.map((employee) => <option value={employee.No}>{employee.Full_Name}</option>)
+                                                employees?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
                                             }
                                         </select>
                                         {errors.employeeNo && <div className="error">{errors.employeeNo}</div>}

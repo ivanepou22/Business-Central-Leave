@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
+import { createLeaveApplication } from '../services/leaveApplicationService';
 
 function EmployeeLeaveModal(props) {
     const { show, setShowModal } = props;
@@ -35,7 +36,7 @@ function EmployeeLeaveModal(props) {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({
-            ...prevFormData,username: user.username,
+            ...prevFormData, username: user.username,
             [name]: value,
         }));
     };
@@ -48,7 +49,16 @@ function EmployeeLeaveModal(props) {
 
         if (Object.keys(validationErrors).length === 0) {
             // Perform any form submission logic here
-            console.log(formData)
+            createLeaveApplication({
+                Employee_No: formData.employeeNo,
+                Leave_Type: formData.leaveType,
+                Requested_From_Date: formData.fromDate,
+                Requested_To_Date: formData.toDate,
+                Description: formData.description,
+                Leave_Status: formData.leaveStatus,
+                Substitute_Employee: formData.substituteEmployeeNo,
+                Username: formData.username
+            })
             // Reset the form
             setFormData({
                 employeeNo: '',
@@ -119,7 +129,7 @@ function EmployeeLeaveModal(props) {
                                         <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange}>
                                             <option value=""></option>
                                             {
-                                                currentEmployee?.map((employee) => <option value={employee.No}>{employee.Full_Name}</option>)
+                                                currentEmployee?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
                                             }
                                         </select>
                                         {errors.employeeNo && <div className="error">{errors.employeeNo}</div>}
@@ -194,7 +204,7 @@ function EmployeeLeaveModal(props) {
                                         <select className="form-select" name='substituteEmployeeNo' value={formData.substituteEmployeeNo} onChange={handleInputChange}>
                                             <option value=""></option>
                                             {
-                                                employees?.map((employee) => <option value={employee.No}>{employee.Full_Name}</option>)
+                                                employees?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
                                             }
                                         </select>
                                         {errors.substituteEmployeeNo && <div className="error">{errors.substituteEmployeeNo}</div>}
@@ -207,8 +217,8 @@ function EmployeeLeaveModal(props) {
                                 Cancel
                             </a>
                             <button type='submit' className="btn btn-primary ms-auto" data-bs-dismiss="modal">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                Create User
+                                <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+                                Create New Application
                             </button>
                         </div>
                     </form>

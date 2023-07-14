@@ -15,6 +15,7 @@ export async function getLeaveApplication(applicationId) {
 }
 
 export async function createLeaveApplication(leaveApplication) {
+    console.log(leaveApplication)
     return http.post(apiEndpoint, leaveApplication);
 }
 
