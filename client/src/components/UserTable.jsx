@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import authService from '../services/authService';
 import Table from './common/Table';
 
-function UserTable({ users, onSort, sortColumn, onDelete }) {
+function UserTable({ users, onSort, sortColumn, onDelete, onEdit }) {
     const columns = [
         {path: 'index', label:'#', className: 'text-muted'},
-        { path: 'id', label: 'Entry No.' },
         { path: 'first_name', label: 'FName' },
         { path: 'last_name', label: 'LName' },
         { path: 'username', label: 'Username' },
@@ -19,7 +18,7 @@ function UserTable({ users, onSort, sortColumn, onDelete }) {
     columns.push({
         key: 'Edit',
         content: user => (
-            <Link to="#" className="btn">Edit</Link>
+            <Link to="#" className="btn" onClick={() => onEdit(user)}>Edit</Link>
         )
     });
 

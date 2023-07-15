@@ -18,8 +18,8 @@ export async function createUser(user) {
     return http.post(apiEndpoint, user);
 }
 
-export async function updateUser(user) {
-        return http.patch(userAppUrl(user.id), body);
+export async function updateUser(userId, user) {
+    return http.patch(userAppUrl(userId), user);
 }
 
 export async function deleteUser(userId) {

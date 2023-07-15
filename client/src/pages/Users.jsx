@@ -20,6 +20,8 @@ function Users({ user }) {
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const [editUser, setEditUser] = React.useState(null);
 
   useEffect(() => {
     const currUser = auth.getCurrentUser();
@@ -44,10 +46,20 @@ function Users({ user }) {
     }
   };
 
+ const handleEdit = async (user) => {
+    setEditUser(user);
+    handleEditModal();
+}
+
   //Handle Modal
   const handleModal = () => {
     setShowModal(!showModal);
   };
+
+  //Handle Edit Modal
+  const handleEditModal = () => {
+    setShowEditModal(!showEditModal);
+  }
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -156,6 +168,7 @@ function Users({ user }) {
                         onSort={handleSort}
                         sortColumn={sortColumn}
                         user={user}
+                        onEdit={handleEdit}
                       />
                     </div>
                     <Pagination
@@ -172,7 +185,8 @@ function Users({ user }) {
           <Footer />
         </div>
       </div>
-      <UserModal show={showModal} setShowModal={setShowModal}/>
+      <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'}/>
+      <UserModal show={showEditModal} setShowModal={setShowEditModal} userEdit={editUser} model={'edit'}/>
     </div>
   )
 }

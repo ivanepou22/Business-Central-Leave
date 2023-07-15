@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
-import { createUser } from '../services/userService';
+import { createUser, updateUser } from '../services/userService';
 import auth from '../services/authService';
 
 function UserModal(props) {
-    const { show, setShowModal } = props;
+    const { show, setShowModal, userEdit, model } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
@@ -22,6 +22,17 @@ function UserModal(props) {
         fetchEmployees();
     }, []);
 
+    // const [formData, setFormData] = useState({
+    //     firstName: '',
+    //     lastName: '',
+    //     username: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: '',
+    //     role: 'user',
+    //     employeeNo: '',
+    // });
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -31,7 +42,35 @@ function UserModal(props) {
         confirmPassword: '',
         role: 'user',
         employeeNo: '',
-    });
+      });
+
+      useEffect(() => {
+        if (userEdit && model === 'edit') {
+          // Populate form fields with existing user data when editing
+          setFormData({
+            firstName: userEdit.first_name,
+            lastName: userEdit.last_name,
+            username: userEdit.username,
+            email: userEdit.email,
+            password: '',
+            confirmPassword: '',
+            role: userEdit.role,
+            employeeNo: userEdit.employee_no,
+          });
+        } else {
+          // Reset form fields when creating a new user or when userEdit is null
+          setFormData({
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            role: 'user',
+            employeeNo: '',
+          });
+        }
+      }, [userEdit, model]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -48,17 +87,31 @@ function UserModal(props) {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            // Perform any form submission logic here
-            createUser({
-                first_name: formData.firstName,
-                last_name: formData.lastName,
-                username: formData.username,
-                email: formData.email,
-                role: formData.role,
-                password: formData.password,
-                employee_no: formData.employeeNo
-            })
-            // Reset the form
+            if (model === 'edit') {
+                // Update existing user
+                // Add code here to update the user using the updateUser function
+                // For simplicity, assume the updateUser function is available
+                 updateUser(userEdit.id,{
+                    first_name: formData.firstName,
+                    last_name: formData.lastName,
+                    username: formData.username,
+                    email: formData.email,
+                    role: formData.role,
+                    employee_no: formData.employeeNo,
+                  });
+              } else {
+                // Create new user
+                createUser({
+                  first_name: formData.firstName,
+                  last_name: formData.lastName,
+                  username: formData.username,
+                  email: formData.email,
+                  role: formData.role,
+                  password: formData.password,
+                  employee_no: formData.employeeNo,
+                });
+              }
+
             setFormData({
                 firstName: '',
                 lastName: '',
@@ -70,7 +123,6 @@ function UserModal(props) {
                 employeeNo: '',
             });
             setErrors({});
-            // Redirect to user list page
             navigate('/users');
             setShowModal(false);
         }
@@ -97,6 +149,7 @@ function UserModal(props) {
             errors.email = 'Invalid email address';
         }
 
+        if (model !== 'edit') {
         if (!data.password) {
             errors.password = 'Password is required';
         }
@@ -105,20 +158,20 @@ function UserModal(props) {
             errors.confirmPassword = 'Confirm Password is required';
         } else if (data.confirmPassword !== data.password) {
             errors.confirmPassword = 'Passwords do not match';
-        }
+        }}
         if (!data.employeeNo) {
             errors.employeeNo = 'Employee Number is required';
         }
         return errors;
     };
 
+
+
     const isValidEmail = (email) => {
-        // Basic email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
 
-    //handle close.
     const handleClose = () => setShowModal(false);
 
     return (
@@ -126,7 +179,7 @@ function UserModal(props) {
             <div className="modal-dialog modal-lg" role="document" onClick={e => { e.stopPropagation(); }}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">New User</h5>
+                        <h5 className="modal-title">{model === 'edit'? 'Edit User':'New User'}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
                     </div>
                     <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
@@ -172,6 +225,7 @@ function UserModal(props) {
                                             name='username'
                                             value={formData.username}
                                             onChange={handleInputChange}
+                                            readOnly={model === 'edit'}
                                         />
                                         {errors.username && <div className="error">{errors.username}</div>}
                                     </div>
@@ -191,7 +245,9 @@ function UserModal(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            {
+                                model !== 'edit' ? (
+                                    <div className="row">
                                 <div className="col-lg-6">
                                     <div className="mb-3">
                                         <label className="form-label">Password</label>
@@ -221,11 +277,13 @@ function UserModal(props) {
                                     </div>
                                 </div>
                             </div>
+                                ):''
+                            }
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="mb-3">
                                         <label className="form-label">Role</label>
-                                        <select className="form-select" name='role' value={formData.role} onChange={handleInputChange}>
+                                        <select className="form-select" name='role' value={formData.role} onChange={handleInputChange} disabled={model === 'edit' && user?.role === 'user'}>
                                             <option value="user">User</option>
                                             <option value="admin">Admin</option>
                                         </select>
@@ -234,7 +292,7 @@ function UserModal(props) {
                                 <div className="col-lg-6">
                                     <div className="mb-3">
                                         <label className="form-label">Employee No.</label>
-                                        <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange}>
+                                        <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange} disabled={model === 'edit' && user?.role === 'user'}>
                                             <option value=""></option>
                                             {
                                                 employees?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
@@ -244,7 +302,6 @@ function UserModal(props) {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div className="modal-footer">
                             <a href="#" className="btn btn-danger link-secondary" data-bs-dismiss="modal" onClick={handleClose}>
@@ -252,7 +309,9 @@ function UserModal(props) {
                             </a>
                             <button type='submit' className="btn btn-primary ms-auto" data-bs-dismiss="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                Create User
+                                {
+                                    model === 'edit'? 'Update User':'Create User'
+                                }
                             </button>
                         </div>
                     </form>

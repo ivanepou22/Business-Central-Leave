@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Header from '../components/Header'
-import { getLeaveApplications } from '../services/leaveApplicationService';
+import { getLeaveApplications, deleteLeaveApplication } from '../services/leaveApplicationService';
 import Footer from '../components/Footer';
 import LeaveTable from '../components/LeaveTable';
 import Pagination from './../components/common/Pagination';
@@ -21,6 +21,8 @@ function LeaveApplications() {
   const [currentPage, setCurrentPage] = useState(1);
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = React.useState(false);
+  const [showEditModal, setShowEditModal] = React.useState(false);
+  const [editLeave, setEditLeave] = React.useState(null);
 
   useEffect(() => {
     const currentUser = auth.getCurrentUser();
@@ -38,15 +40,37 @@ function LeaveApplications() {
     setGroup(group);
   }
 
+  const handleEdit = async (leave) => {
+    setEditLeave(leave);
+    handleEditModal();
+  }
+
   //Handle Modal
   const handleModal = () => {
     setShowModal(!showModal);
   };
 
+  //Handle Edit Modal
+  const handleEditModal = () => {
+    setShowEditModal(!showEditModal);
+  }
+
   const handleDelete = async (application) => {
     const originalApplications = [...leaveApplications];
-    const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
-    setLeaveApplications(updatedApplications);
+    if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'cancelled') {
+      try {
+        await deleteLeaveApplication(application.Entry_No)
+        const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
+        setLeaveApplications(updatedApplications);
+        toast.error('Deleted Successfully');
+      } catch (error) {
+        toast.error(error);
+        setLeaveApplications(originalApplications);
+      }
+    } else {
+      toast.error('You can only delete Open Applications');
+      setLeaveApplications(originalApplications);
+    }
   };
 
   const handlePageChange = (pageNumber) => {
@@ -278,6 +302,7 @@ function LeaveApplications() {
                       onSort={handleSort}
                       sortColumn={sortColumn}
                       user={user}
+                      onEdit={handleEdit}
                     />
                   </div>
                   <Pagination
@@ -293,7 +318,8 @@ function LeaveApplications() {
         </div>
         <Footer />
       </div>
-      <EmployeeLeaveModal show={showModal} setShowModal={setShowModal}/>
+      <EmployeeLeaveModal show={showModal} setShowModal={setShowModal} leaveEdit={null} model={'create'}/>
+      <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'}/>
     </div>
   )
 }

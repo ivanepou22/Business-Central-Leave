@@ -1,10 +1,11 @@
 import React from 'react'
 import Table from './common/Table';
+import authService from '../services/authService';
+import { Link } from 'react-router-dom';
 
-function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete }) {
+function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete,onEdit }) {
   const columns = [
     { path: 'index', label: '#', className: 'text-muted' },
-    { path: 'Entry_No', label: 'Entry No.', className: 'text-muted' },
     { path: 'Employee_No', label: 'Employee No', className: 'text-muted' },
     { path: 'Employee_Name', label: 'Employee Name' },
     { path: 'Substitute_Employee', label: 'Substitute Employee' },
@@ -28,7 +29,29 @@ function LeaveTable({ leaveApplications, onSort, sortColumn, onDelete }) {
     { pk: 'Entry_No' }
   ];
 
-  console.log(leaveApplications)
+  columns.push({
+    key: 'Edit',
+    content: leave => (
+        <Link to="#" className="btn" onClick={() => onEdit(leave)}>Edit</Link>
+    )
+});
+
+const user = authService.getCurrentUser();
+if ((user)) {
+  columns.push({
+      key: 'delete',
+      content: leave => (
+          <Link
+              to={'#'}
+              onClick={() => onDelete(leave)}
+              className='btn btn-danger btn-sm'
+          >
+              Delete
+          </Link>
+      )
+  });
+}
+
   return (
     leaveApplications.length !== 0 ?
       <Table columns={columns} data={leaveApplications} sortColumn={sortColumn} onSort={onSort} /> :

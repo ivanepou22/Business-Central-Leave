@@ -5,22 +5,11 @@ import auth from '../services/authService';
 import { createLeaveApplication } from '../services/leaveApplicationService';
 
 function EmployeeLeaveModal(props) {
-    const { show, setShowModal } = props;
+    const { show, setShowModal, leaveEdit, model } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-
-    const [formData, setFormData] = useState({
-        employeeNo: '',
-        leaveType: '',
-        fromDate: '',
-        toDate: '',
-        description: '',
-        substituteEmployeeNo: '',
-        leaveStatus: 'Application',
-        username: ''
-    });
 
     useEffect(() => {
         const currentUser = auth.getCurrentUser();
@@ -32,6 +21,43 @@ function EmployeeLeaveModal(props) {
         }
         fetchEmployees();
     }, []);
+
+    const [formData, setFormData] = useState({
+        employeeNo: user?.employee_no || '',
+        leaveType: '',
+        fromDate: '',
+        toDate: '',
+        description: '',
+        substituteEmployeeNo: '',
+        leaveStatus: 'Application',
+        username: ''
+    });
+
+    useEffect(() => {
+        if (leaveEdit && model === 'edit') {
+            setFormData({
+                employeeNo: leaveEdit?.employee_no,
+                leaveType: leaveEdit?.Leave_Type,
+                fromDate: leaveEdit?.Requested_From_Date,
+                toDate: leaveEdit?.Requested_To_Date,
+                description: leaveEdit?.Description,
+                substituteEmployeeNo: leaveEdit?.Substitute_Employee,
+                leaveStatus: leaveEdit?.Leave_Status,
+                username: leaveEdit?.Username
+            })
+        } else {
+            setFormData({
+                employeeNo: user?.employee_no || '',
+                leaveType: '',
+                fromDate: '',
+                toDate: '',
+                description: '',
+                substituteEmployeeNo: '',
+                leaveStatus: 'Application',
+                username: ''
+            })
+        }
+    }, [leaveEdit, model])
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -117,7 +143,7 @@ function EmployeeLeaveModal(props) {
             <div className="modal-dialog modal-lg" role="document" onClick={e => { e.stopPropagation(); }}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">New Leave Application</h5>
+                        <h5 className="modal-title">{model === 'edit' ? 'Edit Application':'New Application'}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
                     </div>
                     <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
@@ -126,7 +152,7 @@ function EmployeeLeaveModal(props) {
                                 <div className="col-lg-6">
                                     <div className="mb-3">
                                         <label className="form-label">Employee No.</label>
-                                        <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange}>
+                                        <select className="form-select" name='employeeNo' value={formData.employeeNo || user?.employee_no} onChange={handleInputChange} disabled={user !== null}>
                                             <option value=""></option>
                                             {
                                                 currentEmployee?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
@@ -218,7 +244,7 @@ function EmployeeLeaveModal(props) {
                             </a>
                             <button type='submit' className="btn btn-primary ms-auto" data-bs-dismiss="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                Create New Application
+                                {model === 'edit' ? 'Edit Application':'Create Application'}
                             </button>
                         </div>
                     </form>

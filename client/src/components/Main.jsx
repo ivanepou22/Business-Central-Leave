@@ -457,8 +457,8 @@ function Main() {
                         </div>
                     </div>
                 </div>
-                <UserModal show={showModal} setShowModal={setShowModal} />
-                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal}/>
+                <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
+                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}/>
                 <Footer />
             </div>
         </div>
