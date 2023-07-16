@@ -19,8 +19,8 @@ export async function createLeaveApplication(leaveApplication) {
     return http.post(apiEndpoint, leaveApplication);
 }
 
-export async function updateLeaveApplication(leaveApplication) {
-        return http.patch(leaveAppUrl(leaveApplication.Entry_No), body);
+export async function updateLeaveApplication(leaveAppId,leaveApplication) {
+        return http.patch(leaveAppUrl(leaveAppId), leaveApplication);
 }
 
 export async function deleteLeaveApplication(leaveApplicationId) {

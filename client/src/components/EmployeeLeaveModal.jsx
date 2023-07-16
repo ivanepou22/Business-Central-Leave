@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
-import { createLeaveApplication } from '../services/leaveApplicationService';
+import { createLeaveApplication, updateLeaveApplication } from '../services/leaveApplicationService';
 
 function EmployeeLeaveModal(props) {
     const { show, setShowModal, leaveEdit, model } = props;
@@ -67,6 +67,12 @@ function EmployeeLeaveModal(props) {
         }));
     };
 
+    const submitApplication = () => {
+        leaveEdit.Leave_Status = 'Pending Approval';
+        console.log(leaveEdit.Leave_Status);
+    }
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -74,17 +80,30 @@ function EmployeeLeaveModal(props) {
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
-            // Perform any form submission logic here
-            createLeaveApplication({
-                Employee_No: formData.employeeNo,
-                Leave_Type: formData.leaveType,
-                Requested_From_Date: formData.fromDate,
-                Requested_To_Date: formData.toDate,
-                Description: formData.description,
-                Leave_Status: formData.leaveStatus,
-                Substitute_Employee: formData.substituteEmployeeNo,
-                Username: formData.username
-            })
+            // Perform any form submission logic
+            if (model === 'edit') {
+                updateLeaveApplication(leaveEdit.Entry_No, {
+
+                    Leave_Type: formData.leaveType,
+                    Requested_From_Date: formData.fromDate,
+                    Requested_To_Date: formData.toDate,
+                    Description: formData.description,
+                    Leave_Status: leaveEdit.Leave_Status,
+                    Substitute_Employee: formData.substituteEmployeeNo,
+                    Username: formData.username
+                })
+            } else {
+                createLeaveApplication({
+                    Employee_No: formData.employeeNo,
+                    Leave_Type: formData.leaveType,
+                    Requested_From_Date: formData.fromDate,
+                    Requested_To_Date: formData.toDate,
+                    Description: formData.description,
+                    Leave_Status: formData.leaveStatus,
+                    Substitute_Employee: formData.substituteEmployeeNo,
+                    Username: formData.username
+                })
+            }
             // Reset the form
             setFormData({
                 employeeNo: '',
@@ -106,8 +125,10 @@ function EmployeeLeaveModal(props) {
     const validateForm = (data) => {
         let errors = {};
 
-        if (!data.employeeNo) {
-            errors.employeeNo = 'Employee Number is required';
+        if (model !== 'edit') {
+            if (!data.employeeNo) {
+                errors.employeeNo = 'Employee Number is required';
+            }
         }
 
         if (!data.leaveType) {
@@ -143,11 +164,57 @@ function EmployeeLeaveModal(props) {
             <div className="modal-dialog modal-lg" role="document" onClick={e => { e.stopPropagation(); }}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">{model === 'edit' ? 'Edit Application':'New Application'}</h5>
+                        <h5 className="modal-title">{model === 'edit' ? 'Edit Application' : 'New Application'}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
                     </div>
                     <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
                         <div className="modal-body">
+                            {
+                                model === 'edit' ? (<div className="leave-actions">
+                                <div>
+                                    <button type="submit" className='btn' onClick={submitApplication}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-autofit-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 4h-6a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h8"></path>
+                                            <path d="M18 20v-17"></path>
+                                            <path d="M15 6l3 -3l3 3"></path>
+                                        </svg>
+                                        Submit
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" className='btn'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M10 10l4 4m0 -4l-4 4"></path>
+                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                        </svg>
+                                        Cancel
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" className='btn'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 12l2 2l4 -4"></path>
+                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                        </svg>
+                                        Approve
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" className='btn'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-letter-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                            <path d="M10 8l4 8"></path>
+                                            <path d="M10 16l4 -8"></path>
+                                        </svg>
+                                        Reject
+                                    </button>
+                                </div>
+                            </div>):('')
+                            }
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="mb-3">
@@ -240,11 +307,11 @@ function EmployeeLeaveModal(props) {
                         </div>
                         <div className="modal-footer">
                             <a href="#" className="btn btn-danger link-secondary" data-bs-dismiss="modal" onClick={handleClose}>
-                                Cancel
+                                Close
                             </a>
                             <button type='submit' className="btn btn-primary ms-auto" data-bs-dismiss="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                                {model === 'edit' ? 'Edit Application':'Create Application'}
+                                {model === 'edit' ? 'Edit Application' : 'Create Application'}
                             </button>
                         </div>
                     </form>
