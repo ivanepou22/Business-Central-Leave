@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import _ from 'lodash';
 import { paginate } from '../utils/paginate';
 import auth from '../services/authService';
-import { getLeaveApplications } from '../services/leaveApplicationService';
+import { getLeaveApplications, deleteLeaveApplication } from '../services/leaveApplicationService';
 import Footer from './Footer';
 import { getUsers } from '../services/userService';
 import SearchBar from './common/SearchBar';
@@ -24,6 +24,8 @@ function Main() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showModal, setShowModal] = React.useState(false);
     const [showLeaveModal, setShowLeaveModal] = React.useState(false);
+    const [showEditModal, setShowEditModal] = React.useState(false);
+    const [editLeave, setEditLeave] = React.useState(null);
 
     useEffect(() => {
         async function fetchData() {
@@ -69,9 +71,21 @@ function Main() {
     const myRejectedCancelledApplicationsPercent = (myRejectedCancelledApplications / total) * 100;
 
     const handleDelete = async (application) => {
-        const originalApplications = [...myLeaveApplications];
-        const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
-        setLeaveApplications(updatedApplications);
+        const originalApplications = [...leaveApplications];
+        if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'cancelled') {
+            try {
+                await deleteLeaveApplication(application.Entry_No)
+                const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
+                setLeaveApplications(updatedApplications);
+                toast.error('Deleted Successfully');
+            } catch (error) {
+                toast.error(error);
+                setLeaveApplications(originalApplications);
+            }
+        } else {
+            toast.error('You can only delete Open Applications');
+            setLeaveApplications(originalApplications);
+        }
     };
 
     const handlePageChange = (pageNumber) => {
@@ -91,6 +105,16 @@ function Main() {
         const pageSize = parseInt(value);
         setPageSize(pageSize);
     };
+
+    //Handle Edit Modal
+  const handleEditModal = () => {
+    setShowEditModal(!showEditModal);
+  }
+
+    const handleEdit = async (leave) => {
+        setEditLeave(leave);
+        handleEditModal();
+      }
 
     const getPageData = () => {
 
@@ -444,6 +468,7 @@ function Main() {
                                             onSort={handleSort}
                                             sortColumn={sortColumn}
                                             user={user}
+                                            onEdit={handleEdit}
                                         />
                                     </div>
                                     <Pagination
@@ -458,7 +483,8 @@ function Main() {
                     </div>
                 </div>
                 <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
-                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}/>
+                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'} />
+                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'}/>
                 <Footer />
             </div>
         </div>

@@ -172,7 +172,7 @@ function EmployeeLeaveModal(props) {
                             {
                                 model === 'edit' ? (<div className="leave-actions">
                                 <div>
-                                    <button type="submit" className='btn' onClick={submitApplication}>
+                                    <button type="submit" className='btn btn-primary' onClick={submitApplication}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-autofit-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M12 4h-6a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h8"></path>
@@ -183,7 +183,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn'>
+                                    <button type="submit" className='btn btn-danger'>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M10 10l4 4m0 -4l-4 4"></path>
@@ -193,7 +193,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn'>
+                                    <button type="submit" className='btn btn-success'>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M9 12l2 2l4 -4"></path>
@@ -203,7 +203,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn'>
+                                    <button type="submit" className='btn btn-warning'>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-letter-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
