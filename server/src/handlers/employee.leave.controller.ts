@@ -103,6 +103,7 @@ export const submitLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -126,6 +127,7 @@ export const approveLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -149,6 +151,7 @@ export const cancelLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -172,6 +175,7 @@ export const rejectLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -195,6 +199,7 @@ export const commitLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

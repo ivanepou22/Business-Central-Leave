@@ -135,6 +135,7 @@ export class EmployeeLeaveStore {
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       throw new Error(
         `Could not Approve the employee Leave Application ${entryId} Error: ${error}`
       );
@@ -161,6 +162,7 @@ export class EmployeeLeaveStore {
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       throw new Error(
         `Could not Submit the employee Leave Application ${entryId} Error: ${error}`
       );
@@ -187,6 +189,7 @@ export class EmployeeLeaveStore {
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       throw new Error(
         `Could not Reject the employee Leave Application ${entryId} Error: ${error}`
       );
@@ -213,6 +216,7 @@ export class EmployeeLeaveStore {
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       throw new Error(
         `Could not Cancel the employee Leave Application ${entryId} Error: ${error}`
       );
@@ -239,6 +243,7 @@ export class EmployeeLeaveStore {
       );
       return response.data;
     } catch (error) {
+      console.log(error);
       throw new Error(
         `Could not Commit the employee Leave Application ${entryId} Error: ${error}`
       );
