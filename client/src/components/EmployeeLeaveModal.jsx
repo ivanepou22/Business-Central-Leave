@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
 import { createLeaveApplication, updateLeaveApplication } from '../services/leaveApplicationService';
+import { toast } from 'react-toastify';
 
 function EmployeeLeaveModal(props) {
     const { show, setShowModal, leaveEdit, model } = props;
@@ -68,10 +69,44 @@ function EmployeeLeaveModal(props) {
     };
 
     const submitApplication = () => {
-        leaveEdit.Leave_Status = 'Pending Approval';
-        console.log(leaveEdit.Leave_Status);
+        if (leaveEdit.Leave_Status === 'Application') {
+            leaveEdit.Leave_Status = 'Pending Approval';
+        } else {
+            toast.error('This application is already submitted');
+        }
     }
 
+    const cancelApplication = () => {
+        if(leaveEdit.Leave_Status !== 'Application' && leaveEdit.Leave_Status !== 'History') {
+            leaveEdit.Leave_Status = 'Cancelled';
+        } else {
+            toast.error('You cannot cancel Leave with the status Application');
+        }
+    }
+
+    const approveApplication = () => {
+        if(leaveEdit.Leave_Status === 'Pending Approval') {
+            leaveEdit.Leave_Status = 'Approved';
+        } else {
+            toast.error("You can only approve leave with Status 'Pending Approval'");
+        }
+    }
+
+    const rejectApplication = () => {
+        if(leaveEdit.Leave_Status === 'Pending Approval') {
+            leaveEdit.Leave_Status = 'Rejected';
+        } else {
+            toast.error("You can only Reject leave with Status 'Pending Approval'");
+        }
+    }
+
+    const commitApplication = () => {
+        if(leaveEdit.Leave_Status === 'Approved') {
+            leaveEdit.Leave_Status = 'History';
+        } else {
+            toast.error("You can only Commit leave with Status 'Approved'");
+        }
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -183,7 +218,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn btn-danger'>
+                                    <button type="submit" className='btn btn-danger' onClick={cancelApplication}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M10 10l4 4m0 -4l-4 4"></path>
@@ -193,7 +228,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn btn-success'>
+                                    <button type="submit" className='btn btn-success' onClick={approveApplication}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M9 12l2 2l4 -4"></path>
@@ -203,7 +238,7 @@ function EmployeeLeaveModal(props) {
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" className='btn btn-warning'>
+                                    <button type="submit" className='btn btn-warning' onClick={rejectApplication}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-letter-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
@@ -211,6 +246,16 @@ function EmployeeLeaveModal(props) {
                                             <path d="M10 16l4 -8"></path>
                                         </svg>
                                         Reject
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" className='btn btn-success' onClick={commitApplication}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 12l2 2l4 -4"></path>
+                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                        </svg>
+                                        Commit
                                     </button>
                                 </div>
                             </div>):('')
@@ -301,6 +346,20 @@ function EmployeeLeaveModal(props) {
                                             }
                                         </select>
                                         {errors.substituteEmployeeNo && <div className="error">{errors.substituteEmployeeNo}</div>}
+                                    </div>
+                                </div>
+                                <div className="col-lg-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Leave Status</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder='last name'
+                                            name='leaveStatus'
+                                            value={formData.leaveStatus}
+                                            onChange={handleInputChange}
+                                        />
+                                        {errors.toDate && <div className="error">{errors.leaveStatus}</div>}
                                     </div>
                                 </div>
                             </div>

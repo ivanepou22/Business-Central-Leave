@@ -39,7 +39,7 @@ function LeaveApplications() {
     setLeaveStatus(leaveStat);
     setGroup(group);
   }
-
+console.log(leaveApplications);
   const handleEdit = async (leave) => {
     setEditLeave(leave);
     handleEditModal();
