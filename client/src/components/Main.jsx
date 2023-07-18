@@ -88,6 +88,59 @@ function Main() {
         }
     };
 
+    const handleUpdateStatusApplication = async (applicationID, application,action ) => {
+        await updateLeaveApplicationStatus(applicationID, application,action);
+
+        // Update the leaveApplications state with the updated data
+      if(action === 'approve') {
+        setLeaveApplications(prevApplications =>
+          prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...application, Leave_Status: 'Approved' };
+            }
+            return application;
+          })
+        );
+      } else if(action === 'submit') {
+        setLeaveApplications(prevApplications =>
+          prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...application, Leave_Status: 'Pending Approval' };
+            }
+            return application;
+          })
+        );
+      } else if(action === 'cancel') {
+        setLeaveApplications(prevApplications =>
+          prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...application, Leave_Status: 'Cancelled' };
+            }
+            return application;
+          })
+        );
+      } else if(action === 'reject') {
+        setLeaveApplications(prevApplications =>
+          prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...application, Leave_Status: 'Rejected' };
+            }
+            return application;
+          })
+        );
+      } else if(action === 'commit') {
+        setLeaveApplications(prevApplications =>
+          prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...application, Leave_Status: 'History' };
+            }
+            return application;
+          })
+        );
+      }
+
+    }
+
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
@@ -483,8 +536,8 @@ function Main() {
                     </div>
                 </div>
                 <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
-                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'} />
-                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'}/>
+                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}  handleUpdateStatus={handleUpdateStatusApplication}/>
+                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication}/>
                 <Footer />
             </div>
         </div>

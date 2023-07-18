@@ -30,10 +30,12 @@
 .leave-actions {
 display: flex !important;
 flex-direction: row;
-justify-content: center;
+justify-content: flex-start;
+flex-wrap: wrap;
 align-items: center;
 gap: 10px;
 padding-bottom: 10px;
+padding-left: 30px;
 margin-top:15px;
 margin-bottom: 30px;
 border-bottom: rgba(209, 204, 204, 0.096) 1px solid;

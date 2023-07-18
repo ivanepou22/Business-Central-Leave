@@ -6,7 +6,7 @@ import { createLeaveApplication, updateLeaveApplication, updateLeaveApplicationS
 import { toast } from 'react-toastify';
 
 function EmployeeLeaveModal(props) {
-    const { show, setShowModal, leaveEdit, model } = props;
+    const { show, setShowModal, leaveEdit, model,handleUpdateStatus } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
@@ -68,41 +68,46 @@ function EmployeeLeaveModal(props) {
         }));
     };
 
-    const submitApplication = () => {
-        if (leaveEdit.Leave_Status === 'Application') {
-            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'submit');
+    const submitApplication = async () => {
+        if (leaveEdit.Leave_Status === 'Application' || leaveEdit.Leave_Status === 'Cancelled') {
+            await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'submit');
+             handleClose();
         } else {
             toast.error('This application is already submitted');
         }
     }
 
-    const cancelApplication = () => {
+    const cancelApplication = async () => {
         if (leaveEdit.Leave_Status !== 'Application' && leaveEdit.Leave_Status !== 'History') {
-            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'cancel');
+          await  handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'cancel');
+            handleClose()
         } else {
             toast.error('You cannot cancel Leave with the status Application');
         }
     }
 
-    const approveApplication = () => {
+    const approveApplication = async () => {
         if (leaveEdit.Leave_Status === 'Pending Approval') {
-            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'approve');
+            await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'approve');
+            handleClose()
         } else {
             toast.error("You can only approve leave with Status 'Pending Approval'");
         }
     }
 
-    const rejectApplication = () => {
+    const rejectApplication = async () => {
         if (leaveEdit.Leave_Status === 'Pending Approval') {
-            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'reject');
+           await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'reject');
+            handleClose()
         } else {
             toast.error("You can only Reject leave with Status 'Pending Approval'");
         }
     }
 
-    const commitApplication = () => {
+    const commitApplication = async () => {
         if (leaveEdit.Leave_Status === 'Approved') {
-            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'commit');
+           await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'commit');
+            handleClose();
         } else {
             toast.error("You can only Commit leave with Status 'Approved'");
         }
@@ -205,58 +210,73 @@ function EmployeeLeaveModal(props) {
                     {
                         model === 'edit' ? (
                             <div className="leave-actions">
-                                <div>
-                                    <button type="submit" className='btn btn-primary' onClick={submitApplication}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-autofit-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 4h-6a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h8"></path>
-                                            <path d="M18 20v-17"></path>
-                                            <path d="M15 6l3 -3l3 3"></path>
-                                        </svg>
-                                        Submit
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="submit" className='btn btn-danger' onClick={cancelApplication}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M10 10l4 4m0 -4l-4 4"></path>
-                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
-                                        </svg>
-                                        Cancel
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="submit" className='btn btn-success' onClick={approveApplication}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M9 12l2 2l4 -4"></path>
-                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
-                                        </svg>
-                                        Approve
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="submit" className='btn btn-warning' onClick={rejectApplication}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-letter-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-                                            <path d="M10 8l4 8"></path>
-                                            <path d="M10 16l4 -8"></path>
-                                        </svg>
-                                        Reject
-                                    </button>
-                                </div>
-                                <div>
-                                    <button type="submit" className='btn btn-success' onClick={commitApplication}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M9 12l2 2l4 -4"></path>
-                                            <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
-                                        </svg>
-                                        Commit
-                                    </button>
-                                </div>
+                                {
+                                    leaveEdit?.Leave_Status === 'Application' || leaveEdit?.Leave_Status === 'Cancelled' ? (<div>
+                                        <button type="submit" className='btn btn-primary' onClick={submitApplication}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-autofit-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 4h-6a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h8"></path>
+                                                <path d="M18 20v-17"></path>
+                                                <path d="M15 6l3 -3l3 3"></path>
+                                            </svg>
+                                            Submit
+                                        </button>
+                                    </div>) : ''
+                                }
+                                {
+                                    (leaveEdit?.Leave_Status === 'Application'||leaveEdit?.Leave_Status === 'Cancelled' || leaveEdit?.Leave_Status === 'History' || leaveEdit?.Leave_Status === 'Closed') ? '' : (
+                                        <div>
+                                            <button type="submit" className='btn btn-danger' onClick={cancelApplication}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M10 10l4 4m0 -4l-4 4"></path>
+                                                    <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                                </svg>
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    )
+                                }
+
+                                {
+                                    leaveEdit?.Leave_Status === 'Pending Approval' ? (
+                                        <>
+                                            <div>
+                                                <button type="submit" className='btn btn-success' onClick={approveApplication}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M9 12l2 2l4 -4"></path>
+                                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                                    </svg>
+                                                    Approve
+                                                </button>
+                                            </div>
+                                            <div>
+                                                <button type="submit" className='btn btn-warning' onClick={rejectApplication}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-circle-letter-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                        <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                                        <path d="M10 8l4 8"></path>
+                                                        <path d="M10 16l4 -8"></path>
+                                                    </svg>
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        </>
+                                    ) : ''
+                                }
+                                {
+                                    leaveEdit?.Leave_Status === 'Approved' ? (<div>
+                                        <button type="submit" className='btn btn-success' onClick={commitApplication}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-check" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 12l2 2l4 -4"></path>
+                                                <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                            </svg>
+                                            Commit
+                                        </button>
+                                    </div>) : ''
+                                }
                             </div>) : ('')
                     }
                     <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
