@@ -31,5 +31,5 @@ export async function deleteLeaveApplication(leaveApplicationId) {
 }
 
 export async function updateLeaveApplicationStatus(leaveAppId,leaveApplication,action) {
-    return http.post(updateLeaveStatusUrl(leaveAppId, action), leaveApplication);
+    return http.post(updateLeaveStatusUrl(leaveAppId, action));
 }
