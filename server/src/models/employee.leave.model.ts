@@ -114,4 +114,134 @@ export class EmployeeLeaveStore {
       );
     }
   }
+
+  async approveLeaveApplication(
+    entryId: number,
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
+  ): Promise<EmployeeLeave> {
+    const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.ApproveLeaveApplicationWeb`;
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        empLeaveUrl,
+        leaveApplication,
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not Approve the employee Leave Application ${entryId} Error: ${error}`
+      );
+    }
+  }
+
+  async submitLeaveApplication(
+    entryId: number,
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
+  ): Promise<EmployeeLeave> {
+    const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.SubmitLeaveApplicationWeb`;
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        empLeaveUrl,
+        leaveApplication,
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not Submit the employee Leave Application ${entryId} Error: ${error}`
+      );
+    }
+  }
+
+  async rejectLeaveApplication(
+    entryId: number,
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
+  ): Promise<EmployeeLeave> {
+    const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.RejectLeaveApplicationWeb`;
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        empLeaveUrl,
+        leaveApplication,
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not Reject the employee Leave Application ${entryId} Error: ${error}`
+      );
+    }
+  }
+
+  async cancelLeaveApplication(
+    entryId: number,
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
+  ): Promise<EmployeeLeave> {
+    const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.cancelLeaveApplicationWeb`;
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        empLeaveUrl,
+        leaveApplication,
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not Cancel the employee Leave Application ${entryId} Error: ${error}`
+      );
+    }
+  }
+
+  async commitLeaveApplication(
+    entryId: number,
+    leaveApplication: EmployeeLeave,
+    oDataToken: string
+  ): Promise<EmployeeLeave> {
+    const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.commitLeaveApplicationWeb`;
+    try {
+      const response = await axios.post<EmployeeLeave>(
+        empLeaveUrl,
+        leaveApplication,
+        {
+          ...connectDB,
+          headers: {
+            ...connectDB.headers,
+            'If-Match': oDataToken
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        `Could not Commit the employee Leave Application ${entryId} Error: ${error}`
+      );
+    }
+  }
 }

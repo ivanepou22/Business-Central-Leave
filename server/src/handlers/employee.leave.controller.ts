@@ -83,3 +83,118 @@ export const createLeaveApp = async (req: Request, res: Response) => {
     res.status(500).json(error);
   }
 };
+
+export const submitLeaveApplication = async (req: Request, res: Response) => {
+  const entryId = parseInt(req.params.id);
+  const leaveApplication: EmployeeLeave = req.body;
+
+  //get the leave application with the entry id
+  const leaveApp = await store.getLeaveByEntryId(
+    req.params.id as unknown as number
+  );
+  //get the oData Token
+  const etag = leaveApp['@odata.etag']; // accessing the value of '@odata.etag'
+
+  try {
+    const updatedLeaveApplication = await store.submitLeaveApplication(
+      entryId,
+      leaveApplication,
+      etag as unknown as string
+    );
+    res.status(200).json(updatedLeaveApplication);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const approveLeaveApplication = async (req: Request, res: Response) => {
+  const entryId = parseInt(req.params.id);
+  const leaveApplication: EmployeeLeave = req.body;
+
+  //get the leave application with the entry id
+  const leaveApp = await store.getLeaveByEntryId(
+    req.params.id as unknown as number
+  );
+  //get the oData Token
+  const etag = leaveApp['@odata.etag']; // accessing the value of '@odata.etag'
+
+  try {
+    const updatedLeaveApplication = await store.approveLeaveApplication(
+      entryId,
+      leaveApplication,
+      etag as unknown as string
+    );
+    res.status(200).json(updatedLeaveApplication);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const cancelLeaveApplication = async (req: Request, res: Response) => {
+  const entryId = parseInt(req.params.id);
+  const leaveApplication: EmployeeLeave = req.body;
+
+  //get the leave application with the entry id
+  const leaveApp = await store.getLeaveByEntryId(
+    req.params.id as unknown as number
+  );
+  //get the oData Token
+  const etag = leaveApp['@odata.etag']; // accessing the value of '@odata.etag'
+
+  try {
+    const updatedLeaveApplication = await store.cancelLeaveApplication(
+      entryId,
+      leaveApplication,
+      etag as unknown as string
+    );
+    res.status(200).json(updatedLeaveApplication);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const rejectLeaveApplication = async (req: Request, res: Response) => {
+  const entryId = parseInt(req.params.id);
+  const leaveApplication: EmployeeLeave = req.body;
+
+  //get the leave application with the entry id
+  const leaveApp = await store.getLeaveByEntryId(
+    req.params.id as unknown as number
+  );
+  //get the oData Token
+  const etag = leaveApp['@odata.etag']; // accessing the value of '@odata.etag'
+
+  try {
+    const updatedLeaveApplication = await store.rejectLeaveApplication(
+      entryId,
+      leaveApplication,
+      etag as unknown as string
+    );
+    res.status(200).json(updatedLeaveApplication);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const commitLeaveApplication = async (req: Request, res: Response) => {
+  const entryId = parseInt(req.params.id);
+  const leaveApplication: EmployeeLeave = req.body;
+
+  //get the leave application with the entry id
+  const leaveApp = await store.getLeaveByEntryId(
+    req.params.id as unknown as number
+  );
+  //get the oData Token
+  const etag = leaveApp['@odata.etag']; // accessing the value of '@odata.etag'
+
+  try {
+    const updatedLeaveApplication = await store.commitLeaveApplication(
+      entryId,
+      leaveApplication,
+      etag as unknown as string
+    );
+    res.status(200).json(updatedLeaveApplication);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
