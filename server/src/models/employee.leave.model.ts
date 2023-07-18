@@ -107,6 +107,7 @@ export class EmployeeLeaveStore {
         newLeaveApplication,
         connectDB
       );
+
       return response.data;
     } catch (error) {
       throw new Error(
@@ -122,6 +123,7 @@ export class EmployeeLeaveStore {
   ): Promise<EmployeeLeave> {
     const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.ApproveLeaveApplicationWeb`;
     try {
+      console.log(empLeaveUrl);
       const response = await axios.post<EmployeeLeave>(
         empLeaveUrl,
         leaveApplication,
@@ -133,6 +135,7 @@ export class EmployeeLeaveStore {
           }
         }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -149,6 +152,7 @@ export class EmployeeLeaveStore {
   ): Promise<EmployeeLeave> {
     const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.SubmitLeaveApplicationWeb`;
     try {
+      console.log(empLeaveUrl);
       const response = await axios.post<EmployeeLeave>(
         empLeaveUrl,
         leaveApplication,
@@ -160,6 +164,7 @@ export class EmployeeLeaveStore {
           }
         }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -176,6 +181,7 @@ export class EmployeeLeaveStore {
   ): Promise<EmployeeLeave> {
     const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.RejectLeaveApplicationWeb`;
     try {
+      console.log(empLeaveUrl);
       const response = await axios.post<EmployeeLeave>(
         empLeaveUrl,
         leaveApplication,
@@ -187,6 +193,7 @@ export class EmployeeLeaveStore {
           }
         }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -203,6 +210,7 @@ export class EmployeeLeaveStore {
   ): Promise<EmployeeLeave> {
     const empLeaveUrl = `${employeeLeaveUrl}(${entryId})/NAV.cancelLeaveApplicationWeb`;
     try {
+      console.log(empLeaveUrl);
       const response = await axios.post<EmployeeLeave>(
         empLeaveUrl,
         leaveApplication,
@@ -214,6 +222,7 @@ export class EmployeeLeaveStore {
           }
         }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -241,6 +250,7 @@ export class EmployeeLeaveStore {
           }
         }
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
