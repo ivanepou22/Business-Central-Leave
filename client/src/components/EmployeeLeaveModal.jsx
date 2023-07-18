@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
-import { createLeaveApplication, updateLeaveApplication } from '../services/leaveApplicationService';
+import { createLeaveApplication, updateLeaveApplication, updateLeaveApplicationStatus } from '../services/leaveApplicationService';
 import { toast } from 'react-toastify';
 
 function EmployeeLeaveModal(props) {
@@ -70,39 +70,39 @@ function EmployeeLeaveModal(props) {
 
     const submitApplication = () => {
         if (leaveEdit.Leave_Status === 'Application') {
-            leaveEdit.Leave_Status = 'Pending Approval';
+            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'submit');
         } else {
             toast.error('This application is already submitted');
         }
     }
 
     const cancelApplication = () => {
-        if(leaveEdit.Leave_Status !== 'Application' && leaveEdit.Leave_Status !== 'History') {
-            leaveEdit.Leave_Status = 'Cancelled';
+        if (leaveEdit.Leave_Status !== 'Application' && leaveEdit.Leave_Status !== 'History') {
+            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'cancel');
         } else {
             toast.error('You cannot cancel Leave with the status Application');
         }
     }
 
     const approveApplication = () => {
-        if(leaveEdit.Leave_Status === 'Pending Approval') {
-            leaveEdit.Leave_Status = 'Approved';
+        if (leaveEdit.Leave_Status === 'Pending Approval') {
+            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'approve');
         } else {
             toast.error("You can only approve leave with Status 'Pending Approval'");
         }
     }
 
     const rejectApplication = () => {
-        if(leaveEdit.Leave_Status === 'Pending Approval') {
-            leaveEdit.Leave_Status = 'Rejected';
+        if (leaveEdit.Leave_Status === 'Pending Approval') {
+            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'reject');
         } else {
             toast.error("You can only Reject leave with Status 'Pending Approval'");
         }
     }
 
     const commitApplication = () => {
-        if(leaveEdit.Leave_Status === 'Approved') {
-            leaveEdit.Leave_Status = 'History';
+        if (leaveEdit.Leave_Status === 'Approved') {
+            updateLeaveApplicationStatus(leaveEdit.Entry_No, leaveEdit, 'commit');
         } else {
             toast.error("You can only Commit leave with Status 'Approved'");
         }
@@ -202,10 +202,9 @@ function EmployeeLeaveModal(props) {
                         <h5 className="modal-title">{model === 'edit' ? 'Edit Application' : 'New Application'}</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={handleClose}></button>
                     </div>
-                    <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
-                        <div className="modal-body">
-                            {
-                                model === 'edit' ? (<div className="leave-actions">
+                    {
+                        model === 'edit' ? (
+                            <div className="leave-actions">
                                 <div>
                                     <button type="submit" className='btn btn-primary' onClick={submitApplication}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-arrow-autofit-up" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -258,8 +257,10 @@ function EmployeeLeaveModal(props) {
                                         Commit
                                     </button>
                                 </div>
-                            </div>):('')
-                            }
+                            </div>) : ('')
+                    }
+                    <form className="card card-md" autoComplete="off" onSubmit={handleSubmit}>
+                        <div className="modal-body">
                             <div className="row">
                                 <div className="col-lg-6">
                                     <div className="mb-3">
