@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header'
-import { getUsers, deleteUser } from '../services/userService';
+import { getUsers, deleteUser, updateUser } from '../services/userService';
 import Footer from '../components/Footer';
 import Pagination from './../components/common/Pagination';
 import UserTable from '../components/UserTable';
@@ -44,6 +44,20 @@ function Users({ user }) {
       toast.error(error);
       setUsers(originalUsers);
     }
+  };
+
+  const handleUpdateUser = async (userId, updatedUser) => {
+    // Make API call to update the user
+    await updateUser(userId, updatedUser);
+
+    setUsers(prevUsers =>
+      prevUsers.map(user => {
+        if (user.id === userId) {
+          return { ...user, ...updatedUser };
+        }
+        return user;
+      })
+    );
   };
 
  const handleEdit = async (user) => {
@@ -185,8 +199,8 @@ function Users({ user }) {
           <Footer />
         </div>
       </div>
-      <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'}/>
-      <UserModal show={showEditModal} setShowModal={setShowEditModal} userEdit={editUser} model={'edit'}/>
+      <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} updateUser ={handleUpdateUser}/>
+      <UserModal show={showEditModal} setShowModal={setShowEditModal} userEdit={editUser} model={'edit'} updateUser ={handleUpdateUser}/>
     </div>
   )
 }

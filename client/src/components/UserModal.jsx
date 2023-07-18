@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
-import { createUser, updateUser } from '../services/userService';
+import { createUser } from '../services/userService';
 import auth from '../services/authService';
 
 function UserModal(props) {
-    const { show, setShowModal, userEdit, model } = props;
+    const { show, setShowModal, userEdit, model,updateUser } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
@@ -21,17 +21,6 @@ function UserModal(props) {
         }
         fetchEmployees();
     }, []);
-
-    // const [formData, setFormData] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    //     username: '',
-    //     email: '',
-    //     password: '',
-    //     confirmPassword: '',
-    //     role: 'user',
-    //     employeeNo: '',
-    // });
 
     const [formData, setFormData] = useState({
         firstName: '',
@@ -80,7 +69,7 @@ function UserModal(props) {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const validationErrors = validateForm(formData);
@@ -91,7 +80,7 @@ function UserModal(props) {
                 // Update existing user
                 // Add code here to update the user using the updateUser function
                 // For simplicity, assume the updateUser function is available
-                 updateUser(userEdit.id,{
+                await updateUser(userEdit.id,{
                     first_name: formData.firstName,
                     last_name: formData.lastName,
                     username: formData.username,

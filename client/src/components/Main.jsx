@@ -138,7 +138,6 @@ function Main() {
           })
         );
       }
-
     }
 
     const handlePageChange = (pageNumber) => {
