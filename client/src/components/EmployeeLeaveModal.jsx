@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
-import { createLeaveApplication, updateLeaveApplication } from '../services/leaveApplicationService';
 import { toast } from 'react-toastify';
 
 function EmployeeLeaveModal(props) {
-    const { show, setShowModal, leaveEdit, model,handleUpdateStatus } = props;
+    const { show, setShowModal, leaveEdit, model, handleUpdateStatus, updateLeave, createLeave } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
@@ -71,7 +70,7 @@ function EmployeeLeaveModal(props) {
     const submitApplication = async () => {
         if (leaveEdit.Leave_Status === 'Application' || leaveEdit.Leave_Status === 'Cancelled') {
             await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'submit');
-             handleClose();
+            handleClose();
         } else {
             toast.error('This application is already submitted');
         }
@@ -79,7 +78,7 @@ function EmployeeLeaveModal(props) {
 
     const cancelApplication = async () => {
         if (leaveEdit.Leave_Status !== 'Application' && leaveEdit.Leave_Status !== 'History') {
-          await  handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'cancel');
+            await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'cancel');
             handleClose()
         } else {
             toast.error('You cannot cancel Leave with the status Application');
@@ -97,7 +96,7 @@ function EmployeeLeaveModal(props) {
 
     const rejectApplication = async () => {
         if (leaveEdit.Leave_Status === 'Pending Approval') {
-           await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'reject');
+            await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'reject');
             handleClose()
         } else {
             toast.error("You can only Reject leave with Status 'Pending Approval'");
@@ -106,14 +105,14 @@ function EmployeeLeaveModal(props) {
 
     const commitApplication = async () => {
         if (leaveEdit.Leave_Status === 'Approved') {
-           await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'commit');
+            await handleUpdateStatus(leaveEdit.Entry_No, leaveEdit, 'commit');
             handleClose();
         } else {
             toast.error("You can only Commit leave with Status 'Approved'");
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const validationErrors = validateForm(formData);
@@ -122,7 +121,7 @@ function EmployeeLeaveModal(props) {
         if (Object.keys(validationErrors).length === 0) {
             // Perform any form submission logic
             if (model === 'edit') {
-                updateLeaveApplication(leaveEdit.Entry_No, {
+                await updateLeave(leaveEdit.Entry_No, {
                     Leave_Type: formData.leaveType,
                     Requested_From_Date: formData.fromDate,
                     Requested_To_Date: formData.toDate,
@@ -132,7 +131,7 @@ function EmployeeLeaveModal(props) {
                     Username: formData.username
                 })
             } else {
-                createLeaveApplication({
+                await createLeave({
                     Employee_No: formData.employeeNo,
                     Leave_Type: formData.leaveType,
                     Requested_From_Date: formData.fromDate,
@@ -223,7 +222,7 @@ function EmployeeLeaveModal(props) {
                                     </div>) : ''
                                 }
                                 {
-                                    (leaveEdit?.Leave_Status === 'Application'||leaveEdit?.Leave_Status === 'Cancelled' || leaveEdit?.Leave_Status === 'History' || leaveEdit?.Leave_Status === 'Closed') ? '' : (
+                                    (leaveEdit?.Leave_Status === 'Application' || leaveEdit?.Leave_Status === 'Cancelled' || leaveEdit?.Leave_Status === 'History' || leaveEdit?.Leave_Status === 'Closed') ? '' : (
                                         <div>
                                             <button type="submit" className='btn btn-danger' onClick={cancelApplication}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-square-rounded-x" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">

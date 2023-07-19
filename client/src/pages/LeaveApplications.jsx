@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Header from '../components/Header'
-import { getLeaveApplications, deleteLeaveApplication, updateLeaveApplicationStatus, getLeaveApplication } from '../services/leaveApplicationService';
+import { getLeaveApplications, deleteLeaveApplication, updateLeaveApplicationStatus, getLeaveApplication, updateLeaveApplication, createLeaveApplication } from '../services/leaveApplicationService';
 import Footer from '../components/Footer';
 import LeaveTable from '../components/LeaveTable';
 import Pagination from './../components/common/Pagination';
@@ -10,6 +10,7 @@ import _ from 'lodash';
 import { paginate } from './../utils/paginate';
 import auth from '../services/authService';
 import EmployeeLeaveModal from '../components/EmployeeLeaveModal';
+import { toast } from 'react-toastify';
 
 function LeaveApplications() {
   const [leaveApplications, setLeaveApplications] = useState([]);
@@ -45,19 +46,47 @@ function LeaveApplications() {
     handleEditModal();
   }
 
+  const createLeave = async (applicationLeave) => {
+    const { data } = await createLeaveApplication(applicationLeave);
+    // Update the employees state with the new record
+    setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
+  }
+
   const handleUpdateStatusApplication = async (applicationID, applicationLeave, action) => {
     await updateLeaveApplicationStatus(applicationID, applicationLeave, action);
 
     // Fetch the updated data from the database
     const response = await getLeaveApplication(applicationID);
-    const approvedApplication = response.data;
+    const leaveUpdated = response.data;
 
-    if (approvedApplication) {
+    if (leaveUpdated) {
       // Update the current list with the approved application
       setLeaveApplications(prevApplications => {
         const updatedApplications = prevApplications.map(application => {
           if (application.Entry_No === applicationID) {
-            return { ...approvedApplication };
+            return { ...leaveUpdated };
+          }
+          return application;
+        });
+
+        return updatedApplications;
+      });
+    }
+  }
+
+  const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
+    await updateLeaveApplication(applicationID, applicationLeave);
+
+    // Fetch the updated data from the database
+    const response = await getLeaveApplication(applicationID);
+    const leaveUpdated = response.data;
+
+    if (leaveUpdated) {
+      // Update the current list with the approved application
+      setLeaveApplications(prevApplications => {
+        const updatedApplications = prevApplications.map(application => {
+          if (application.Entry_No === applicationID) {
+            return { ...leaveUpdated };
           }
           return application;
         });
@@ -82,7 +111,7 @@ function LeaveApplications() {
     if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'cancelled') {
       try {
         await deleteLeaveApplication(application.Entry_No)
-        const updatedApplications = originalApplications?.filter((app) => app.Entry_No !== application.Entry_No);
+        const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
         setLeaveApplications(updatedApplications);
         toast.error('Deleted Successfully');
       } catch (error) {
@@ -340,8 +369,8 @@ function LeaveApplications() {
         </div>
         <Footer />
       </div>
-      <EmployeeLeaveModal show={showModal} setShowModal={setShowModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} />
-      <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} />
+      <EmployeeLeaveModal show={showModal} setShowModal={setShowModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
+      <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
     </div>
   )
 }

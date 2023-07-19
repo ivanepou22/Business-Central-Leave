@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import _ from 'lodash';
 import { paginate } from '../utils/paginate';
 import auth from '../services/authService';
-import { getLeaveApplications, deleteLeaveApplication } from '../services/leaveApplicationService';
+import { getLeaveApplications, deleteLeaveApplication, createLeaveApplication, updateLeaveApplication, getLeaveApplication, updateLeaveApplicationStatus } from '../services/leaveApplicationService';
 import Footer from './Footer';
 import { getUsers } from '../services/userService';
 import SearchBar from './common/SearchBar';
@@ -13,6 +13,7 @@ import LeaveTable from './LeaveTable';
 import Pagination from './common/Pagination';
 import UserModal from './UserModal';
 import EmployeeLeaveModal from './EmployeeLeaveModal';
+import { toast } from 'react-toastify';
 
 function Main() {
     const [users, setUsers] = useState([]);
@@ -87,6 +88,34 @@ function Main() {
             setLeaveApplications(originalApplications);
         }
     };
+
+    const createLeave = async (applicationLeave) => {
+        const { data } = await createLeaveApplication(applicationLeave);
+        // Update the employees state with the new record
+        setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
+      }
+
+      const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
+        await updateLeaveApplication(applicationID, applicationLeave);
+
+        // Fetch the updated data from the database
+        const response = await getLeaveApplication(applicationID);
+        const leaveUpdated = response.data;
+
+        if (leaveUpdated) {
+          // Update the current list with the approved application
+          setLeaveApplications(prevApplications => {
+            const updatedApplications = prevApplications.map(application => {
+              if (application.Entry_No === applicationID) {
+                return { ...leaveUpdated };
+              }
+              return application;
+            });
+
+            return updatedApplications;
+          });
+        }
+      }
 
     const handleUpdateStatusApplication = async (applicationID, application,action ) => {
         await updateLeaveApplicationStatus(applicationID, application,action);
@@ -535,8 +564,8 @@ function Main() {
                     </div>
                 </div>
                 <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
-                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}  handleUpdateStatus={handleUpdateStatusApplication}/>
-                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication}/>
+                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}  handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
+                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
                 <Footer />
             </div>
         </div>
