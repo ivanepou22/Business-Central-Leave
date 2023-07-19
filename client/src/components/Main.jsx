@@ -7,7 +7,7 @@ import { paginate } from '../utils/paginate';
 import auth from '../services/authService';
 import { getLeaveApplications, deleteLeaveApplication, createLeaveApplication, updateLeaveApplication, getLeaveApplication, updateLeaveApplicationStatus } from '../services/leaveApplicationService';
 import Footer from './Footer';
-import { getUsers } from '../services/userService';
+import { createUser, getUsers } from '../services/userService';
 import SearchBar from './common/SearchBar';
 import LeaveTable from './LeaveTable';
 import Pagination from './common/Pagination';
@@ -164,6 +164,16 @@ function Main() {
             toast.error(`Application has not been ${message}: ${error}`)
         }
     }
+
+    const handleCreateUser = async (user) => {
+        try {
+          await createUser(user);
+          setUsers(prevUsers => [...prevUsers, user]);
+          toast.success(`User: ${user.username} has been created successfully`);
+        } catch (error) {
+          toast.error(`User: ${user.username} has not been created`);
+        }
+      }
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -559,7 +569,7 @@ function Main() {
                         </div>
                     </div>
                 </div>
-                <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
+                <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} createUser={handleCreateUser}/>
                 <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
                 <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
                 <Footer />
