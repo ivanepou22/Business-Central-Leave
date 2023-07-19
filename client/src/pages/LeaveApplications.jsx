@@ -50,11 +50,23 @@ function LeaveApplications() {
     const { data } = await createLeaveApplication(applicationLeave);
     // Update the employees state with the new record
     setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
+    toast.success('Application has been created Successfully');
   }
 
   const handleUpdateStatusApplication = async (applicationID, applicationLeave, action) => {
     await updateLeaveApplicationStatus(applicationID, applicationLeave, action);
-
+    let message = '';
+    if (action === 'submit') {
+      message = 'Submitted';
+    } else if(action === 'cancel') {
+      message = 'Cancelled';
+    } else if(action === 'approve') {
+      message = 'Approved';
+    } else if(action === 'reject') {
+      message = 'Rejected';
+    } else if(action === 'commit') {
+      message = 'Committed'
+    }
     // Fetch the updated data from the database
     const response = await getLeaveApplication(applicationID);
     const leaveUpdated = response.data;
@@ -72,6 +84,8 @@ function LeaveApplications() {
         return updatedApplications;
       });
     }
+
+    toast.success(`Application has been ${message} successfully`)
   }
 
   const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
@@ -94,6 +108,7 @@ function LeaveApplications() {
         return updatedApplications;
       });
     }
+    toast.success('Application has been Updated successfully')
   }
 
   //Handle Modal
@@ -113,7 +128,7 @@ function LeaveApplications() {
         await deleteLeaveApplication(application.Entry_No)
         const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
         setLeaveApplications(updatedApplications);
-        toast.error('Deleted Successfully');
+        toast.success('Deleted Successfully');
       } catch (error) {
         toast.error(error);
         setLeaveApplications(originalApplications);

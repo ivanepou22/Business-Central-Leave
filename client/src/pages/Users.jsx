@@ -40,8 +40,9 @@ function Users({ user }) {
       await deleteUser(user.id);
       const updatedUsers = originalUsers.filter((u) => u.id !== user.id);
       setUsers(updatedUsers);
+      toast.success('User has been deleted successfully');
     } catch (error) {
-      toast.error(error);
+      toast.error(`User has not been deleted: ${error}`);
       setUsers(originalUsers);
     }
   };

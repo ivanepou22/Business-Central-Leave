@@ -78,7 +78,7 @@ function Main() {
                 await deleteLeaveApplication(application.Entry_No)
                 const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
                 setLeaveApplications(updatedApplications);
-                toast.error('Deleted Successfully');
+                toast.success('Application Deleted Successfully');
             } catch (error) {
                 toast.error(error);
                 setLeaveApplications(originalApplications);
@@ -93,9 +93,10 @@ function Main() {
         const { data } = await createLeaveApplication(applicationLeave);
         // Update the employees state with the new record
         setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
-      }
+        toast.success('Application has been created Successfully');
+    }
 
-      const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
+    const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
         await updateLeaveApplication(applicationID, applicationLeave);
 
         // Fetch the updated data from the database
@@ -103,70 +104,54 @@ function Main() {
         const leaveUpdated = response.data;
 
         if (leaveUpdated) {
-          // Update the current list with the approved application
-          setLeaveApplications(prevApplications => {
-            const updatedApplications = prevApplications.map(application => {
-              if (application.Entry_No === applicationID) {
-                return { ...leaveUpdated };
-              }
-              return application;
+            // Update the current list with the approved application
+            setLeaveApplications(prevApplications => {
+                const updatedApplications = prevApplications.map(application => {
+                    if (application.Entry_No === applicationID) {
+                        return { ...leaveUpdated };
+                    }
+                    return application;
+                });
+
+                return updatedApplications;
             });
-
-            return updatedApplications;
-          });
         }
-      }
+        toast.success('Application has been updated Successfully');
+    }
 
-    const handleUpdateStatusApplication = async (applicationID, application,action ) => {
-        await updateLeaveApplicationStatus(applicationID, application,action);
+    const handleUpdateStatusApplication = async (applicationID, application, action) => {
+        await updateLeaveApplicationStatus(applicationID, application, action);
+        let message = '';
+        if (action === 'submit') {
+            message = 'Submitted';
+        } else if (action === 'cancel') {
+            message = 'Cancelled';
+        } else if (action === 'approve') {
+            message = 'Approved';
+        } else if (action === 'reject') {
+            message = 'Rejected';
+        } else if (action === 'commit') {
+            message = 'Committed'
+        }
 
-        // Update the leaveApplications state with the updated data
-      if(action === 'approve') {
-        setLeaveApplications(prevApplications =>
-          prevApplications.map(application => {
-            if (application.Entry_No === applicationID) {
-              return { ...application, Leave_Status: 'Approved' };
-            }
-            return application;
-          })
-        );
-      } else if(action === 'submit') {
-        setLeaveApplications(prevApplications =>
-          prevApplications.map(application => {
-            if (application.Entry_No === applicationID) {
-              return { ...application, Leave_Status: 'Pending Approval' };
-            }
-            return application;
-          })
-        );
-      } else if(action === 'cancel') {
-        setLeaveApplications(prevApplications =>
-          prevApplications.map(application => {
-            if (application.Entry_No === applicationID) {
-              return { ...application, Leave_Status: 'Cancelled' };
-            }
-            return application;
-          })
-        );
-      } else if(action === 'reject') {
-        setLeaveApplications(prevApplications =>
-          prevApplications.map(application => {
-            if (application.Entry_No === applicationID) {
-              return { ...application, Leave_Status: 'Rejected' };
-            }
-            return application;
-          })
-        );
-      } else if(action === 'commit') {
-        setLeaveApplications(prevApplications =>
-          prevApplications.map(application => {
-            if (application.Entry_No === applicationID) {
-              return { ...application, Leave_Status: 'History' };
-            }
-            return application;
-          })
-        );
-      }
+        // Fetch the updated data from the database
+        const response = await getLeaveApplication(applicationID);
+        const leaveUpdated = response.data;
+
+        if (leaveUpdated) {
+            // Update the current list with the approved application
+            setLeaveApplications(prevApplications => {
+                const updatedApplications = prevApplications.map(application => {
+                    if (application.Entry_No === applicationID) {
+                        return { ...leaveUpdated };
+                    }
+                    return application;
+                });
+
+                return updatedApplications;
+            });
+        }
+        toast.success(`Application has been ${message} successfully`)
     }
 
     const handlePageChange = (pageNumber) => {
@@ -188,14 +173,14 @@ function Main() {
     };
 
     //Handle Edit Modal
-  const handleEditModal = () => {
-    setShowEditModal(!showEditModal);
-  }
+    const handleEditModal = () => {
+        setShowEditModal(!showEditModal);
+    }
 
     const handleEdit = async (leave) => {
         setEditLeave(leave);
         handleEditModal();
-      }
+    }
 
     const getPageData = () => {
 
@@ -564,8 +549,8 @@ function Main() {
                     </div>
                 </div>
                 <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} />
-                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'}  handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
-                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
+                <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
+                <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
                 <Footer />
             </div>
         </div>

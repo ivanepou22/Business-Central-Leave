@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import auth from '../src/services/authService';
 import './App.css'
 import Login from './pages/Login'
@@ -20,7 +21,6 @@ function App() {
   return (
     <div className="app app-login p-0">
       <React.Fragment>
-        <ToastContainer />
         <BrowserRouter>
           <Routes>
             <Route element={<ProtectedRoute />}>
@@ -36,6 +36,7 @@ function App() {
             <Route path='/not-found' element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <ToastContainer />
       </React.Fragment>
     </div>
   )
