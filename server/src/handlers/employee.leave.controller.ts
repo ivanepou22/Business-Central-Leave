@@ -87,7 +87,6 @@ export const createLeaveApp = async (req: Request, res: Response) => {
 export const submitLeaveApplication = async (req: Request, res: Response) => {
   const entryId = parseInt(req.params.id);
   const leaveApplication: EmployeeLeave = req.body;
-  console.log(req);
   //get the leave application with the entry id
   const leaveApp = await store.getLeaveByEntryId(
     req.params.id as unknown as number
@@ -103,7 +102,6 @@ export const submitLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -111,7 +109,6 @@ export const submitLeaveApplication = async (req: Request, res: Response) => {
 export const approveLeaveApplication = async (req: Request, res: Response) => {
   const entryId = parseInt(req.params.id);
   const leaveApplication: EmployeeLeave = req.body;
-  console.log(req);
   //get the leave application with the entry id
   const leaveApp = await store.getLeaveByEntryId(
     req.params.id as unknown as number
@@ -127,7 +124,6 @@ export const approveLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -135,7 +131,6 @@ export const approveLeaveApplication = async (req: Request, res: Response) => {
 export const cancelLeaveApplication = async (req: Request, res: Response) => {
   const entryId = parseInt(req.params.id);
   const leaveApplication: EmployeeLeave = req.body;
-  console.log(req);
   //get the leave application with the entry id
   const leaveApp = await store.getLeaveByEntryId(
     req.params.id as unknown as number
@@ -151,7 +146,6 @@ export const cancelLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -159,7 +153,6 @@ export const cancelLeaveApplication = async (req: Request, res: Response) => {
 export const rejectLeaveApplication = async (req: Request, res: Response) => {
   const entryId = parseInt(req.params.id);
   const leaveApplication: EmployeeLeave = req.body;
-  console.log(req);
   //get the leave application with the entry id
   const leaveApp = await store.getLeaveByEntryId(
     req.params.id as unknown as number
@@ -175,7 +168,6 @@ export const rejectLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
@@ -183,7 +175,6 @@ export const rejectLeaveApplication = async (req: Request, res: Response) => {
 export const commitLeaveApplication = async (req: Request, res: Response) => {
   const entryId = parseInt(req.params.id);
   const leaveApplication: EmployeeLeave = req.body;
-  console.log(req);
   //get the leave application with the entry id
   const leaveApp = await store.getLeaveByEntryId(
     req.params.id as unknown as number
@@ -199,7 +190,6 @@ export const commitLeaveApplication = async (req: Request, res: Response) => {
     );
     res.status(200).json(updatedLeaveApplication);
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
