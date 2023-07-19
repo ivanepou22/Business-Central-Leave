@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
 import auth from '../services/authService';
-import { createLeaveApplication, updateLeaveApplication, updateLeaveApplicationStatus } from '../services/leaveApplicationService';
+import { createLeaveApplication, updateLeaveApplication } from '../services/leaveApplicationService';
 import { toast } from 'react-toastify';
 
 function EmployeeLeaveModal(props) {
@@ -24,7 +24,7 @@ function EmployeeLeaveModal(props) {
     }, []);
 
     const [formData, setFormData] = useState({
-        employeeNo: user?.employee_no || '',
+        employeeNo: '',
         leaveType: '',
         fromDate: '',
         toDate: '',
@@ -123,7 +123,6 @@ function EmployeeLeaveModal(props) {
             // Perform any form submission logic
             if (model === 'edit') {
                 updateLeaveApplication(leaveEdit.Entry_No, {
-
                     Leave_Type: formData.leaveType,
                     Requested_From_Date: formData.fromDate,
                     Requested_To_Date: formData.toDate,
@@ -285,7 +284,7 @@ function EmployeeLeaveModal(props) {
                                 <div className="col-lg-6">
                                     <div className="mb-3">
                                         <label className="form-label">Employee No.</label>
-                                        <select className="form-select" name='employeeNo' value={formData.employeeNo || user?.employee_no} onChange={handleInputChange} disabled={user !== null}>
+                                        <select className="form-select" name='employeeNo' value={formData.employeeNo} onChange={handleInputChange}>
                                             <option value=""></option>
                                             {
                                                 currentEmployee?.map((employee, index) => <option key={index} value={employee.No}>{employee.Full_Name}</option>)
