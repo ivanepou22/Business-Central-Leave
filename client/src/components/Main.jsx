@@ -14,6 +14,7 @@ import Pagination from './common/Pagination';
 import UserModal from './UserModal';
 import EmployeeLeaveModal from './EmployeeLeaveModal';
 import { toast } from 'react-toastify';
+import { getHrActivity } from '../services/hrActivityService';
 
 function Main() {
     const [users, setUsers] = useState([]);
@@ -27,18 +28,30 @@ function Main() {
     const [showLeaveModal, setShowLeaveModal] = React.useState(false);
     const [showEditModal, setShowEditModal] = React.useState(false);
     const [editLeave, setEditLeave] = React.useState(null);
+    const [hrActivity, setHrActivity] = useState([]);
 
     useEffect(() => {
-        async function fetchData() {
+        async function fetchEmployeeData() {
             const { data } = await getEmployees();
             setEmployees(data.value);
+        }
+        async function fetchLeave() {
             const { data: applications } = await getLeaveApplications();
             setLeaveApplications(applications.value);
+        }
+        async function fetchUser() {
             const { data: ourUsers } = await getUsers();
             setUsers(ourUsers);
         }
+        async function fetchHrActivity() {
+            const {data} = await getHrActivity();
+            setHrActivity(data.value);
+        }
 
-        fetchData();
+        fetchUser();
+        fetchEmployeeData();
+        fetchLeave();
+        fetchHrActivity();
     }, []);
 
     //Handle Modal
@@ -49,6 +62,8 @@ function Main() {
     const handleLeaveModal = () => {
         setShowLeaveModal(!showLeaveModal);
     }
+
+    console.log(hrActivity)
 
     const user = auth.getCurrentUser();
     if (!user) return <Navigate to={'/'} />
