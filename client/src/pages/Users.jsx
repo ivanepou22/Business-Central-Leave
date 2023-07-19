@@ -49,8 +49,8 @@ function Users({ user }) {
 
   const handleUpdateUser = async (userId, updatedUser) => {
     // Make API call to update the user
+    try {
     await updateUser(userId, updatedUser);
-
     setUsers(prevUsers =>
       prevUsers.map(user => {
         if (user.id === userId) {
@@ -59,6 +59,10 @@ function Users({ user }) {
         return user;
       })
     );
+    toast.success(`User: ${updateUser.username} has been updated successfully`);
+    } catch(error) {
+      toast.error(`User: ${updateUser.username} has not been updated: ${error}`);
+    }
   };
 
  const handleEdit = async (user) => {

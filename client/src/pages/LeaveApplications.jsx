@@ -47,68 +47,79 @@ function LeaveApplications() {
   }
 
   const createLeave = async (applicationLeave) => {
-    const { data } = await createLeaveApplication(applicationLeave);
-    // Update the employees state with the new record
-    setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
-    toast.success('Application has been created Successfully');
+    try {
+      const { data } = await createLeaveApplication(applicationLeave);
+      // Update the employees state with the new record
+      setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
+      toast.success('Application has been created Successfully');
+    } catch (error) {
+      toast.error(`Application has not been created: ${error}`)
+    }
   }
 
   const handleUpdateStatusApplication = async (applicationID, applicationLeave, action) => {
-    await updateLeaveApplicationStatus(applicationID, applicationLeave, action);
     let message = '';
     if (action === 'submit') {
       message = 'Submitted';
-    } else if(action === 'cancel') {
+    } else if (action === 'cancel') {
       message = 'Cancelled';
-    } else if(action === 'approve') {
+    } else if (action === 'approve') {
       message = 'Approved';
-    } else if(action === 'reject') {
+    } else if (action === 'reject') {
       message = 'Rejected';
-    } else if(action === 'commit') {
+    } else if (action === 'commit') {
       message = 'Committed'
     }
-    // Fetch the updated data from the database
-    const response = await getLeaveApplication(applicationID);
-    const leaveUpdated = response.data;
 
-    if (leaveUpdated) {
-      // Update the current list with the approved application
-      setLeaveApplications(prevApplications => {
-        const updatedApplications = prevApplications.map(application => {
-          if (application.Entry_No === applicationID) {
-            return { ...leaveUpdated };
-          }
-          return application;
+    try {
+      await updateLeaveApplicationStatus(applicationID, applicationLeave, action);
+      // Fetch the updated data from the database
+      const response = await getLeaveApplication(applicationID);
+      const leaveUpdated = response.data;
+
+      if (leaveUpdated) {
+        // Update the current list with the approved application
+        setLeaveApplications(prevApplications => {
+          const updatedApplications = prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...leaveUpdated };
+            }
+            return application;
+          });
+
+          return updatedApplications;
         });
-
-        return updatedApplications;
-      });
+      }
+      toast.success(`Application has been ${message} successfully`)
+    } catch (error) {
+      toast.error(`Application has not been ${message}: ${error}`)
     }
-
-    toast.success(`Application has been ${message} successfully`)
   }
 
   const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
-    await updateLeaveApplication(applicationID, applicationLeave);
+    try {
+      await updateLeaveApplication(applicationID, applicationLeave);
+      // Fetch the updated data from the database
+      const response = await getLeaveApplication(applicationID);
+      const leaveUpdated = response.data;
 
-    // Fetch the updated data from the database
-    const response = await getLeaveApplication(applicationID);
-    const leaveUpdated = response.data;
+      if (leaveUpdated) {
+        // Update the current list with the approved application
+        setLeaveApplications(prevApplications => {
+          const updatedApplications = prevApplications.map(application => {
+            if (application.Entry_No === applicationID) {
+              return { ...leaveUpdated };
+            }
+            return application;
+          });
 
-    if (leaveUpdated) {
-      // Update the current list with the approved application
-      setLeaveApplications(prevApplications => {
-        const updatedApplications = prevApplications.map(application => {
-          if (application.Entry_No === applicationID) {
-            return { ...leaveUpdated };
-          }
-          return application;
+          return updatedApplications;
         });
-
-        return updatedApplications;
-      });
+      }
+      toast.success('Application has been Updated successfully')
+    } catch (error) {
+      toast.error(`Application: ${applicationID} has not been Updated`)
     }
-    toast.success('Application has been Updated successfully')
   }
 
   //Handle Modal
@@ -385,7 +396,7 @@ function LeaveApplications() {
         <Footer />
       </div>
       <EmployeeLeaveModal show={showModal} setShowModal={setShowModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
-      <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave}/>
+      <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
     </div>
   )
 }

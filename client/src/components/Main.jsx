@@ -90,37 +90,43 @@ function Main() {
     };
 
     const createLeave = async (applicationLeave) => {
-        const { data } = await createLeaveApplication(applicationLeave);
-        // Update the employees state with the new record
-        setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
-        toast.success('Application has been created Successfully');
+        try {
+            const { data } = await createLeaveApplication(applicationLeave);
+            // Update the employees state with the new record
+            setLeaveApplications(prevLeaveApplications => [...prevLeaveApplications, data]);
+            toast.success('Application has been created Successfully');
+        } catch (error) {
+            toast.error(`Application has not been created: ${error}`)
+        }
     }
 
     const handleUpdateLeaveApplication = async (applicationID, applicationLeave) => {
-        await updateLeaveApplication(applicationID, applicationLeave);
+        try {
+            await updateLeaveApplication(applicationID, applicationLeave);
+            // Fetch the updated data from the database
+            const response = await getLeaveApplication(applicationID);
+            const leaveUpdated = response.data;
 
-        // Fetch the updated data from the database
-        const response = await getLeaveApplication(applicationID);
-        const leaveUpdated = response.data;
+            if (leaveUpdated) {
+                // Update the current list with the approved application
+                setLeaveApplications(prevApplications => {
+                    const updatedApplications = prevApplications.map(application => {
+                        if (application.Entry_No === applicationID) {
+                            return { ...leaveUpdated };
+                        }
+                        return application;
+                    });
 
-        if (leaveUpdated) {
-            // Update the current list with the approved application
-            setLeaveApplications(prevApplications => {
-                const updatedApplications = prevApplications.map(application => {
-                    if (application.Entry_No === applicationID) {
-                        return { ...leaveUpdated };
-                    }
-                    return application;
+                    return updatedApplications;
                 });
-
-                return updatedApplications;
-            });
+            }
+            toast.success('Application has been Updated successfully')
+        } catch (error) {
+            toast.error(`Application: ${applicationID} has not been Updated`)
         }
-        toast.success('Application has been updated Successfully');
     }
 
-    const handleUpdateStatusApplication = async (applicationID, application, action) => {
-        await updateLeaveApplicationStatus(applicationID, application, action);
+    const handleUpdateStatusApplication = async (applicationID, applicationLeave, action) => {
         let message = '';
         if (action === 'submit') {
             message = 'Submitted';
@@ -134,24 +140,29 @@ function Main() {
             message = 'Committed'
         }
 
-        // Fetch the updated data from the database
-        const response = await getLeaveApplication(applicationID);
-        const leaveUpdated = response.data;
+        try {
+            await updateLeaveApplicationStatus(applicationID, applicationLeave, action);
+            // Fetch the updated data from the database
+            const response = await getLeaveApplication(applicationID);
+            const leaveUpdated = response.data;
 
-        if (leaveUpdated) {
-            // Update the current list with the approved application
-            setLeaveApplications(prevApplications => {
-                const updatedApplications = prevApplications.map(application => {
-                    if (application.Entry_No === applicationID) {
-                        return { ...leaveUpdated };
-                    }
-                    return application;
+            if (leaveUpdated) {
+                // Update the current list with the approved application
+                setLeaveApplications(prevApplications => {
+                    const updatedApplications = prevApplications.map(application => {
+                        if (application.Entry_No === applicationID) {
+                            return { ...leaveUpdated };
+                        }
+                        return application;
+                    });
+
+                    return updatedApplications;
                 });
-
-                return updatedApplications;
-            });
+            }
+            toast.success(`Application has been ${message} successfully`)
+        } catch (error) {
+            toast.error(`Application has not been ${message}: ${error}`)
         }
-        toast.success(`Application has been ${message} successfully`)
     }
 
     const handlePageChange = (pageNumber) => {
