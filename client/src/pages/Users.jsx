@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header'
-import { getUsers, deleteUser, updateUser } from '../services/userService';
+import { getUsers, deleteUser, updateUser, createUser } from '../services/userService';
 import Footer from '../components/Footer';
 import Pagination from './../components/common/Pagination';
 import UserTable from '../components/UserTable';
@@ -34,15 +34,25 @@ function Users({ user }) {
     fetchUsers();
   }, []);
 
+  const handleCreateUser = async (user) => {
+    try {
+      await createUser(user);
+      setUsers(prevUsers => [...prevUsers, user]);
+      toast.success(`User: ${user.username} has been created successfully`);
+    } catch (error) {
+      toast.error(`User: ${user.username} has not been created`);
+    }
+  }
+
   const handleDelete = async (user) => {
     const originalUsers = [...users];
     try {
       await deleteUser(user.id);
       const updatedUsers = originalUsers.filter((u) => u.id !== user.id);
       setUsers(updatedUsers);
-      toast.success('User has been deleted successfully');
+      toast.success(`User: ${user.username} has been deleted successfully`);
     } catch (error) {
-      toast.error(`User has not been deleted: ${error}`);
+      toast.error(`User: ${user.username} has not been deleted: ${error}`);
       setUsers(originalUsers);
     }
   };
@@ -50,25 +60,25 @@ function Users({ user }) {
   const handleUpdateUser = async (userId, updatedUser) => {
     // Make API call to update the user
     try {
-    await updateUser(userId, updatedUser);
-    setUsers(prevUsers =>
-      prevUsers.map(user => {
-        if (user.id === userId) {
-          return { ...user, ...updatedUser };
-        }
-        return user;
-      })
-    );
-    toast.success(`User: ${updateUser.username} has been updated successfully`);
-    } catch(error) {
+      await updateUser(userId, updatedUser);
+      setUsers(prevUsers =>
+        prevUsers.map(user => {
+          if (user.id === userId) {
+            return { ...user, ...updatedUser };
+          }
+          return user;
+        })
+      );
+      toast.success(`User: ${updateUser.username} has been updated successfully`);
+    } catch (error) {
       toast.error(`User: ${updateUser.username} has not been updated: ${error}`);
     }
   };
 
- const handleEdit = async (user) => {
+  const handleEdit = async (user) => {
     setEditUser(user);
     handleEditModal();
-}
+  }
 
   //Handle Modal
   const handleModal = () => {
@@ -204,8 +214,8 @@ function Users({ user }) {
           <Footer />
         </div>
       </div>
-      <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} updateUser ={handleUpdateUser}/>
-      <UserModal show={showEditModal} setShowModal={setShowEditModal} userEdit={editUser} model={'edit'} updateUser ={handleUpdateUser}/>
+      <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} updateUser={handleUpdateUser} createUser={handleCreateUser} />
+      <UserModal show={showEditModal} setShowModal={setShowEditModal} userEdit={editUser} model={'edit'} updateUser={handleUpdateUser} createUser={handleCreateUser} />
     </div>
   )
 }

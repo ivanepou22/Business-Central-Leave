@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getEmployees } from '../services/employeeService';
-import { createUser } from '../services/userService';
 import auth from '../services/authService';
 
 function UserModal(props) {
-    const { show, setShowModal, userEdit, model,updateUser } = props;
+    const { show, setShowModal, userEdit, model,updateUser,createUser } = props;
     const [employees, setEmployees] = useState([]);
     const [user, setUser] = useState(null);
     const [errors, setErrors] = useState({});
@@ -90,7 +89,7 @@ function UserModal(props) {
                   });
               } else {
                 // Create new user
-                createUser({
+                await createUser({
                   first_name: formData.firstName,
                   last_name: formData.lastName,
                   username: formData.username,
