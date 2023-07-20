@@ -88,7 +88,7 @@ function Main() {
 
     const handleDelete = async (application) => {
         const originalApplications = [...leaveApplications];
-        if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'cancelled') {
+        if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'Cancelled') {
             try {
                 await deleteLeaveApplication(application.Entry_No)
                 const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
@@ -491,7 +491,7 @@ function Main() {
                                         <div className="card">
                                             <div className="card-body">
                                                 <p className="mb-3">My Leave Applications:  <strong>{myLeaveApplications?.length.toFixed(2)} Applications </strong></p>
-                                                <div className="progress progress-separated mb-3">
+                                                <div className="progress progress-separated mb-3 bg-maroon">
                                                     <div className="progress-bar bg-primary" role="progressbar" style={{ width: `${myCreatedApplicationsPercent}%` }}></div>
                                                     <div className="progress-bar bg-info" role="progressbar" style={{ width: `${myPendingApplicationsPercent}%` }}></div>
                                                     <div className="progress-bar bg-red" role="progressbar" style={{ width: `${myRejectedCancelledApplicationsPercent}%` }}></div>
@@ -519,7 +519,7 @@ function Main() {
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myApprovedApplications.toFixed(2)} Apps`}</span>
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center ps-2">
-                                                        <span className="legend me-2"></span>
+                                                        <span className="legend me-2 bg-maroon"></span>
                                                         <span>Taken</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myTaken.toFixed(2)} Apps`}</span>
                                                     </div>

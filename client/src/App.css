@@ -15,6 +15,10 @@
   visibility: hidden;
 }
 
+.bg-maroon {
+  background-color: rgba(0, 109, 128, 0.411);
+}
+
 .display-block {
   display: block;
 }

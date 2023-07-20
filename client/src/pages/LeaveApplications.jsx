@@ -134,7 +134,7 @@ function LeaveApplications() {
 
   const handleDelete = async (application) => {
     const originalApplications = [...leaveApplications];
-    if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'cancelled') {
+    if (application.Leave_Status === 'Application' || application.Leave_Status === 'Rejected' || application.Leave_Status === 'Cancelled') {
       try {
         await deleteLeaveApplication(application.Entry_No)
         const updatedApplications = originalApplications.filter((app) => app.Entry_No !== application.Entry_No);
