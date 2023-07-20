@@ -36,7 +36,7 @@ function EmployeeLeaveModal(props) {
     useEffect(() => {
         if (leaveEdit && model === 'edit') {
             setFormData({
-                employeeNo: leaveEdit?.employee_no,
+                employeeNo: leaveEdit?.Employee_No,
                 leaveType: leaveEdit?.Leave_Type,
                 fromDate: leaveEdit?.Requested_From_Date,
                 toDate: leaveEdit?.Requested_To_Date,
@@ -47,7 +47,7 @@ function EmployeeLeaveModal(props) {
             })
         } else {
             setFormData({
-                employeeNo: user?.employee_no || '',
+                employeeNo: '',
                 leaveType: '',
                 fromDate: '',
                 toDate: '',
@@ -377,8 +377,23 @@ function EmployeeLeaveModal(props) {
                                             name='leaveStatus'
                                             value={formData.leaveStatus}
                                             onChange={handleInputChange}
+                                            readOnly={model === 'edit'}
                                         />
                                         {errors.toDate && <div className="error">{errors.leaveStatus}</div>}
+                                    </div>
+                                </div>
+                                <div className="col-lg-6">
+                                    <div className="mb-3">
+                                        <label className="form-label">Username</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder='Username'
+                                            name='username'
+                                            value={model === 'edit' ? formData.username:user?.username}
+                                            readOnly={model !== 'edit' || model !== 'create'}
+                                        />
+                                        {errors.toDate && <div className="error">{errors.username}</div>}
                                     </div>
                                 </div>
                             </div>

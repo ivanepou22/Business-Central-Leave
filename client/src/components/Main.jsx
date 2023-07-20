@@ -44,7 +44,7 @@ function Main() {
             setUsers(ourUsers);
         }
         async function fetchHrActivity() {
-            const {data} = await getHrActivity();
+            const { data } = await getHrActivity();
             setHrActivity(data.value);
         }
 
@@ -62,8 +62,6 @@ function Main() {
     const handleLeaveModal = () => {
         setShowLeaveModal(!showLeaveModal);
     }
-
-    console.log(hrActivity)
 
     const user = auth.getCurrentUser();
     if (!user) return <Navigate to={'/'} />
@@ -85,6 +83,26 @@ function Main() {
     const myPendingApplicationsPercent = (myPendingApplications / total) * 100;
     const myApprovedApplicationsPercent = (myApprovedApplications / total) * 100;
     const myRejectedCancelledApplicationsPercent = (myRejectedCancelledApplications / total) * 100;
+
+    const activeEmployees = employees.filter((employee => employee.Status === 'Active'));
+    const inActiveEmployees = employees.filter((employee => employee.Status === 'Inactive'));
+    const approvedLeave = leaveApplications.filter((leave => leave.Leave_Status === 'Approved' || leave.Leave_Status === 'Taken'))
+
+    // Get the current date
+    const currentDate = new Date();
+    // Function to check if the date falls between two other dates (inclusive)
+    function isDateInRange(dateToCheck, startDate, endDate) {
+        return dateToCheck >= startDate && dateToCheck <= endDate;
+    }
+    // Filter the array to select entries that meet the conditions
+    const selectedEntries = leaveApplications.filter((entry) => {
+        const requestedFromDate = new Date(entry.Requested_From_Date);
+        const requestedToDate = new Date(entry.Requested_To_Date);
+
+        return (
+            isDateInRange(currentDate, requestedFromDate, requestedToDate)
+        );
+    });
 
     const handleDelete = async (application) => {
         const originalApplications = [...leaveApplications];
@@ -182,13 +200,13 @@ function Main() {
 
     const handleCreateUser = async (user) => {
         try {
-          await createUser(user);
-          setUsers(prevUsers => [...prevUsers, user]);
-          toast.success(`User: ${user.username} has been created successfully`);
+            await createUser(user);
+            setUsers(prevUsers => [...prevUsers, user]);
+            toast.success(`User: ${user.username} has been created successfully`);
         } catch (error) {
-          toast.error(`User: ${user.username} has not been created`);
+            toast.error(`User: ${user.username} has not been created`);
         }
-      }
+    }
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -275,55 +293,91 @@ function Main() {
                             {
                                 user?.role === 'admin' ? (
                                     <>
-                                        <div className="col-sm-6 col-lg-4">
+                                        <div className="col-sm-6 col-lg-2">
                                             <div className="card">
                                                 <div className="card-body">
                                                     <div className="d-flex align-items-center">
                                                         <div className="subheader">Users</div>
                                                     </div>
                                                     <div className="h1 mb-3">{users?.length.toFixed(2)}</div>
-                                                    <div className="d-flex mb-2">
-                                                        <div>Users</div>
-                                                    </div>
                                                     <div className="progress progress-sm">
-                                                        <div className="progress-bar bg-green" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                        <div className="progress-bar bg-cyan" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
                                                             <span className="visually-hidden">{users?.length.toFixed(2)} Users</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-sm-6 col-lg-4">
+                                        <div className="col-sm-6 col-lg-2">
                                             <div className="card">
                                                 <div className="card-body">
                                                     <div className="d-flex align-items-center">
-                                                        <div className="subheader">Employees</div>
+                                                        <div className="subheader">Active Employees</div>
                                                     </div>
-                                                    <div className="h1 mb-3">{employees?.length.toFixed(2)}</div>
-                                                    <div className="d-flex mb-2">
-                                                        <div>Employees</div>
-                                                    </div>
+                                                    <div className="h1 mb-3">{activeEmployees?.length.toFixed(2)}</div>
                                                     <div className="progress progress-sm">
                                                         <div className="progress-bar bg-blue" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                                            <span className="visually-hidden">{employees?.length.toFixed(2)} Employees</span>
+                                                            <span className="visually-hidden">{activeEmployees?.length.toFixed(2)} Employees</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-sm-6 col-lg-4">
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">InActive Employees</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{inActiveEmployees?.length.toFixed(2)}</div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-red" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{inActiveEmployees?.length.toFixed(2)} Employees</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Approved Leave</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{approvedLeave?.length.toFixed(2)}</div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-success" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{approvedLeave?.length.toFixed(2)} Approved Leave</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6 col-lg-2">
                                             <div className="card">
                                                 <div className="card-body">
                                                     <div className="d-flex align-items-center">
                                                         <div className="subheader">All Leave Applications</div>
                                                     </div>
                                                     <div className="h1 mb-3">{leaveAppWHistory?.length.toFixed(2)}</div>
-                                                    <div className="d-flex mb-2">
-                                                        <div>Leave Applications</div>
-                                                    </div>
                                                     <div className="progress progress-sm">
                                                         <div className="progress-bar bg-orange" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
                                                             <span className="visually-hidden">{leaveAppWHistory?.length.toFixed(2)} Leave Applications</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Employees On Leave</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{selectedEntries?.length.toFixed(2)}</div>
+                                                    <div className="progress progress-sm">
+                                                        <div className="progress-bar bg-purple" style={{ width: '100%' }} role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                                            <span className="visually-hidden">{selectedEntries?.length.toFixed(2)} Employees On Leave</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -584,7 +638,7 @@ function Main() {
                         </div>
                     </div>
                 </div>
-                <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} createUser={handleCreateUser}/>
+                <UserModal show={showModal} setShowModal={setShowModal} userEdit={null} model={'create'} createUser={handleCreateUser} />
                 <EmployeeLeaveModal show={showLeaveModal} setShowModal={setShowLeaveModal} leaveEdit={null} model={'create'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
                 <EmployeeLeaveModal show={showEditModal} setShowModal={setShowEditModal} leaveEdit={editLeave} model={'edit'} handleUpdateStatus={handleUpdateStatusApplication} updateLeave={handleUpdateLeaveApplication} createLeave={createLeave} />
                 <Footer />
