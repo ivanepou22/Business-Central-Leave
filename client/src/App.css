@@ -44,3 +44,22 @@ margin-top:15px;
 margin-bottom: 30px;
 border-bottom: rgba(209, 204, 204, 0.096) 1px solid;
 }
+
+.bg-approved {
+  color: rgb(60, 219, 60);
+}
+
+.bg-pending {
+  color: rgb(0, 174, 255);
+}
+
+.bg-cancelled {
+  color: rgba(226, 82, 82, 0.959);
+}
+.bg-history {
+  color: #1E293B;
+}
+
+.bg-application {
+  color: #3B5998;
+}

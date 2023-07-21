@@ -21,10 +21,25 @@ const TableBody = ({ data, columns }) => {
     }
   }
 
+  const getRowClass = (item) => {
+    if (item['Leave_Status'] === 'Approved') {
+      return 'bg-approved';
+    } else if (item['Leave_Status'] === 'Pending Approval') {
+      return 'bg-pending';
+    } else if (item['Leave_Status'] === 'Cancelled' || item['Leave_Status'] === 'Rejected') {
+      return 'bg-cancelled';
+    } else if (item['Leave_Status'] === 'History' || item['Leave_Status'] === 'Taken') {
+      return 'bg-history';
+    } else if (item['Leave_Status'] === 'Application') {
+      return 'bg-application';
+    }
+    return '';
+  };
+
   return (
     <tbody>
       {data.map((item, index) => (
-        <tr key={item[`${trId}`]}>
+        <tr key={item[`${trId}`]} className={getRowClass(item)}>
           {columns.map(column => (
             <td key={createKey(item, column)} className={column.className} >
               {renderCell(Object.assign({}, item, { index: index + 1 }), column)}
