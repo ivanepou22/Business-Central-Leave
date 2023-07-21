@@ -88,6 +88,13 @@ function Main() {
     const inActiveEmployees = employees.filter((employee => employee.Status === 'Inactive'));
     const approvedLeave = leaveApplications.filter((leave => leave.Leave_Status === 'Approved' || leave.Leave_Status === 'Taken'))
 
+    const CreatedApplications = leaveApplications.filter((app) => app.Leave_Status === 'Application')?.length;
+    const PendingApplications = leaveApplications.filter((app) => app.Leave_Status === 'Pending Approval')?.length;
+    const ApprovedApplications = leaveApplications.filter((app) => app.Leave_Status === 'Approved')?.length;
+    const RejectedApplications = leaveApplications.filter((app) => (app.Leave_Status === 'Rejected'))?.length;
+    const CancelledApplications = leaveApplications.filter((app) => (app.Leave_Status === 'Cancelled'))?.length;
+    const TakenApplications = leaveApplications.filter((app) => (app.Leave_Status === 'History' || app.Leave_Status === 'Taken'))?.length;
+
     // Get the current date
     const currentDate = new Date();
     // Function to check if the date falls between two other dates (inclusive)
@@ -383,6 +390,72 @@ function Main() {
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Not Submitted</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{CreatedApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Pending Approval</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{PendingApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Approved</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{ApprovedApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Rejected</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{RejectedApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Taken/History</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{TakenApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-sm-6 col-lg-2">
+                                            <div className="card">
+                                                <div className="card-body">
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="subheader">Cancelled</div>
+                                                    </div>
+                                                    <div className="h1 mb-3">{CancelledApplications.toFixed(2)}</div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </>
                                 ) : ''
                             }
@@ -574,7 +647,7 @@ function Main() {
                                                     </div>
                                                     <div className="col-auto d-flex align-items-center ps-2">
                                                         <span className="legend me-2 bg-maroon"></span>
-                                                        <span>Taken</span>
+                                                        <span>Taken/History</span>
                                                         <span className="d-none d-md-inline d-lg-none d-xxl-inline ms-2 text-muted">{`${myTaken.toFixed(2)} Apps`}</span>
                                                     </div>
                                                 </div>
